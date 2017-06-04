@@ -8,11 +8,14 @@ bool ResolverExacta::leerInput() {
     std::cin >> n >> m;
 
     this->grafo.clear();
-    this->grafo.resize(n + 1, vector<int>(0));
+    this->grafo.resize(n, vector<int>(0));
 
     for (int i = 0; i < m; i++) {
         int v1, v2;
         std::cin >> v1 >> v2;
+
+        v1--;
+        v2--;
 
         this->grafo[v1].push_back(v2);
         this->grafo[v2].push_back(v1);
@@ -22,9 +25,10 @@ bool ResolverExacta::leerInput() {
 }
 
 void ResolverExacta::resolver(bool imprimirOutput) {
-    // La idea es la siguiente:
 
     /*
+    La idea es la siguiente:
+
     solucion = Vacio
     maxFrontera = -1
 
@@ -35,6 +39,42 @@ void ResolverExacta::resolver(bool imprimirOutput) {
                 solucion = S
 
     */
+
+    // @jonno
+    // Voy a generar todos los subconjuntos usando numeros binarios. 1 representa que el elemento esta.
+    // Seguro hay formas mas elegantes pero es la forma que conozco, cambiarla si se quiere.
+    // Esto ASUME que n < 32 (pues uso ints)
+
+    int n = grafo.size();
+
+    vector<int> solucion;
+    int fronteraMax = -1;
+
+    for (int i = 0; i < (1 << n); i++) {
+
+        vector<int> conjNodos;
+
+        for (int j = 0; j < n; j++) {
+            // Si el bit j esta encendido, considero que el nodo j existe
+            if ((i & (1 << j)) != 0) {
+                conjNodos.push_back(j);
+            }
+        }
+
+        if (esClique(conjNodos)) {
+            int fronteraActual = frontera(conjNodos);
+            if (fronteraActual > fronteraMax) {
+                fronteraMax = fronteraActual;
+                solucion = conjNodos;
+            }
+        }
+    }
+
+
+    if (imprimirOutput) {
+        // Recordar que a cada nodo hacerle un +1
+        std::cout << fronteraMax << "\n";
+    }
 }
 
 // Dice si los nodos forman un grafo completo
