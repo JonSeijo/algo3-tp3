@@ -3,7 +3,7 @@
 bool ResolverExacta::leerInput() {
     // Lee el input por stdin y guarda el grafo como lista de adyacencia
     //     --> QUIZA convenga tenerlo como matriz de adyacencia, ver
-    return false
+    return false;
 }
 
 void ResolverExacta::resolver(bool imprimirOutput) {
@@ -25,6 +25,7 @@ void ResolverExacta::resolver(bool imprimirOutput) {
 bool ResolverExacta::esClique(vector<int> &nodos) {
     // Dice si los nodos forman un grafo completo
     // Esperado: O(n + m)
+    return false;
 }
 
 // Pre: esClique(clique)

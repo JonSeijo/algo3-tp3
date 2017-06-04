@@ -4,13 +4,13 @@
 #include <iostream>
 #include <vector>
 
-using std::vector
+using std::vector;
 
 class ResolverExacta {
 
 public:
-    bool leerInput(bool imprimirOutput);
-    void resolver();
+    bool leerInput();
+    void resolver(bool imprimirOutput);
 
 private:
     // Lista de adyacencia para representar al grafo
