@@ -73,7 +73,12 @@ void ResolverExacta::resolver(bool imprimirOutput) {
 
     if (imprimirOutput) {
         // Recordar que a cada nodo hacerle un +1
-        std::cout << fronteraMax << "\n";
+        std::cout << fronteraMax << " ";
+        std::cout << solucion.size() << " ";
+        for (int v : solucion) {
+            std::cout << v + 1 << " ";
+        }
+        std::cout << "\n";
     }
 }
 
@@ -102,7 +107,7 @@ int ResolverExacta::frontera(vector<int> &clique) {
         enClique[v] = true;
     }
 
-    int contador;
+    int contador = 0;
     for (int v : clique) {
         for (int vecino : grafo[v]) {
             if (!enClique[vecino]) {
