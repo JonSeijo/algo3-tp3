@@ -54,9 +54,23 @@ bool ResolverExacta::esClique(vector<int> &nodos) {
 
 // Pre: esClique(clique)
 // Da la cantidad de aristas que pertenecen a la frontera,
+// O(n^2)
 int ResolverExacta::frontera(vector<int> &clique) {
 
-    return -1;
+    vector<bool> enClique(grafo.size(), false);
+    for (int v : clique) {
+        enClique[v] = true;
+    }
+
+    int contador;
+    for (int v : clique) {
+        for (int vecino : grafo[v]) {
+            if (!enClique[vecino]) {
+                contador++;
+            }
+        }
+    }
+    return contador;
 }
 
 bool ResolverExacta::sonVecinos(int v1, int v2) {
