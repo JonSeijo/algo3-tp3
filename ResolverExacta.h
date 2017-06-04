@@ -1,12 +1,12 @@
-#ifndef SOLUCION_EXACTA
-#define SOLUCION_EXACTA
+#ifndef RESOLVER_EXACTA
+#define RESOLVER_EXACTA
 
 #include <iostream>
 #include <vector>
 
 using std::vector
 
-class SolucionExacta {
+class ResolverExacta {
 
 public:
     bool leerInput(bool imprimirOutput);
