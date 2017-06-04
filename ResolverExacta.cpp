@@ -47,12 +47,11 @@ void ResolverExacta::resolver(bool imprimirOutput) {
 
     int n = grafo.size();
 
-    vector<int> solucion;
+    vector<int> solucion(0);
     int fronteraMax = -1;
 
     for (int i = 0; i < (1 << n); i++) {
-
-        vector<int> conjNodos;
+        vector<int> conjNodos(0);
 
         for (int j = 0; j < n; j++) {
             // Si el bit j esta encendido, considero que el nodo j existe
