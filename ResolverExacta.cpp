@@ -7,6 +7,7 @@ bool ResolverExacta::leerInput() {
     int n, m;
     std::cin >> n >> m;
 
+    this->n = n;
     this->grafo.clear();
     this->grafo.resize(n, vector<int>(0));
 
@@ -24,7 +25,35 @@ bool ResolverExacta::leerInput() {
     return true;
 }
 
+void ResolverExacta::generarSubconjuntos(vector<int> &s, int tope, int actual) {
+    if (actual <= this->n) {
+        s[tope] = actual;
+
+        // Tomo el subconjunto actual
+        vector<int> subconjNodos(s.begin(), s.begin() + tope);
+
+        // Si es clique veo si la frontera es maxima
+        if (esClique(subconjNodos)) {
+            int fronteraActual = frontera(subconjNodos);
+            if (fronteraActual > this->fronteraMax) {
+                this->fronteraMax = fronteraActual;
+                this->solucion = subconjNodos;
+            }
+        }
+
+        // Incluyo el actual en la pila
+        generarSubconjuntos(s, tope+1, actual+1) ; /* with actual */
+
+        // No incluyo el actual en la pila
+        generarSubconjuntos(s, tope, actual+1) ; /*  without actual */
+    }
+}
+
 void ResolverExacta::resolver(bool imprimirOutput) {
+
+    this->solucion.clear();
+    this->solucion.resize(0);
+    this->fronteraMax = -1;
 
     /*
     La idea es la siguiente:
@@ -40,35 +69,9 @@ void ResolverExacta::resolver(bool imprimirOutput) {
 
     */
 
-    // @jonno
-    // Voy a generar todos los subconjuntos usando numeros binarios. 1 representa que el elemento esta.
-    // Seguro hay formas mas elegantes pero es la forma que conozco, cambiarla si se quiere.
-    // Esto ASUME que n < 32 (pues uso ints)
+    std::vector<int> s(n, 0); // Temporal para generar los subconjuntos
 
-    int n = grafo.size();
-
-    vector<int> solucion(0);
-    int fronteraMax = -1;
-
-    for (int i = 0; i < (1 << n); i++) {
-        vector<int> conjNodos(0);
-
-        for (int j = 0; j < n; j++) {
-            // Si el bit j esta encendido, considero que el nodo j existe
-            if ((i & (1 << j)) != 0) {
-                conjNodos.push_back(j);
-            }
-        }
-
-        if (esClique(conjNodos)) {
-            int fronteraActual = frontera(conjNodos);
-            if (fronteraActual > fronteraMax) {
-                fronteraMax = fronteraActual;
-                solucion = conjNodos;
-            }
-        }
-    }
-
+    this->generarSubconjuntos(s, 0, 0);
 
     if (imprimirOutput) {
         // Recordar que a cada nodo hacerle un +1

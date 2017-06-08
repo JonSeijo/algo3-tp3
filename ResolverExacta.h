@@ -15,6 +15,11 @@ public:
 private:
     // Lista de adyacencia para representar al grafo
     vector<vector<int> > grafo;
+    int n;
+    int fronteraMax;
+    vector<int> solucion;
+
+    void generarSubconjuntos(vector<int> &s, int k, int m);
 
     bool esClique(vector<int> &nodos);
 
