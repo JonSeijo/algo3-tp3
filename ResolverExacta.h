@@ -3,8 +3,10 @@
 
 #include <iostream>
 #include <vector>
+#include <list>
 
 using std::vector;
+using std::list;
 
 class ResolverExacta {
 
@@ -14,19 +16,20 @@ public:
 
 private:
     // Lista de adyacencia para representar al grafo
-    vector<vector<int> > grafo;
+    vector<list<int> > grafo;
     int n;
     int fronteraMax;
-    vector<int> solucion;
+    list<int> solucion;
 
-    void generarSubconjuntos(vector<int> &s, int k, int m);
-
-    bool esClique(vector<int> &nodos);
-
+    void generarSubconjuntos(list<int> &conjNodos, int act);
+    bool esClique(list<int> &nodos);
     // Pre: esClique(clique)
-    int frontera(vector<int> &clique);
-
+    int frontera(list<int> &clique);
     bool sonVecinos(int v1, int v2);
+
+    // DEBUG
+    bool DEBUG_MODE;
+    int cantidadSubconjuntos;
 };
 
 #endif

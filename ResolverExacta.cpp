@@ -9,7 +9,7 @@ bool ResolverExacta::leerInput() {
 
     this->n = n;
     this->grafo.clear();
-    this->grafo.resize(n, vector<int>(0));
+    this->grafo.resize(n, list<int>(0));
 
     for (int i = 0; i < m; i++) {
         int v1, v2;
@@ -25,31 +25,43 @@ bool ResolverExacta::leerInput() {
     return true;
 }
 
-void ResolverExacta::generarSubconjuntos(vector<int> &s, int tope, int actual) {
-    if (actual <= this->n) {
-        s[tope] = actual;
+void ResolverExacta::generarSubconjuntos(list<int> &conjNodos, int act) {
 
-        // Tomo el subconjunto actual
-        vector<int> subconjNodos(s.begin(), s.begin() + tope);
+    if (act == this->n) {
 
-        // Si es clique veo si la frontera es maxima
-        if (esClique(subconjNodos)) {
-            int fronteraActual = frontera(subconjNodos);
-            if (fronteraActual > this->fronteraMax) {
-                this->fronteraMax = fronteraActual;
-                this->solucion = subconjNodos;
+        if (this->DEBUG_MODE) {
+            this->cantidadSubconjuntos++;
+            // IMPRIMIR EL SUBCONJUNTO DE NODOS PARA VER SI SE ESTAN GENERANDO BIEN
+            for (int v : conjNodos) {
+                std::cout << v << " ";
             }
+            std::cout << "\n";
         }
 
-        // Incluyo el actual en la pila
-        generarSubconjuntos(s, tope+1, actual+1) ; /* with actual */
-
-        // No incluyo el actual en la pila
-        generarSubconjuntos(s, tope, actual+1) ; /*  without actual */
+        // Si es clique veo si la frontera es maxima
+        if (esClique(conjNodos)) {
+            int fronteraActual = frontera(conjNodos);
+            if (fronteraActual > this->fronteraMax) {
+                this->fronteraMax = fronteraActual;
+                this->solucion = conjNodos;
+            }
+        }
+        return;
     }
+
+    // No agrego act al conjunto
+    generarSubconjuntos(conjNodos, act + 1);
+
+    // Agrego act al conjunto
+    conjNodos.push_back(act);
+    generarSubconjuntos(conjNodos, act + 1);
+    conjNodos.pop_back();
 }
 
 void ResolverExacta::resolver(bool imprimirOutput) {
+
+    // @DEBUG
+    this->DEBUG_MODE = false;
 
     this->solucion.clear();
     this->solucion.resize(0);
@@ -69,9 +81,17 @@ void ResolverExacta::resolver(bool imprimirOutput) {
 
     */
 
-    std::vector<int> s(n, 0); // Temporal para generar los subconjuntos
+    if (this->DEBUG_MODE) {
+        this->cantidadSubconjuntos = 0;
+    }
 
-    this->generarSubconjuntos(s, 0, 0);
+    std::list<int> listaVacia; // Temporal para generar los subconjuntos
+    this->generarSubconjuntos(listaVacia, 0);
+
+    if (this->DEBUG_MODE) {
+        std::cout << "\n\n";
+        std::cout << "cant subconjuntos: " << this->cantidadSubconjuntos << "\n\n";
+    }
 
     if (imprimirOutput) {
         // Recordar que a cada nodo hacerle un +1
@@ -86,7 +106,7 @@ void ResolverExacta::resolver(bool imprimirOutput) {
 
 // Dice si los nodos forman un grafo completo
 // O(n^2)*O(sonVecinos)
-bool ResolverExacta::esClique(vector<int> &nodos) {
+bool ResolverExacta::esClique(list<int> &nodos) {
     // Quiero ver si todos los nodos son todos vecinos entre si
     for (int v1 : nodos) {
         for (int v2 : nodos) {
@@ -102,7 +122,7 @@ bool ResolverExacta::esClique(vector<int> &nodos) {
 // Pre: esClique(clique)
 // Da la cantidad de aristas que pertenecen a la frontera,
 // O(n^2)
-int ResolverExacta::frontera(vector<int> &clique) {
+int ResolverExacta::frontera(list<int> &clique) {
 
     vector<bool> enClique(grafo.size(), false);
     for (int v : clique) {
