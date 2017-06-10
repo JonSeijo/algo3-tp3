@@ -1,1 +1,68 @@
 \section{Algoritmo Exacto}
+
+\subsection{Explicación}
+\todo[inline]{Aca explicar como funciona el algoritmo}
+Basicamente genero todos los subconjuntos y si es clique me quedo con la frontera
+
+\subsection{Pseudocódigo}
+\todo[inline]{Completar el pseudocodigo}
+\todo[inline]{Agregar las complejidades}
+
+% (Ver notas debajo del pseudocodigo las referencia de significados de las variables)
+Referencias de variables globales para el pseudocódigo:
+\begin{itemize}
+    \item $n$: La cantidad de nodos
+    \item $solucion$: Secuencia que contiene la clique solución
+    \item $fronteraMax$: El cardinal de la frontera de la clique solución
+\end{itemize}
+
+\begin{algorithm}[H]
+\begin{algorithmic}
+
+\Function{Resolver}{}
+    \State LeerInput()
+    \State $solucion \gets \emptyset$
+    \State $fronteraMax \gets 0$
+    \State GenerarSubconjuntos($\emptyset$, $0$)
+\EndFunction
+
+$ $\newline
+
+\Function{GenerarSubconjuntos}{$conjNodos$, $actual$}
+    \If {$actual = n$}
+
+        \If {EsClique($conjNodos$)}
+            \State $fronteraActual \gets$ Frontera($conjNodos$)
+            \If {$fronteraActual > fronteraMax$}
+                \State $fronteraMax \gets fronteraActual$
+                \State $solucion \gets conjNodos$
+            \EndIf
+        \EndIf
+
+    \Else
+        \State GenerarSubconjuntos($conjNodos$, $actual + 1$)
+        \State GenerarSubconjuntos($conjNodos \cup \{actual\}$, $actual + 1$)
+    \EndIf
+
+\EndFunction
+
+
+$ $\newline
+
+\Function{EsClique}{$conjNodos$}
+    \State completar
+\EndFunction
+
+$ $\newline
+
+\Function{GenerarSubconjuntos}{$conjNodos$}
+    \State completar
+\EndFunction
+
+\end{algorithmic}
+\end{algorithm}
+
+
+
+\subsection{Complejidad}
+\todo[inline]{Aca un mini analisis de complejidad}
