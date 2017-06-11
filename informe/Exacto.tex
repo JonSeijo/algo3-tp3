@@ -99,4 +99,15 @@ Referencias de variables globales para el pseudocódigo:
 \end{algorithm}
 
 \subsection{Complejidad}
-\todo[inline]{Aca un mini analisis de complejidad}
+
+\begin{itemize}
+    \item LeerInput es $O(n^2)$: Leo como máximo todas las aristas posibles.
+    \item SonVecinos es $O(n)$: Recorro la lista de adyacencia de un vértice, como mucho tiene $O(n)$ vecinos.
+    \item EsClique es $O(n^{3})$: Para cada vértice se recorren todos los demas y se revisa si son vecinos.
+    \item Frontera es $O(n^{2})$: Para cada vértice de la clique se revisan todos sus vecinos.
+    \item GenerarSubconjuntos es $O(2^{n} * n^{3})$: Hay $O(2^n)$ llamados recursivos (Cada vertice está o no está), y en cada llamado recursivo se revisa si EsClique en $O(n^3)$ y luego su Frontera en $O(n^2)$ ($=$ $O(n^3)$).
+\end{itemize}
+
+Para Resolver() se lee el input y luego se llama a GenerarSubconjuntos. La complejidad final es:
+
+$$ O(n^2) + O(2^{n} * n^{3}) = O(2^{n} * n^{3})$$
