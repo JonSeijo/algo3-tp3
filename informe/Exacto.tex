@@ -5,7 +5,6 @@
 Basicamente genero todos los subconjuntos y si es clique me quedo con la frontera
 
 \subsection{Pseudocódigo}
-\todo[inline]{Completar el pseudocodigo}
 \todo[inline]{Agregar las complejidades}
 
 % (Ver notas debajo del pseudocodigo las referencia de significados de las variables)
@@ -18,16 +17,17 @@ Referencias de variables globales para el pseudocódigo:
 
 \begin{algorithm}[H]
 \begin{algorithmic}
-
 \Function{Resolver}{}
     \State LeerInput()
     \State $solucion \gets \emptyset$
     \State $fronteraMax \gets 0$
     \State GenerarSubconjuntos($\emptyset$, $0$)
 \EndFunction
+\end{algorithmic}
+\end{algorithm}
 
-$ $\newline
-
+\begin{algorithm}[H]
+\begin{algorithmic}
 \Function{GenerarSubconjuntos}{$conjNodos$, $actual$}
     \If {$actual = n$}
 
@@ -43,26 +43,60 @@ $ $\newline
         \State GenerarSubconjuntos($conjNodos$, $actual + 1$)
         \State GenerarSubconjuntos($conjNodos \cup \{actual\}$, $actual + 1$)
     \EndIf
-
 \EndFunction
-
-
-$ $\newline
-
-\Function{EsClique}{$conjNodos$}
-    \State completar
-\EndFunction
-
-$ $\newline
-
-\Function{GenerarSubconjuntos}{$conjNodos$}
-    \State completar
-\EndFunction
-
 \end{algorithmic}
 \end{algorithm}
 
+\begin{algorithm}[H]
+\begin{algorithmic}
+\Function{EsClique}{$conjNodos$}
+    \For{$v \in conjNodos$}
+        \For{$w \in conjNodos$}
+            \If{$(v \neq w) \land (\neg$SonVecinos($v$, $w$)$)$}
+                \State return $False$
+            \EndIf
+        \EndFor
+    \EndFor
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
+\begin{algorithm}[H]
+\begin{algorithmic}
+\Function{SonVecinos}{$v1, v2$}
+    \For{$w \in vecinos[v1]$}
+        \If{$w = v2$}
+            \State return $True$
+        \EndIf
+    \EndFor
+    \State return $False$
+
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\begin{algorithmic}
+\Function{Frontera}{$clique$}
+    \State $enClique \gets vector(n, False)$ \Comment Vector con $n$ Falses
+    \For {$v \in clique$}
+        \State $enClique[v] \gets True$
+    \EndFor
+
+    \State $contador \gets 0$
+    \For{$v \in clique$}
+        \For{$vecino \in vecinos[v]$}
+            \If{$\neg enClique[vecino]$}
+                \State $contador++$
+            \EndIf
+        \EndFor
+    \EndFor
+
+    \State return $contador$
+
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
 \subsection{Complejidad}
 \todo[inline]{Aca un mini analisis de complejidad}
