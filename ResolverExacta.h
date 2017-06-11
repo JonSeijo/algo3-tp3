@@ -12,7 +12,7 @@ class ResolverExacta {
 
 public:
     bool leerInput();
-    void resolver(bool imprimirOutput);
+    void resolver(bool imprimirOutput, bool minimoOutput);
 
 private:
     // Lista de adyacencia para representar al grafo

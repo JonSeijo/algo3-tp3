@@ -58,7 +58,7 @@ void ResolverExacta::generarSubconjuntos(list<int> &conjNodos, int act) {
     conjNodos.pop_back();
 }
 
-void ResolverExacta::resolver(bool imprimirOutput) {
+void ResolverExacta::resolver(bool imprimirOutput=false, bool minimoOutput=false) {
 
     // @DEBUG
     this->DEBUG_MODE = false;
@@ -101,6 +101,12 @@ void ResolverExacta::resolver(bool imprimirOutput) {
             std::cout << v + 1 << " ";
         }
         std::cout << "\n";
+    }
+
+    // @DEBUG, esto es para las mediciones, borrar luego
+    if (minimoOutput) {
+        std::cout << fronteraMax << ",";
+        std::cout << solucion.size();
     }
 }
 

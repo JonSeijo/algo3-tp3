@@ -1,11 +1,11 @@
 CPP=g++
 FLAGS= -std=c++11 -g -Wall
 
-all: solucionExacta solucionGreedyConstructiva #tiempoExacta
+all: solucionExacta solucionGreedyConstructiva tiempoExacta
 
 solucionGreedyConstructiva: SolucionGreedyConstructiva.cpp ResolverGreedyConstructiva.cpp ResolverGreedyConstructiva.h
 	$(CPP) $(FLAGS) -o  $@ ResolverGreedyConstructiva.cpp $<
-	
+
 solucionExacta: SolucionExacta.cpp ResolverExacta.cpp ResolverExacta.h
 	$(CPP) $(FLAGS) -o  $@ ResolverExacta.cpp $<
 
