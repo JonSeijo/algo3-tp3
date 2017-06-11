@@ -5,7 +5,6 @@
 Basicamente genero todos los subconjuntos y si es clique me quedo con la frontera
 
 \subsection{Pseudocódigo}
-\todo[inline]{Agregar las complejidades}
 
 % (Ver notas debajo del pseudocodigo las referencia de significados de las variables)
 Referencias de variables globales para el pseudocódigo:
@@ -18,28 +17,28 @@ Referencias de variables globales para el pseudocódigo:
 \begin{algorithm}[H]
 \begin{algorithmic}
 \Function{Resolver}{}
-    \State LeerInput()
-    \State $solucion \gets \emptyset$
-    \State $fronteraMax \gets 0$
-    \State GenerarSubconjuntos($\emptyset$, $0$)
+    \State LeerInput() \Comment $O(n^2)$
+    \State $solucion \gets \emptyset$ \Comment $O(1)$
+    \State $fronteraMax \gets 0$ \Comment $O(1)$
+    \State GenerarSubconjuntos($\emptyset$, $0$) \Comment $O(2^{n} * n^{3})$
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
 
 \begin{algorithm}[H]
 \begin{algorithmic}
-\Function{GenerarSubconjuntos}{$conjNodos$, $actual$}
-    \If {$actual = n$}
+\Function{GenerarSubconjuntos}{$conjNodos$, $actual$} \Comment $O(2^{n} * n^{3})$, ver detalle en sección Complejidad.
 
-        \If {EsClique($conjNodos$)}
-            \State $fronteraActual \gets$ Frontera($conjNodos$)
-            \If {$fronteraActual > fronteraMax$}
-                \State $fronteraMax \gets fronteraActual$
-                \State $solucion \gets conjNodos$
+    \If {$actual = n$}                  \Comment $O(1)$
+        \If {EsClique($conjNodos$)}     \Comment $O(n^3)$
+            \State $fronteraActual \gets$ Frontera($conjNodos$) \Comment $O(n^2)$
+            \If {$fronteraActual > fronteraMax$}          \Comment $O(1)$
+                \State $fronteraMax \gets fronteraActual$ \Comment $O(1)$
+                \State $solucion \gets conjNodos$         \Comment $O(1)$
             \EndIf
         \EndIf
 
-    \Else
+    \Else \Comment Ver sección Complejidad.
         \State GenerarSubconjuntos($conjNodos$, $actual + 1$)
         \State GenerarSubconjuntos($conjNodos \cup \{actual\}$, $actual + 1$)
     \EndIf
@@ -50,13 +49,14 @@ Referencias de variables globales para el pseudocódigo:
 \begin{algorithm}[H]
 \begin{algorithmic}
 \Function{EsClique}{$conjNodos$}
-    \For{$v \in conjNodos$}
-        \For{$w \in conjNodos$}
-            \If{$(v \neq w) \land (\neg$SonVecinos($v$, $w$)$)$}
-                \State return $False$
+    \For{$v \in conjNodos$}                     \Comment $O(n^3)$
+        \For{$w \in conjNodos$}                 \Comment $O(n^2)$
+            \If{$(v \neq w) \land (\neg$SonVecinos($v$, $w$)$)$}  \Comment $O(n)$
+                \State return $False$                   \Comment $O(1)$
             \EndIf
         \EndFor
     \EndFor
+    \State return $True$
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
@@ -64,12 +64,12 @@ Referencias de variables globales para el pseudocódigo:
 \begin{algorithm}[H]
 \begin{algorithmic}
 \Function{SonVecinos}{$v1, v2$}
-    \For{$w \in vecinos[v1]$}
-        \If{$w = v2$}
-            \State return $True$
+    \For{$w \in vecinos[v1]$}    \Comment $O(n)$
+        \If{$w = v2$}            \Comment $O(1)$
+            \State return $True$ \Comment $O(1)$
         \EndIf
     \EndFor
-    \State return $False$
+    \State return $False$        \Comment $O(1)$
 
 \EndFunction
 \end{algorithmic}
@@ -78,21 +78,21 @@ Referencias de variables globales para el pseudocódigo:
 \begin{algorithm}[H]
 \begin{algorithmic}
 \Function{Frontera}{$clique$}
-    \State $enClique \gets vector(n, False)$ \Comment Vector con $n$ Falses
-    \For {$v \in clique$}
-        \State $enClique[v] \gets True$
+    \State $enClique \gets vector(n, False)$ \Comment Vector con $n$ Falses, $O(n)$
+    \For {$v \in clique$}                    \Comment $O(n)$
+        \State $enClique[v] \gets True$      \Comment $O(1)$
     \EndFor
 
-    \State $contador \gets 0$
-    \For{$v \in clique$}
-        \For{$vecino \in vecinos[v]$}
-            \If{$\neg enClique[vecino]$}
-                \State $contador++$
+    \State $contador \gets 0$                \Comment $O(1)$
+    \For{$v \in clique$}                     \Comment $O(n^2)$
+        \For{$vecino \in vecinos[v]$}        \Comment $O(n)$
+            \If{$\neg enClique[vecino]$}     \Comment $O(1)$
+                \State $contador++$          \Comment $O(1)$
             \EndIf
         \EndFor
     \EndFor
 
-    \State return $contador$
+    \State return $contador$                 \Comment $O(1)$
 
 \EndFunction
 \end{algorithmic}
@@ -105,7 +105,7 @@ Referencias de variables globales para el pseudocódigo:
     \item SonVecinos es $O(n)$: Recorro la lista de adyacencia de un vértice, como mucho tiene $O(n)$ vecinos.
     \item EsClique es $O(n^{3})$: Para cada vértice se recorren todos los demas y se revisa si son vecinos.
     \item Frontera es $O(n^{2})$: Para cada vértice de la clique se revisan todos sus vecinos.
-    \item GenerarSubconjuntos es $O(2^{n} * n^{3})$: Hay $O(2^n)$ llamados recursivos (Cada vertice está o no está), y en cada llamado recursivo se revisa si EsClique en $O(n^3)$ y luego su Frontera en $O(n^2)$ ($=$ $O(n^3)$).
+    \item GenerarSubconjuntos es $O(2^{n} * n^{3})$: Hay $O(2^n)$ llamados recursivos (pues cada vertice está o no está), y en cada llamado recursivo se revisa si EsClique en $O(n^3)$ y luego su Frontera en $O(n^2)$ ($=$ $O(n^3)$). También puede pensarse que se generan $2^n$ subconjuntos, y por cada subconjunto se hacen $O(n^3)$ operaciones.
 \end{itemize}
 
 Para Resolver() se lee el input y luego se llama a GenerarSubconjuntos. La complejidad final es:
