@@ -1,21 +1,22 @@
-#ifndef RESOLVER_GREEDY_CONSTRUCTIVA
-#define RESOLVER_GREEDY_CONSTRUCTIVA
+#ifndef RESOLVER_LOCAL
+#define RESOLVER_LOCAL
 
 #include <iostream>
 #include <vector>
 
+#include "ResolverGreedyConstructiva.h"
+
 using std::vector;
 
-class ResolverGreedyConstructiva {
+class ResolverLocal {
 
 public:
-    bool leerInput();
-    void resolver(bool imprimirOutput);
+    void copiarInput(ResolverGreedyConstructiva problema);
+    vector<int> resolver(bool imprimirOutput, vector<int> inicial);
 
 private:
-    // Lista de adyacencia para representar al grafo
-    vector<vector<int> > grafo_lst;
-    vector<vector<int> > grafo_ady;
+    vector<vector<int> > grafo_lst; // Lista de adyacencia
+    vector<vector<int> > grafo_ady; // Matriz de adyacencia
     int n;
 
     bool esClique(vector<int> &nodos);

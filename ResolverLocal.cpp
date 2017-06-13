@@ -1,24 +1,25 @@
 #include "ResolverLocal.h"
 #include "ResolverGreedyConstructiva.h"
 
-bool ResolverLocal::copiarInput(ResolverGreedyConstructiva problema) {
-    // El input lo lee de la stdin el objeto 'problema'
+void ResolverLocal::copiarInput(ResolverGreedyConstructiva problema) {
+    // El input la lee el objeto 'problema' por la stdin
     this->n = problema.grafo_lst.size();
     this->grafo_lst = problema.grafo_lst;
     this->grafo_ady = problema.grafo_ady;
 }
 
-void ResolverLocal::resolver(bool imprimirOutput) {
+vector<int> ResolverLocal::resolver(bool imprimirOutput, vector<int> inicial) {
 
     /*
     La idea va a ser maximizar la frontera en la vecindad de nuestra solución inicial.
     Un clique será vecino de otro si se puede conseguir mediante una operación de
     añadir un nodo, eliminar un nodo o swappear un nodo (con el complemento).
     */
-
-    int n = grafo_lst.size();
-
+    
     vector<int> solucion(0);
+
+    /*int n = grafo_lst.size();
+
     int fronteraMax = -1;
     
     vector<int> candidatos(0);
@@ -72,7 +73,8 @@ void ResolverLocal::resolver(bool imprimirOutput) {
 		}
 	}
 
-	std::cout << "FIN" << std::endl;
+
+    std::cout << "FIN" << std::endl;
     if (imprimirOutput) {
         // Recordar que a cada nodo hacerle un +1
         std::cout << fronteraMax << " ";
@@ -82,11 +84,15 @@ void ResolverLocal::resolver(bool imprimirOutput) {
         }
         std::cout << "\n";
     }
+
+    */
+
+    return solucion;
 }
 
 // Dice si los nodos forman un grafo completo
 // O(n^2)*O(sonVecinos)
-bool ResolverGreedyConstructiva::esClique(vector<int> &nodos) {
+bool ResolverLocal::esClique(vector<int> &nodos) {
     // Quiero ver si todos los nodos son todos vecinos entre si
     for (int v1 : nodos) {
         for (int v2 : nodos) {
@@ -102,7 +108,7 @@ bool ResolverGreedyConstructiva::esClique(vector<int> &nodos) {
 // Pre: esClique(clique)
 // Da la cantidad de aristas que pertenecen a la frontera,
 // O(n^2)
-int ResolverGreedyConstructiva::frontera(vector<int> &clique) {
+int ResolverLocal::frontera(vector<int> &clique) {
 
     vector<bool> enClique(grafo_lst.size(), false);
     for (int v : clique) {
@@ -120,6 +126,6 @@ int ResolverGreedyConstructiva::frontera(vector<int> &clique) {
     return contador;
 }
 
-bool ResolverGreedyConstructiva::sonVecinos(int v1, int v2) {
+bool ResolverLocal::sonVecinos(int v1, int v2) {
 	return (grafo_ady[v1][v2] == 1);
 }

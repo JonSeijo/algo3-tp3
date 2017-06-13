@@ -12,7 +12,7 @@ public:
     bool leerInput();
     vector<int> resolver(bool imprimirOutput);
 
-private:
+//private: // CHAN. Esto para copiar la info desde ResolverLocal
     // Lista de adyacencia para representar al grafo
     vector<vector<int> > grafo_lst;
     vector<vector<int> > grafo_ady;
