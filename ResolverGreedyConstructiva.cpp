@@ -27,7 +27,7 @@ bool ResolverGreedyConstructiva::leerInput() {
     return true;
 }
 
-void ResolverGreedyConstructiva::resolver(bool imprimirOutput) {
+vector<int> ResolverGreedyConstructiva::resolver(bool imprimirOutput) {
 
     /*
     La idea es la siguiente:
@@ -109,6 +109,8 @@ void ResolverGreedyConstructiva::resolver(bool imprimirOutput) {
         }
         std::cout << "\n";
     }
+
+    return solucion;
 }
 
 // Dice si los nodos forman un grafo completo
