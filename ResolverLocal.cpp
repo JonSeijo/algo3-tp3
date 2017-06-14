@@ -41,14 +41,40 @@ vector<int> ResolverLocal::resolver(bool imprimirOutput, vector<int> solucion) {
 // Un clique será vecino de otro si se puede conseguir mediante una operación de
 // añadir un nodo, eliminar un nodo o swappear un nodo (con el complemento).
 vector<int> ResolverLocal::busquedaLocal(vector<int> &inicial) {
+
     vector<int> complemento_inicial = complemento(inicial);
 
     vector<int> solucionSwap = maximoPorSwap(inicial, complemento_inicial);
+    vector<int> solucionAdd = maximoPorAdd(inicial, complemento_inicial);
+    vector<int> solucionSub = maximoPorSub(inicial, complemento_inicial);
 
-    return solucionSwap;
+    vector<int> solucionSuprema = solucionSwap;
+    if (frontera(solucionAdd) > frontera(solucionSuprema)) {
+        solucionSuprema = solucionAdd;
+    }
+    if (frontera(solucionSub) > frontera(solucionSuprema)) {
+        solucionSuprema = solucionSub;
+    }
+    return solucionSuprema;
 }
 
-// Maximiza la frontera de los cliques obtenidos al swappear un nodo de la solución inicial
+// Maximiza la frontera de los cliques obtenidos al agregar un nodo en la solución inicial
+// O(n^2)
+vector<int> ResolverLocal::maximoPorAdd(vector<int> &inicial, vector<int> &complemento_inicial) {
+    
+    // TODO
+    return inicial;
+}
+
+// Maximiza la frontera de los cliques obtenidos al eliminar un nodo en la solución inicial
+// O(n^2)
+vector<int> ResolverLocal::maximoPorSub(vector<int> &inicial, vector<int> &complemento_inicial) {
+    
+    // TODO
+    return inicial;
+}
+
+// Maximiza la frontera de los cliques obtenidos al swappear un nodo en la solución inicial
 // O(n^2)
 vector<int> ResolverLocal::maximoPorSwap(vector<int> &inicial, vector<int> &complemento_inicial) {
 
@@ -102,6 +128,7 @@ bool ResolverLocal::esClique(vector<int> &nodos) {
 // Da la cantidad de aristas que pertenecen a la frontera,
 // O(n^2)
 int ResolverLocal::frontera(vector<int> &clique) {
+
     vector<bool> enClique(grafo_lst.size(), false);
     for (int v : clique) {
         enClique[v] = true;
@@ -128,6 +155,7 @@ bool ResolverLocal::sonVecinos(int v1, int v2) {
 // (sobre el universo de vértices en el grafo)
 // O(n)
 vector<int> ResolverLocal::complemento(vector<int> &nodos) {
+
     vector<int> complemento;
     vector<bool> pertenencia(n, false);
 

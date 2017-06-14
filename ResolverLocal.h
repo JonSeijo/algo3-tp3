@@ -16,6 +16,8 @@ public:
 
     vector<int> busquedaLocal(vector<int> &inicial);
     vector<int> maximoPorSwap(vector<int> &inicial, vector<int> &complemento_inicial);
+    vector<int> maximoPorAdd(vector<int> &inicial, vector<int> &complemento_inicial);
+    vector<int> maximoPorSub(vector<int> &inicial, vector<int> &complemento_inicial);
 
 private:
     vector<vector<int> > grafo_lst; // Lista de adyacencia
