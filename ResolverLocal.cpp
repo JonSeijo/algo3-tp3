@@ -1,6 +1,9 @@
 #include "ResolverLocal.h"
 #include "ResolverGreedyConstructiva.h"
 
+// INTERFAZ ++++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++
+
 void ResolverLocal::copiarInput(ResolverGreedyConstructiva problema) {
     // El input la lee el objeto 'problema' por la stdin
     this->n = problema.grafo_lst.size();
@@ -8,90 +11,80 @@ void ResolverLocal::copiarInput(ResolverGreedyConstructiva problema) {
     this->grafo_ady = problema.grafo_ady;
 }
 
-vector<int> ResolverLocal::resolver(bool imprimirOutput, vector<int> inicial) {
-
+vector<int> ResolverLocal::resolver(bool imprimirOutput, vector<int> solucion) {
     /*
-    La idea va a ser maximizar la frontera en la vecindad de nuestra solución inicial.
-    Un clique será vecino de otro si se puede conseguir mediante una operación de
-    añadir un nodo, eliminar un nodo o swappear un nodo (con el complemento).
+    La función 'búsquedaLocal' es la que explora los vecinos y busca una solución
+    mejor. Pero corresponde a una única iteración: explora sólo los vecinos de la
+    inicial y nada más. Está función se va a encargar de iterar sobre dicha función
+    para continuar mejorándo nuestra solución. Tiene como responsabilidad las
+    condiciones de corte.
     */
-    
-    vector<int> solucion(0);
-
-    /*int n = grafo_lst.size();
-
-    int fronteraMax = -1;
-    
-    vector<int> candidatos(0);
-
-    for (int i = 0; i < n; i++) {
-    	candidatos.push_back(i);	//Agrego todos los nodos al vector de candidatos
-    }
-    
-    while (!candidatos.empty()) {
-
-    	int mejor_candidato = -1;
-    	
-    	vector<int>::iterator it = candidatos.begin();
-    	
-    	int fronteraMaxAnterior = fronteraMax;	//La frontera que los candidatos tienen que superar
-    	
-    	while (it != candidatos.end()) {	//Itero los candidatos
-    	
-    		solucion.push_back(*it);	//Agrego temporalmente a la solucion
-    		
-    		std::cout << "PRUEBO: " << *it << std::endl;
-    		
-    		if (!esClique(solucion)){	//No era clique => lo saco de la solucion y elimino de los candidatos
-    			std::cout << "NO CLIQUE" << std::endl;
-    			it = candidatos.erase(it);
-    			solucion.pop_back();
-    			continue;
-    		}
-    		
-			int fronteraActual = frontera(solucion);	//Es clique => calculo frontera
-			
-			if (fronteraActual < fronteraMaxAnterior){	//La frontera es peor a la que tenia => lo saco de la solucion y elimino de candidatos
-				std::cout << "NO MEJORA" << std::endl;
-    			it = candidatos.erase(it);
-    			solucion.pop_back();
-    			continue;
-			}
-
-			if (fronteraActual >= fronteraMax) {		//La frontera es mayor o igual a la maxima frontera encontrada hasta ahora
-				fronteraMax = fronteraActual;			//En caso de que el mejor candidato tenga igual frontera que la anterior me permite hacer cliques mas grandes y seguir buscando en vez de parar alli
-				mejor_candidato = it - candidatos.begin();
-				std::cout << "SETEO" << std::endl;
-			}
-			++it;
-			solucion.pop_back();
-		}
-		if (mejor_candidato != -1){	//Hay un mejor candidato => lo agrego definitivamente a la solucion y lo quito de candidatos
-			std::cout << "MEJOR: " << mejor_candidato << " SIZE: " << candidatos.size() << std::endl;
-			solucion.push_back(candidatos[mejor_candidato]);
-			candidatos.erase(candidatos.begin() + mejor_candidato);
-		}
-	}
-
-
-    std::cout << "FIN" << std::endl;
-    if (imprimirOutput) {
-        // Recordar que a cada nodo hacerle un +1
-        std::cout << fronteraMax << " ";
-        std::cout << solucion.size() << " ";
-        for (int v : solucion) {
-            std::cout << v + 1 << " ";
+    int iteraciones = 10;
+    int frontera_actual = frontera(solucion);
+    for (int t = 1; t <= iteraciones; t++) {
+        solucion = busquedaLocal(solucion); // búsqueda local para mejorar la solución
+        int frontera_solucion = frontera(solucion);
+        if (frontera_actual == frontera_solucion) {
+            break; // si no mejoró, corto
+        } else {
+            frontera_actual = frontera_solucion;
         }
-        std::cout << "\n";
     }
-
-    */
-
     return solucion;
 }
 
+
+// BÚSQUEDA LOCAL ++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++
+
+// Devuelve la solución vecina de la inicial con mayor frontera.
+// Un clique será vecino de otro si se puede conseguir mediante una operación de
+// añadir un nodo, eliminar un nodo o swappear un nodo (con el complemento).
+vector<int> ResolverLocal::busquedaLocal(vector<int> &inicial) {
+    vector<int> complemento_inicial = complemento(inicial);
+
+    vector<int> solucionSwap = maximoPorSwap(inicial, complemento_inicial);
+
+    return solucionSwap;
+}
+
+// Maximiza la frontera de los cliques obtenidos al swappear un nodo de la solución inicial
+// O(n^2)
+vector<int> ResolverLocal::maximoPorSwap(vector<int> &inicial, vector<int> &complemento_inicial) {
+
+    vector<int> candidato = inicial;
+    int max_frontera = frontera(inicial);
+    int max_i = -1; // -1 implica ningún swap
+    int max_j = -1;
+
+    for (size_t i = 0; i < inicial.size(); i++) {
+        for (size_t j = 0; j < complemento_inicial.size(); j++) {
+            candidato[i] = complemento_inicial[j]; // hacemos el swap
+            if (esClique(candidato)) {
+                int frontera_candidato = frontera(candidato);
+                if (frontera_candidato > max_frontera) {
+                    max_i = i; // encontramos un clique mejor, actualizamos máximos
+                    max_j = j;
+                    max_frontera = frontera_candidato;
+                }
+            }
+            candidato[i] = inicial[i]; // restauramos el candidato
+        }
+    }
+
+    if (max_i != -1) { // AKA hubo un clique mejor
+        candidato[max_i] = complemento_inicial[max_j];
+    }
+
+    return candidato;
+}
+
+
+// AUXILIARES ++++++++++++++++++++++++++++++++++
+// +++++++++++++++++++++++++++++++++++++++++++++
+
 // Dice si los nodos forman un grafo completo
-// O(n^2)*O(sonVecinos)
+// O(n^2)
 bool ResolverLocal::esClique(vector<int> &nodos) {
     // Quiero ver si todos los nodos son todos vecinos entre si
     for (int v1 : nodos) {
@@ -109,7 +102,6 @@ bool ResolverLocal::esClique(vector<int> &nodos) {
 // Da la cantidad de aristas que pertenecen a la frontera,
 // O(n^2)
 int ResolverLocal::frontera(vector<int> &clique) {
-
     vector<bool> enClique(grafo_lst.size(), false);
     for (int v : clique) {
         enClique[v] = true;
@@ -126,6 +118,26 @@ int ResolverLocal::frontera(vector<int> &clique) {
     return contador;
 }
 
+// Devuelve si los dos nodos son vecinos
+// O(1)
 bool ResolverLocal::sonVecinos(int v1, int v2) {
 	return (grafo_ady[v1][v2] == 1);
+}
+
+// Devuelve el complemento del conjunto pasado como parámetro
+// (sobre el universo de vértices en el grafo)
+// O(n)
+vector<int> ResolverLocal::complemento(vector<int> &nodos) {
+    vector<int> complemento;
+    vector<bool> pertenencia(n, false);
+
+    for (size_t i = 0; i < nodos.size(); i++) {
+        pertenencia[nodos[i]] = true;
+    }
+
+    for (int i = 0; i < n; i++) {
+        if (!pertenencia[i]) complemento.push_back(i);
+    }
+
+    return complemento;
 }

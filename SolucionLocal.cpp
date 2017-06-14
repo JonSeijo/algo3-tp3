@@ -15,8 +15,5 @@ int main() {
     // Búsqueda Local
     ResolverLocal local;
     local.copiarInput(problema);
-    std::vector<int> dummy;
-    for (int t = 1; t <= 5; t++) {
-    	local.resolver(true, dummy);
-	}
+    local.resolver(true, solucion);
 }
