@@ -18,6 +18,9 @@ tiempoExacta: TiempoExacta.cpp  ResolverExacta.cpp ResolverExacta.h
 tiempoGreedy: TiempoGreedy.cpp  ResolverGreedyConstructiva.cpp ResolverGreedyConstructiva.h
 	$(CPP) $(FLAGS) -o  $@  ResolverGreedyConstructiva.cpp $<
 
+solucionGrasp: SolucionGrasp.cpp ResolverGrasp.cpp ResolverExacta.cpp
+	$(CPP) $(FLAGS) -o  $@ ResolverGrasp.cpp ResolverLocal.cpp ResolverGreedyConstructiva.cpp $<
+
 %.o: %.cpp
 	$(CPP) $(FLAGS) -c -o $@ $<
 
@@ -28,3 +31,4 @@ clean:
 	rm -f solucionLocal
 	rm -f tiempoExacta
 	rm -f tiempoGreedy
+	rm -f solucionGrasp
