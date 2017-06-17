@@ -17,6 +17,7 @@ SolucionExacta
 solucionGreedyConstructiva
 solucionLocal
 tiempoExacta
+tiempoGreedy
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
