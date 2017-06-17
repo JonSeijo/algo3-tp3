@@ -4,6 +4,6 @@ int main() {
     ResolverGreedyConstructiva problema;
     bool leyoInputCorrectamente = problema.leerInput();
     if (leyoInputCorrectamente) {
-        problema.resolver(true);
+        problema.resolver(true, false);
     }
 }
