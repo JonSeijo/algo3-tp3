@@ -3,7 +3,18 @@
 \section{Greedy}
 
 \subsection{Explicación}
-\todo[inline]{Explicar como funciona el algoritmo y por que es greedy}
+Teniendo un conjunto solución $S$ que forme una clique, golosamente podemos agregar a $S$ algún nodo que haga aumentar el tamaño de la frontera. \\
+
+Mas detalladamente, el algoritmo funciona de la siguiente manera: \\
+
+Primero considero que todos los nodos son candidatos, y voy a ejecutar el algoritmo siempre que exista algún candidato en la lista. Además mantengo un vector $S$ que representa mi solución actual, inicialmente vacío. Considero que mi frontera máxima $FM$ tiene valor $-1$. \\
+
+Recorro mi lista de candidatos y tomo alguno, $c$. Considero $c$ como parte de la solución. Si la solución $S$ no forma una clique, entonces quito $c$ de $S$ , considero que ya no es mas un candidato y vuelvo al comienzo del algortimo. Si $S$ forma una clique, entonces calculo su frontera $f$. \\
+
+Comparo la frontera $f$ con la frontera máxima $FM$. Si $f < FM$, entonces quito a $c$ de $S$, pues no hace que la solucion mejore. Si $f \geq FM$, entonces mantengo a $c$ definitivamente en $S$, pues la frontera máxima no empeoró. Actualizo $FM$ con el valor de $f$. En ambos casos quito tambíen a $c$ de la lista de candidatos, para no repetirlo dos veces, y ayudando a que eventualmente el ciclo principal termine. \\
+
+Una vez finalizado el algoritmo, en $S$ va a haber una clique elegida de manera golosa, con la mayor frontera que se puedo encontrar. \\
+
 
 \subsection{Pseudocódigo}
 \todo[inline]{Pseudocodigo}
