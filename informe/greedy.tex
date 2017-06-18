@@ -31,15 +31,16 @@ Referencias de variables globales para el pseudocódigo:
     \item $fronteraMax$: El cardinal de la frontera de la clique solución
 \end{itemize}
 
+Las funciones ``EsClique()'' y ``Frontera()'' son las mismas que en el algortimo exacto. Dado que se usan en todos los algoritmos, son omitidas. Tienen complejidad $O(n^3)$ y $O(n^2)$ respectivamente.
 
 \begin{algorithm}[H]
 \begin{algorithmic}
 \Function{Resolver}{}
-    \State LeerInput() \Comment $O(n^2)$
-    \State $solucion \gets \emptyset$ \Comment $O(1)$
-    \State $candidatos \gets \{1, 2, 3, .. , n\} $ \Comment $O(n)$
-    \State $fronteraMax \gets -1$  \Comment $O(1)$
-    \State ObtenerSolucion()
+    \State LeerInput()                              \Comment $O(n^2)$
+    \State $solucion \gets \emptyset$               \Comment $O(1)$
+    \State $candidatos \gets \{1, 2, 3, .. , n\} $  \Comment $O(n)$
+    \State $fronteraMax \gets -1$                   \Comment $O(1)$
+    \State ObtenerSolucion()                        \Comment $O(n^5)$
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
@@ -50,31 +51,32 @@ Referencias de variables globales para el pseudocódigo:
 \begin{algorithmic}
 \Function{ObtenerSolucion}{}
 
-    \While{$candidatos \neq \emptyset$}
+    \While{$candidatos \neq \emptyset$}             \Comment $O(n^5)$
 
-        \State $mejorCandidato \gets -1$
+        \State $mejorCandidato \gets -1$            \Comment $O(1)$
 
-        \For{$c \in candidatos$}
-            \State $solucion.push(c)$ \Comment $O(1)$
+        \For{$c \in candidatos$}                    \Comment $O(n^4)$
+            \State $solucion.push(c)$               \Comment $O(1)$
 
-            \If {$\neg$EsClique($solucion$)}
-                \State $solucion.erase(c)$
-                \State $candidatos.erase(c)$
+            \If {$\neg$EsClique($solucion$)}                        \Comment $O(n^3)$
+                \State $solucion.erase(c)$                          \Comment $O(n)$
+                \State $candidatos.erase(c)$                        \Comment $O(n)$
             \Else
-                \If{$fronteraActual \geq fronteraMax$}
-                    \State $fronteraMax \gets fronteraActual$
-                    \State $mejorCandidato \gets c$
+                \State $fronteraActual \gets$ Frontera($solucion$)  \Comment $O(n^2)$
+                \If{$fronteraActual \geq fronteraMax$}              \Comment $O(1)$
+                    \State $fronteraMax \gets fronteraActual$       \Comment $O(1)$
+                    \State $mejorCandidato \gets c$                 \Comment $O(1)$
                 \Else
-                    \State $candidatos.erase(c)$
+                    \State $candidatos.erase(c)$                    \Comment $O(n)$
                 \EndIf
 
-                \State $solucion.erase(c)$
+                \State $solucion.erase(c)$                          \Comment $O(n)$
             \EndIf
         \EndFor
 
-        \If{$mejorCandidato \neq -1$}
-            \State $solucion.push(mejorCandidato)$ \Comment $O(1)$
-            \State $candidatos.erase(mejorCandidato)$
+        \If{$mejorCandidato \neq -1$}                               \Comment $O(1)$
+            \State $solucion.push(mejorCandidato)$                  \Comment $O(1)$
+            \State $candidatos.erase(mejorCandidato)$               \Comment $O(n)$
 
         \EndIf
     \EndWhile
