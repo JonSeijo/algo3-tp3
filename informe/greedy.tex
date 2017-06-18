@@ -21,7 +21,6 @@ Finalizado el algoritmo, en $S$ va a haber una clique elegida de manera golosa, 
 
 
 \subsection{Pseudocódigo}
-\todo[inline]{Pseudocodigo}
 
 Referencias de variables globales para el pseudocódigo:
 \begin{itemize}
@@ -88,9 +87,13 @@ Las funciones ``EsClique()'' y ``Frontera()'' son las mismas que en el algortimo
 \end{algorithmic}
 \end{algorithm}
 
-
 \subsection{Complejidad}
-\todo[inline]{Dar complejidad y ver por que es mucho mejor que el exacto}
+
+La complejidad principal del algoritmo se encuentra en ``ObtenerSolucion()'', que es $O(n^5)$. Esto es fácil de ver: como nunca se agregan candidatos y siempre se quita al menos uno, el ciclo exterior se ejecuta a lo sumo $O(n)$ veces. El $For$ recorre la lista de candidatos, que son tambien a lo sumo $O(n)$. Dentro del $For$ encontramos solo dos funciones grandes, ``EsClique'' de $O(n^3)$ y ``Frontera'' de $O(n^2)$. El resto son comparaciones, asignaciones y borrados, de $O(n)$. \\
+
+Mas intuitivamente, EsClique ($O(n^3)$) se ejecuta $O(n)$ veces en el For, y a su vez se ejecuta $O(n)$ veces en el While. Por lo tanto, es $O(n^5)$. \\
+
+Si bien $O(n^5)$ puede parecer un polinomio ``grande'', es exponencialmente mejor que el algortimo exacto que tenía $O(2^{n} * n^{3})$. El trade-off es que no siempre se producen soluciones óptimas, como veremos más adelante. \\
 
 \subsection{Optimalidad}
 \todo[inline]{Mostrar los casos donde no da la solucion optima y que pueden alejarse tanto como se quiera}
