@@ -62,16 +62,86 @@ vector<int> ResolverLocal::busquedaLocal(vector<int> &inicial) {
 // O(n^2)
 vector<int> ResolverLocal::maximoPorAdd(vector<int> &inicial, vector<int> &complemento_inicial) {
     
-    // TODO
-    return inicial;
+    if (complemento_inicial.size() == 0) {
+        return inicial;
+    }
+
+    int max_frontera = frontera(inicial);
+    int max_i = -1; // -1 implica ningún swap
+    vector<int> candidato = inicial;
+    candidato.push_back(-1);
+
+    for (size_t i = 0; i < complemento_inicial.size(); i++) {
+        candidato.back() = complemento_inicial[i]; // hacemos el add
+        if (esClique(candidato)) {
+            int frontera_candidato = frontera(candidato);
+            if (frontera_candidato > max_frontera) {
+                max_i = i; // encontramos un clique mejor, actualizamos máximos
+                max_frontera = frontera_candidato;
+            }
+        }
+    }
+
+    if (max_i != -1) { // AKA hubo un clique mejor
+        candidato.back() = complemento_inicial[max_i];
+    } else {
+        candidato.pop_back(); // le borro el -1
+    }
+
+    return candidato;
 }
 
 // Maximiza la frontera de los cliques obtenidos al eliminar un nodo en la solución inicial
 // O(n^2)
 vector<int> ResolverLocal::maximoPorSub(vector<int> &inicial, vector<int> &complemento_inicial) {
     
-    // TODO
-    return inicial;
+    if (inicial.size() == 0) {
+        return inicial;
+    }
+
+    vector<int> candidato = inicial;
+    int out = candidato.back();
+    candidato.pop_back();
+
+    int max_frontera = frontera(inicial);
+    int max_i = -1; // -1 implica ningún swap
+
+    // El recorrido será reemplazando cada elemento de 'candidato'
+    // por 'out' (que popeamos antes), logrando borrarlos
+    // momentaneamente.
+
+    for (size_t i = 0; i < candidato.size(); i++) { // Obs: |candidato| = |inicial|-1
+        candidato[i] = out; // hacemos el add
+        if (esClique(candidato)) {
+            int frontera_candidato = frontera(candidato);
+            if (frontera_candidato > max_frontera) {
+                max_i = i; // encontramos un clique mejor, actualizamos máximos
+                max_frontera = frontera_candidato;
+            }
+        }
+        candidato[i] = inicial[i]; // Restore
+    }
+
+    // Falta probar cuando justamente eliminamos 'out'
+    if (esClique(candidato)) {
+        int frontera_candidato = frontera(candidato);
+        if (frontera_candidato > max_frontera) {
+            max_i = inicial.size()-1; // encontramos un clique mejor, actualizamos máximos
+            max_frontera = frontera_candidato;
+        }
+    }
+
+    if (max_i != -1) { // AKA hubo un clique mejor
+        if (max_i == (int)inicial.size()-1) {
+            // Nada, así está bien
+        } else {
+            candidato[max_i] = out;
+        }
+    } else {
+        candidato.push_back(out); // le vuelvo a poner 'out'
+    }
+
+    return candidato;
 }
 
 // Maximiza la frontera de los cliques obtenidos al swappear un nodo en la solución inicial
