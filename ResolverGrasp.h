@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <vector>
-#include "ResolverGreedyConstructiva.h"
+#include "ResolverGreedyVariante.h"
 #include "ResolverLocal.h"
 
 using std::vector;
@@ -21,7 +21,7 @@ private:
     vector<vector<int> > grafo_lst;
      // Matriz de adyacencia
     vector<vector<int> > grafo_ady;
-    ResolverGreedyConstructiva greedy;
+    ResolverGreedyVariante greedy;
     ResolverLocal local;
     // Pre: esClique(clique)
     int frontera(vector<int> &clique);
