@@ -1,4 +1,5 @@
 #include "ResolverGrasp.h"
+#include <stdlib.h>
 
 bool ResolverGrasp::leerInput() {
     // El input la lee el objeto 'greedy' por la stdin
@@ -16,7 +17,8 @@ vector<int> ResolverGrasp::resolver(bool imprimirOutput) {
 	int repes = 0;
 	int i = 0;
 	while (repes < 2) {
-    	actual = greedy.resolver(false);
+        int semilla = rand() % this->grafo_lst.size();
+        actual = greedy.resolver(semilla);
     	vector<int> nueva = local.resolver(false, actual);
     	fronteraNueva = frontera(nueva);
     	if (fronteraNueva > fronteraMax) {

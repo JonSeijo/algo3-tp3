@@ -15,9 +15,12 @@ informe/informe.pdf
 solucionExacta
 SolucionExacta
 solucionGreedyConstructiva
+solucionGreedyVariante
 solucionLocal
 tiempoExacta
 tiempoGreedy
+tiempoGrasp
+solucionGrasp
 
 ## Core latex/pdflatex auxiliary files:
 *.aux

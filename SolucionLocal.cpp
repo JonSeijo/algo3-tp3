@@ -1,10 +1,10 @@
-#include "ResolverGreedyConstructiva.h"
+#include "ResolverGreedyVariante.h"
 #include "ResolverLocal.h"
 #include <vector>
 
 int main() {
 	// Construcción de la solución
-    ResolverGreedyConstructiva problema;
+    ResolverGreedyVariante problema;
     bool leyoInputCorrectamente = problema.leerInput();
     std::vector<int> solucion;
     if (leyoInputCorrectamente) {

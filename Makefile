@@ -3,8 +3,8 @@ FLAGS= -std=c++11 -g -Wall
 
 all: solucionExacta solucionGreedyConstructiva solucionGreedyVariante solucionLocal tiempoExacta tiempoGreedy tiempoGrasp
 
-solucionLocal: SolucionLocal.cpp ResolverLocal.cpp ResolverLocal.h ResolverGreedyConstructiva.cpp ResolverGreedyConstructiva.h
-	$(CPP) $(FLAGS) -o  $@ ResolverLocal.cpp ResolverGreedyConstructiva.cpp $<
+solucionLocal: SolucionLocal.cpp ResolverLocal.cpp ResolverLocal.h ResolverGreedyVariante.cpp ResolverGreedyConstructiva.h
+	$(CPP) $(FLAGS) -o  $@ ResolverLocal.cpp ResolverGreedyVariante.cpp $<
 
 solucionGreedyConstructiva: SolucionGreedyConstructiva.cpp ResolverGreedyConstructiva.cpp ResolverGreedyConstructiva.h
 	$(CPP) $(FLAGS) -o  $@ ResolverGreedyConstructiva.cpp $<
@@ -21,11 +21,11 @@ tiempoExacta: TiempoExacta.cpp  ResolverExacta.cpp ResolverExacta.h
 tiempoGreedy: TiempoGreedy.cpp  ResolverGreedyConstructiva.cpp ResolverGreedyConstructiva.h
 	$(CPP) $(FLAGS) -o  $@  ResolverGreedyConstructiva.cpp $<
 
-solucionGrasp: SolucionGrasp.cpp ResolverGrasp.cpp ResolverExacta.cpp
-	$(CPP) $(FLAGS) -o  $@ ResolverGrasp.cpp ResolverLocal.cpp ResolverGreedyConstructiva.cpp $<
+solucionGrasp: SolucionGrasp.cpp ResolverGrasp.h ResolverGreedyVariante.h
+	$(CPP) $(FLAGS) -o  $@ ResolverGrasp.cpp ResolverLocal.cpp ResolverGreedyVariante.cpp $<
 
-tiempoGrasp: TiempoGrasp.cpp ResolverGrasp.h ResolverLocal.h ResolverGreedyConstructiva.h
-	$(CPP) $(FLAGS) -o  $@ ResolverGrasp.cpp ResolverLocal.cpp ResolverGreedyConstructiva.cpp $<
+tiempoGrasp: TiempoGrasp.cpp ResolverGrasp.h ResolverLocal.h ResolverGreedyVariante.h
+	$(CPP) $(FLAGS) -o  $@ ResolverGrasp.cpp ResolverLocal.cpp ResolverGreedyVariante.cpp $<
 
 %.o: %.cpp
 	$(CPP) $(FLAGS) -c -o $@ $<
