@@ -111,6 +111,8 @@ El algoritmo goloso del ítem anterior (desde ahora, $goloso A$) es muy bueno, p
 \begin{algorithm}[H]
 \begin{algorithmic}
 \Function{MaximoPorAdd}{$solucionInicial$, $complementoInicial$}
+
+
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
@@ -120,9 +122,54 @@ El algoritmo goloso del ítem anterior (desde ahora, $goloso A$) es muy bueno, p
 \begin{algorithm}[H]
 \begin{algorithmic}
 \Function{MaximoPorSub}{$solucionInicial$, $complementoInicial$}
+    \State $candidatos \gets solucionInicial$
+    \State $maxFrontera \gets$ Frontera($solucionInicial$)
+    \State $max\_c \gets -1$
+
+    \For{$c \in [0..|candidatos|)$}
+        \If{EsClique($candidatos - \{c\}$)}
+            \State $fronteraCandidato \gets$ Frontera($candidatos - \{c\}$)
+            \If{$fronteraCandidato > maxFrontera$}
+                \State $max\_c \gets c$
+                \State $maxFrontera \gets fronteraCandidato$ \\
+            \EndIf
+        \EndIf
+    \EndFor
+
+    \If{$max\_c \neq -1$}
+        \State $candidatos \gets (candidatos - \{max\_c\})$
+    \EndIf
+
+    \State return $candidatos$
+
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
+
+
+%     // Falta probar cuando justamente eliminamos 'out'
+%     if (esClique(candidato)) {
+%         int frontera_candidato = frontera(candidato);
+%         if (frontera_candidato > max_frontera) {
+%             max_i = inicial.size()-1; // encontramos un clique mejor, actualizamos máximos
+%             max_frontera = frontera_candidato;
+%         }
+%     }
+
+%     if (max_i != -1) { // AKA hubo un clique mejor
+%         if (max_i == (int)inicial.size()-1) {
+%             // Nada, así está bien
+%         } else {
+%             candidato[max_i] = out;
+%         }
+%     } else {
+%         candidato.push_back(out); // le vuelvo a poner 'out'
+%     }
+
+%     return candidato;
+% }
+
+
 
 \todo[inline]{Que es el complemento y como se calcula}
 
