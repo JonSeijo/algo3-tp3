@@ -96,11 +96,31 @@ Mas intuitivamente, EsClique ($O(n^3)$) se ejecuta $O(n)$ veces en el For, y a s
 Si bien $O(n^5)$ puede parecer un polinomio ``grande'', es exponencialmente mejor que el algortimo exacto que tenía $O(2^{n} * n^{3})$. El trade-off es que no siempre se producen soluciones óptimas, como veremos más adelante. \\
 
 \subsection{Optimalidad}
-\todo[inline]{Mostrar los casos donde no da la solucion optima y que pueden alejarse tanto como se quiera}
 
-Como podrá verse mas adelante, las soluciones para grafos aleatorios son bastante buenas, pero existe al menos un tipo específico de grafos donde la diferencia entre el exacto y el greedy puede ser \textbf{arbitrariamente grande}.
+Como podrá verse mas adelante, las soluciones para grafos aleatorios son bastante buenas, pero existe al menos un tipo específico de grafos donde la diferencia entre el exacto y el greedy puede ser \textbf{arbitrariamente grande}. \\
 
-\todo[inline]{Acá insertar imagenes que ilustren el caso que encontró Alexis}
+Veamos como podemos construir este tipo de grafos. Vamos a aprovecharnos de que el algoritmo greedy recorre los nodos en orden: 1, 2, 3, 4. \\
+
+{\centering
+    \includegraphics[width=0.57\textwidth]{informe/imgs/greedy_base.png} \\
+    \captionof{figure}{Grafo inicial}
+}
+
+$ $\newline
+
+Agreguemos 6 vecinos al nodo 1 y agreguemos 4 vecinos a los nodos 2 y 3. El algoritmo goloso toma el primer nodo como solución inicial, es el que tiene mas vecinos. Luego intenta agregar nodos a la solucion de forma tal que formen clique y que tengan mayor frontera. Esto no puede suceder: lo mejor que puede obtener el algoritmo goloso es una clique con frontera de tamaño 7. Sin embargo, podemos ver que la solución óptima está formada por la clique con los nodos 2 y 3, con una frontera de tamaño 9.\\
+
+{\centering
+    \includegraphics[width=0.57\textwidth]{informe/imgs/greedy_base_nodes_v1.png} \\
+}
+$ $\newline
+
+Este es un procedimiento que podemos seguir repitiendo. Agregamos un vecino al nodo 1, y un vecino a los nodos 2 y 3. La frontera máxima golosa aumenta en 1, mientras que la frontera máxima aumenta en 2. De esta forma, podemos construir grafos donde la diferencia entre la solución óptima y la solución golosa sea arbitrariamente grande. \\
+
+{\centering
+    \includegraphics[width=0.57\textwidth]{informe/imgs/greedy_base_nodes_v2.png} \\
+}
 
 \subsection{Experimentación}
-\todo[inline]{Se explica solo}
+
+\todo[inline]{Ver variaciones con entradas malas (item anterior)}
