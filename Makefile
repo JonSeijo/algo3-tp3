@@ -1,13 +1,16 @@
 CPP=g++
 FLAGS= -std=c++11 -g -Wall
 
-all: solucionExacta solucionGreedyConstructiva solucionLocal tiempoExacta tiempoGreedy
+all: solucionExacta solucionGreedyConstructiva solucionGreedyVariante solucionLocal tiempoExacta tiempoGreedy
 
 solucionLocal: SolucionLocal.cpp ResolverLocal.cpp ResolverLocal.h ResolverGreedyConstructiva.cpp ResolverGreedyConstructiva.h
 	$(CPP) $(FLAGS) -o  $@ ResolverLocal.cpp ResolverGreedyConstructiva.cpp $<
 
 solucionGreedyConstructiva: SolucionGreedyConstructiva.cpp ResolverGreedyConstructiva.cpp ResolverGreedyConstructiva.h
 	$(CPP) $(FLAGS) -o  $@ ResolverGreedyConstructiva.cpp $<
+
+solucionGreedyVariante: SolucionGreedyVariante.cpp ResolverGreedyVariante.cpp ResolverGreedyVariante.h
+	$(CPP) $(FLAGS) -o  $@ ResolverGreedyVariante.cpp $<
 
 solucionExacta: SolucionExacta.cpp ResolverExacta.cpp ResolverExacta.h
 	$(CPP) $(FLAGS) -o  $@ ResolverExacta.cpp $<
@@ -28,6 +31,7 @@ clean:
 	rm -f *.o
 	rm -f solucionExacta
 	rm -f solucionGreedyConstructiva
+	rm -f solucionGreedyVariante
 	rm -f solucionLocal
 	rm -f tiempoExacta
 	rm -f tiempoGreedy
