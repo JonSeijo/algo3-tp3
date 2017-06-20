@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <vector>
-#include "ResolverGreedyConstructiva.h"
+#include "ResolverGreedyVariante.h"
 #include "ResolverLocal.h"
 
 using std::vector;
@@ -21,14 +21,15 @@ private:
     vector<vector<int> > grafo_lst;
      // Matriz de adyacencia
     vector<vector<int> > grafo_ady;
-    ResolverGreedyConstructiva greedy;
+    ResolverGreedyVariante greedy;
     ResolverLocal local;
     // Pre: esClique(clique)
     int frontera(vector<int> &clique);
 
     // Dummy method para representar la funcion de corte del grasp
-    bool valeLaPena() {return (dummy--) > 0;};
-    int dummy = 3;
+    bool valeLaPena(int max);
+    int ultimoMax = -1;
+    int repetidos = 0;
 };
 
 #endif

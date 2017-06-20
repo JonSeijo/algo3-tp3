@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 
-#include "ResolverGreedyConstructiva.h"
+#include "ResolverGreedyVariante.h"
 
 using std::vector;
 
@@ -12,7 +12,7 @@ class ResolverLocal {
 
 public:
     bool leerInput();
-    void copiarInput(ResolverGreedyConstructiva problema);
+    void copiarInput(ResolverGreedyVariante problema);
     vector<int> resolver(bool imprimirOutput, vector<int> inicial);
 
     vector<int> busquedaLocal(vector<int> &inicial);

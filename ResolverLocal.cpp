@@ -1,5 +1,5 @@
 #include "ResolverLocal.h"
-#include "ResolverGreedyConstructiva.h"
+#include "ResolverGreedyVariante.h"
 
 // INTERFAZ ++++++++++++++++++++++++++++++++++++
 // +++++++++++++++++++++++++++++++++++++++++++++
@@ -32,7 +32,7 @@ bool ResolverLocal::leerInput() {
 }
 
 
-void ResolverLocal::copiarInput(ResolverGreedyConstructiva problema) {
+void ResolverLocal::copiarInput(ResolverGreedyVariante problema) {
     // El input la lee el objeto 'problema' por la stdin
     this->n = problema.grafo_lst.size();
     this->grafo_lst = problema.grafo_lst;
