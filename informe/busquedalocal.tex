@@ -170,6 +170,17 @@ El algoritmo goloso del ítem anterior (desde ahora, $goloso A$) es muy bueno, p
 \begin{algorithm}[H]
 \begin{algorithmic}
 \Function{Complemento}{$solucionInicial$}
+    \State $pertenece[i] =$ True $\iff i \in solucionInicial$
+    \State $complemento \gets \{\}$
+
+    \For{$i \in [0..n)$}
+        \If{$pertenece$[$i$]$ = $True}
+            \State $complemento$.PushBack($i$)
+        \EndIf
+    \EndFor
+
+    \State return $complemento$
+
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
