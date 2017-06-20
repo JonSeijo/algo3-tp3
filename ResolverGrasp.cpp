@@ -13,14 +13,20 @@ vector<int> ResolverGrasp::resolver(bool imprimirOutput) {
 	vector<int> actual;
 	int fronteraMax = 0;
 	int fronteraNueva = 0;
-    while (valeLaPena()) {
+	int repes = 0;
+	int i = 0;
+	while (repes < 2) {
     	actual = greedy.resolver(false);
     	vector<int> nueva = local.resolver(false, actual);
     	fronteraNueva = frontera(nueva);
     	if (fronteraNueva > fronteraMax) {
     		mejor = nueva;
     		fronteraMax = fronteraNueva;
+    		repes = 0;
+    	} else {
+    		repes++;
     	}
+    	i++;
     }
 
     if (imprimirOutput) {
@@ -31,8 +37,8 @@ vector<int> ResolverGrasp::resolver(bool imprimirOutput) {
             std::cout << v + 1 << " ";
         }
         std::cout << "\n";
+        std::cout <<"cantidad: " << i << "\n";
     }
-
     return mejor;
 }
 
@@ -55,4 +61,14 @@ int ResolverGrasp::frontera(vector<int> &clique) {
         }
     }
     return contador;
+}
+
+bool ResolverGrasp::valeLaPena(int max) {
+	if (max == ultimoMax) {
+		repetidos++;
+	} else {
+		repetidos = 0;
+	}
+	ultimoMax = max;
+	return repetidos < 3;
 }

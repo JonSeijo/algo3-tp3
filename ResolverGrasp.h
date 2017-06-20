@@ -27,8 +27,9 @@ private:
     int frontera(vector<int> &clique);
 
     // Dummy method para representar la funcion de corte del grasp
-    bool valeLaPena() {return (dummy--) > 0;};
-    int dummy = 3;
+    bool valeLaPena(int max);
+    int ultimoMax = -1;
+    int repetidos = 0;
 };
 
 #endif
