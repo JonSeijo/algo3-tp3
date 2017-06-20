@@ -1,0 +1,74 @@
+% !TEX root = ./informe.tex
+\section{Búsqueda Local}
+
+\subsection{Explicación}
+
+
+El algoritmo goloso del ítem anterior (desde ahora, $goloso A$) es muy bueno, pero al intentarlo usar con búsqueda local tenemos un problema: no podemos salir del extremo local. Esto es asi porque el $goloso A$ comienza siempre del nodo con mayor cantidad de vecinos, y va agregando a la solucion aquellos que maximizan la frontera.
+\todo[inline]{Explicar la idea de que ninguna busqueda local la mejora, por lo que decidimos tomar otro punto de partida para el goloso. Explicar como con este cambio se puede mejorar las soluciones obtenidas, ver peor caso}
+
+\subsection{Pseudocódigo}
+
+\begin{algorithm}[H]
+\begin{algorithmic}
+\Function{Resolver}{$solucion$}
+    \State $iteraciones \gets 10$
+    \State $fronteraMaxima \gets$ Frontera($solucion$)
+    \For{$i \in [1..iteraciones]$ }
+        \State $solucionActual \gets$ BusquedaLocal($solucion$)
+        \State $fronteraActual \gets$ Frontera($solucionActual$)
+
+        \If{$fronteraActual > fronteraMaxima$}
+            \State $fronteraMaxima \gets fronteraActual$
+            \State $solucion \gets solucionActual$
+        \EndIf
+    \EndFor
+    \State return $solucion$
+
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+
+
+\begin{algorithm}[H]
+\begin{algorithmic}
+\Function{BusquedaLocal}{$solucionInicial$}
+    \State $complementoInicial \gets$ Complemento($solucionInicial$) \\
+
+    \State $solucionSwap \gets$ MaximoPorSwap($solucionInicial$, $complementoInicial$)
+    \State $fronteraSwap \gets$ Frontera($solucionSwap$) \\
+
+    \State $solucionAdd \gets$ MaximoPorAdd($solucionInicial$, $complementoInicial$)
+    \State $fronteraAdd \gets$ Frontera($solucionAdd$) \\
+
+    \State $solucionSub \gets$ MaximoPorSub($solucionInicial$, $complementoInicial$)
+    \State $fronteraSub \gets$ Frontera($solucionSub$) \\
+
+
+    \State $solucionSuprema \gets solucionSwap$
+    \State $fronteraSuprema \gets fronteraSwap$ \\
+
+    \If{$fronteraAdd > fronteraSuprema$}
+        \State $fronteraSuprema \gets$ $fronteraAdd$
+        \State $solucionSuprema \gets$ $solucionAdd$  \\
+    \EndIf
+
+    \If{$fronteraSub > fronteraSuprema$}
+        \State $fronteraSuprema \gets$ $fronteraSub$
+        \State $solucionSuprema \gets$ $solucionSub$ \\
+    \EndIf
+
+    \State return $solucionSuprema$
+\EndFunction
+
+\end{algorithmic}
+\end{algorithm}
+
+
+
+\subsection{Complejidad}
+
+\subsection{Optimalidad}
+
+\subsection{Experimentación}
