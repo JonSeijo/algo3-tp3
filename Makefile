@@ -1,7 +1,7 @@
 CPP=g++
 FLAGS= -std=c++11 -g -Wall
 
-all: solucionExacta solucionGreedyConstructiva solucionGreedyVariante solucionLocal tiempoExacta tiempoGreedy tiempoGrasp
+all: solucionExacta solucionGreedyConstructiva solucionGreedyVariante solucionLocal tiempoExacta tiempoGreedy tiempoGrasp solucionGrasp
 
 solucionLocal: SolucionLocal.cpp ResolverLocal.cpp ResolverLocal.h ResolverGreedyVariante.cpp ResolverGreedyConstructiva.h
 	$(CPP) $(FLAGS) -o  $@ ResolverLocal.cpp ResolverGreedyVariante.cpp $<
