@@ -11,18 +11,20 @@ El algoritmo goloso del ítem anterior (desde ahora, $goloso A$) es muy bueno, p
 
 \subsection{Pseudocódigo}
 
+Las funciones EsClique() y Frontera() no son incluidas aquí por ser inguales a las incluidas previamente. Las complejidades son $O(n^3)$ y $O(n^2)$ respectivamente. \\
+
 \begin{algorithm}[H]
 \begin{algorithmic}
-\Function{Resolver}{$solucion$}
-    \State $iteraciones \gets 10$
-    \State $fronteraMaxima \gets$ Frontera($solucion$)
-    \For{$i \in [1..iteraciones]$ }
-        \State $solucionActual \gets$ BusquedaLocal($solucion$)
-        \State $fronteraActual \gets$ Frontera($solucionActual$)
+\Function{Resolver}{$solucion$, $iteraciones$}          \Comment $O(iteraciones * n^5)$
 
-        \If{$fronteraActual > fronteraMaxima$}
-            \State $fronteraMaxima \gets fronteraActual$
-            \State $solucion \gets solucionActual$
+    \State $fronteraMaxima \gets$ Frontera($solucion$)                      \Comment $O(n^2)$
+    \For{$i \in [1..iteraciones]$ }                                         \Comment $O(iteraciones * n^5)$
+        \State $solucionActual \gets$ BusquedaLocal($solucion$)             \Comment $O(n^5)$
+        \State $fronteraActual \gets$ Frontera($solucionActual$)            \Comment $O(n^2)$
+
+        \If{$fronteraActual > fronteraMaxima$}                              \Comment $O(1)$
+            \State $fronteraMaxima \gets fronteraActual$                    \Comment $O(1)$
+            \State $solucion \gets solucionActual$                          \Comment $O(1)$
         \EndIf
     \EndFor
     \State return $solucion$
@@ -35,32 +37,32 @@ El algoritmo goloso del ítem anterior (desde ahora, $goloso A$) es muy bueno, p
 
 \begin{algorithm}[H]
 \begin{algorithmic}
-\Function{BusquedaLocal}{$solucionInicial$}
-    \State $complementoInicial \gets$ Complemento($solucionInicial$) \\
+\Function{BusquedaLocal}{$solucionInicial$}             \Comment $O(n^5)$
+    \State $complementoInicial \gets$ Complemento($solucionInicial$) \Comment $O(n)$\\
 
-    \State $solucionSwap \gets$ MaximoPorSwap($solucionInicial$, $complementoInicial$)
-    \State $fronteraSwap \gets$ Frontera($solucionSwap$) \\
+    \State $solucionSwap \gets$ MaximoPorSwap($solucionInicial$, $complementoInicial$)  \Comment $O(n^5)$
+    \State $fronteraSwap \gets$ Frontera($solucionSwap$)                                \Comment $O(n^2)$ \\
 
-    \State $solucionAdd \gets$ MaximoPorAdd($solucionInicial$, $complementoInicial$)
-    \State $fronteraAdd \gets$ Frontera($solucionAdd$) \\
+    \State $solucionAdd \gets$ MaximoPorAdd($solucionInicial$, $complementoInicial$)    \Comment $O(n^4)$
+    \State $fronteraAdd \gets$ Frontera($solucionAdd$)                                  \Comment $O(n^2)$\\
 
-    \State $solucionSub \gets$ MaximoPorSub($solucionInicial$)
-    \State $fronteraSub \gets$ Frontera($solucionSub$) \\
+    \State $solucionSub \gets$ MaximoPorSub($solucionInicial$)      \Comment $O(n^4)$
+    \State $fronteraSub \gets$ Frontera($solucionSub$)              \Comment $O(n^2)$\\
 
-    \State $solucionSuprema \gets solucionSwap$
-    \State $fronteraSuprema \gets fronteraSwap$ \\
+    \State $solucionSuprema \gets solucionSwap$ \Comment $O(1)$
+    \State $fronteraSuprema \gets fronteraSwap$ \Comment $O(1)$\\
 
-    \If{$fronteraAdd > fronteraSuprema$}
-        \State $fronteraSuprema \gets$ $fronteraAdd$
-        \State $solucionSuprema \gets$ $solucionAdd$  \\
+    \If{$fronteraAdd > fronteraSuprema$}                \Comment $O(1)$
+        \State $fronteraSuprema \gets$ $fronteraAdd$    \Comment $O(1)$
+        \State $solucionSuprema \gets$ $solucionAdd$    \Comment $O(1)$\\
     \EndIf
 
-    \If{$fronteraSub > fronteraSuprema$}
-        \State $fronteraSuprema \gets$ $fronteraSub$
-        \State $solucionSuprema \gets$ $solucionSub$ \\
+    \If{$fronteraSub > fronteraSuprema$}                \Comment $O(1)$
+        \State $fronteraSuprema \gets$ $fronteraSub$    \Comment $O(1)$
+        \State $solucionSuprema \gets$ $solucionSub$    \Comment $O(1)$\\
     \EndIf
 
-    \State return $solucionSuprema$
+    \State return $solucionSuprema$                     \Comment $O(1)$
 \EndFunction
 
 \end{algorithmic}
@@ -70,36 +72,36 @@ El algoritmo goloso del ítem anterior (desde ahora, $goloso A$) es muy bueno, p
 
 \begin{algorithm}[H]
 \begin{algorithmic}
-\Function{MaximoPorSwap}{$solucionInicial$, $complementoInicial$}
+\Function{MaximoPorSwap}{$solucionInicial$, $complementoInicial$}   \Comment $O(n^5)$
 
     \State $candidatos \gets solucionInicial$
-    \State $maxFrontera \gets$ Frontera($solucionInicial$)
-    \State $max\_i \gets -1$
-    \State $max\_j \gets -1$ \\
+    \State $maxFrontera \gets$ Frontera($solucionInicial$)  \Comment $O(n^2)$
+    \State $max\_i \gets -1$                                \Comment $O(1)$
+    \State $max\_j \gets -1$                                \Comment $O(1)$\\
 
-    \For{$i \in [0..|solucionInicial|)$}
+    \For{$i \in [0..|solucionInicial|)$}                    \Comment $O(n^5)$ Ver sección Complejidad
         \For{$j \in [0..|complementoInicial|)$}
 
-            \State $candidato$[$i$] $\gets complementoInicial$[$j$] \Comment Hacemos swap
+            \State $candidato$[$i$] $\gets complementoInicial$[$j$] \Comment Hacemos swap $O(1)$
 
-            \If{EsClique($candidatos$)}
-                \State $fronteraCandidato \gets$ Frontera($candidato$)
-                \If{$fronteraCandidato > maxFrontera$}
-                    \State $max\_i \gets i$
-                    \State $max\_j \gets j$
-                    \State $maxFrontera \gets fronteraCandidato$
+            \If{EsClique($candidatos$)}                                         \Comment $O(n^3)$
+                \State $fronteraCandidato \gets$ Frontera($candidato$)          \Comment $O(n^2)$
+                \If{$fronteraCandidato > maxFrontera$}                          \Comment $O(1)$
+                    \State $max\_i \gets i$                                     \Comment $O(1)$
+                    \State $max\_j \gets j$                                     \Comment $O(1)$
+                    \State $maxFrontera \gets fronteraCandidato$                \Comment $O(1)$
                 \EndIf
             \EndIf
 
-            \State $candidato$[$i$] $\gets solucionInicial$[$j$] \Comment Restauro swap
+            \State $candidato$[$i$] $\gets solucionInicial$[$j$] \Comment Restauro swap $O(1)$
         \EndFor
     \EndFor
 
-    \If{$max\_i \neq -1$}
-        \State $candidato$[$max\_i$] $\gets$ $complementoInicial$[$max\_j$] \Comment Swapeo definitivamente
+    \If{$max\_i \neq -1$}                           \Comment $O(1)$
+        \State $candidato$[$max\_i$] $\gets$ $complementoInicial$[$max\_j$] \Comment Swapeo definitivamente $O(1)$
     \EndIf
 
-    \State return $candidatos$
+    \State return $candidatos$                      \Comment $O(1)$
 
 \EndFunction
 \end{algorithmic}
@@ -109,23 +111,23 @@ El algoritmo goloso del ítem anterior (desde ahora, $goloso A$) es muy bueno, p
 
 \begin{algorithm}[H]
 \begin{algorithmic}
-\Function{MaximoPorSub}{$solucionInicial$}
+\Function{MaximoPorSub}{$solucionInicial$}                      \Comment $O(n^4)$
     \State $candidatos \gets solucionInicial$
-    \State $maxFrontera \gets$ Frontera($solucionInicial$)
-    \State $max\_c \gets -1$  \\
+    \State $maxFrontera \gets$ Frontera($solucionInicial$)      \Comment $O(n^2)$
+    \State $max\_c \gets -1$  \\                                \Comment $O(1)$
 
-    \For{$c \in candidatos$}
-        \If{EsClique($candidatos - \{c\}$)}
-            \State $fronteraCandidato \gets$ Frontera($candidatos - \{c\}$)
-            \If{$fronteraCandidato > maxFrontera$}
-                \State $max\_c \gets c$
-                \State $maxFrontera \gets fronteraCandidato$ \\
+    \For{$c \in candidatos$}                                                \Comment $O(n^4)$
+        \If{EsClique($candidatos - \{c\}$)}                                 \Comment $O(n^3)$
+            \State $fronteraCandidato \gets$ Frontera($candidatos - \{c\}$) \Comment $O(n^2)$
+            \If{$fronteraCandidato > maxFrontera$}                          \Comment $O(1)$
+                \State $max\_c \gets c$                                     \Comment $O(1)$
+                \State $maxFrontera \gets fronteraCandidato$                \Comment $O(1)$ \\
             \EndIf
         \EndIf
     \EndFor
 
-    \If{$max\_c \neq -1$}
-        \State $candidatos \gets (candidatos - \{max\_c\})$
+    \If{$max\_c \neq -1$}                                           \Comment $O(1)$
+        \State $candidatos \gets (candidatos - \{max\_c\})$         \Comment $O(1)$
     \EndIf
 
     \State return $candidatos$
@@ -138,27 +140,27 @@ El algoritmo goloso del ítem anterior (desde ahora, $goloso A$) es muy bueno, p
 
 \begin{algorithm}[H]
 \begin{algorithmic}
-\Function{MaximoPorAdd}{$solucionInicial$, $complementoInicial$}
+\Function{MaximoPorAdd}{$solucionInicial$, $complementoInicial$}        \Comment $O(n^4)$
 
-    \State $maxFrontera \gets$ Frontera($solucionInicial$)
-    \State $max\_c \gets -1$
-    \State $candidatos \gets solucionInicial$  \\
+    \State $maxFrontera \gets$ Frontera($solucionInicial$)              \Comment $O(n^2)$
+    \State $max\_c \gets -1$                                            \Comment $O(1)$
+    \State $candidatos \gets solucionInicial$                           \Comment $O(1)$\\
 
-    \For{$c \in complementoInicial$}
-        \If{EsClique($candidatos + \{c\}$)}
-            \State $fronteraCandidato \gets$ Frontera($candidatos + \{c\}$)
-            \If{$fronteraCandidato > maxFrontera$}
-                \State $max\_c \gets c$
-                \State $maxFrontera \gets fronteraCandidato$ \\
+    \For{$c \in complementoInicial$}                                            \Comment $O(n^4)$
+        \If{EsClique($candidatos + \{c\}$)}                                     \Comment $O(n^3)$
+            \State $fronteraCandidato \gets$ Frontera($candidatos + \{c\}$)     \Comment $O(n^2)$
+            \If{$fronteraCandidato > maxFrontera$}                              \Comment $O(1)$
+                \State $max\_c \gets c$                                         \Comment $O(1)$
+                \State $maxFrontera \gets fronteraCandidato$                    \Comment $O(1)$\\
             \EndIf
         \EndIf
     \EndFor
 
-    \If{$max\_c \neq -1$}
-        \State $candidatos \gets (candidatos + \{max\_c\})$
+    \If{$max\_c \neq -1$}                                           \Comment $O(1)$
+        \State $candidatos \gets (candidatos + \{max\_c\})$         \Comment $O(1)$
     \EndIf
 
-    \State return $candidatos$
+    \State return $candidatos$                      \Comment $O(1)$
 
 \EndFunction
 \end{algorithmic}
@@ -169,16 +171,16 @@ Para calcular el complemento, armamos un vector de booleanos que dicen si un nod
 \begin{algorithm}[H]
 \begin{algorithmic}
 \Function{Complemento}{$solucionInicial$}
-    \State $pertenece[i] =$ True $\iff i \in solucionInicial$
-    \State $complemento \gets \{\}$
+    \State $pertenece[i] =$ True $\iff i \in solucionInicial$   \Comment $O(n)$
+    \State $complemento \gets \{\}$                             \Comment $O(1)$
 
-    \For{$i \in [0..n)$}
-        \If{$pertenece$[$i$]$ = $True}
-            \State $complemento$.PushBack($i$)
+    \For{$i \in [0..n)$}                                        \Comment $O(n)$
+        \If{$pertenece$[$i$]$ = $True}                          \Comment $O(1)$
+            \State $complemento$.PushBack($i$)                  \Comment $O(1)$  amortizado
         \EndIf
     \EndFor
 
-    \State return $complemento$
+    \State return $complemento$                                 \Comment $O(1)$
 
 \EndFunction
 \end{algorithmic}
