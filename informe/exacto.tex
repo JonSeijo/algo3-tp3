@@ -1,4 +1,4 @@
-% !TEX root = ./informe.tex
+-% !TEX root = ./informe.tex
 
 \section{Algoritmo Exacto}
 
@@ -25,9 +25,9 @@ Referencias de variables globales para el pseudocódigo:
 \begin{algorithm}[H]
 \begin{algorithmic}
 \Function{Resolver}{}
-    \State LeerInput() \Comment $O(n^2)$
-    \State $solucion \gets \emptyset$ \Comment $O(1)$
-    \State $fronteraMax \gets 0$ \Comment $O(1)$
+    \State LeerInput()                  \Comment $O(n^2)$
+    \State $solucion \gets \emptyset$   \Comment $O(1)$
+    \State $fronteraMax \gets 0$        \Comment $O(1)$
     \State GenerarSubconjuntos($\emptyset$, $0$) \Comment $O(2^{n} * n^{3})$
 \EndFunction
 \end{algorithmic}
@@ -119,3 +119,5 @@ Referencias de variables globales para el pseudocódigo:
 Para Resolver() se lee el input y luego se llama a GenerarSubconjuntos. La complejidad final es:
 
 $$ O(n^2) + O(2^{n} * n^{3}) = O(2^{n} * n^{3})$$
+
+\todo[inline]{Esto es demasiado lento bla veamos formas aproximadas de resolverlo blabla}

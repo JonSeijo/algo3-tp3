@@ -189,8 +189,17 @@ Para calcular el complemento, armamos un vector de booleanos que dicen si un nod
 
 \subsection{Complejidad}
 
-\todo[inline]{Marcar complejidades en pseudo}
-\todo[inline]{Contar brevemente por que la complejidad total es tal}
+Las complejidades de cada linea fueron marcadas en el pseudocódigo, por lo que calcular la complejidad total es bastante sencillo.
+
+\begin{itemize}
+    \item MaximoPorAdd: $O(n^4)$. Son $O(n)$ iteraciones de algo $O(n^3)$.
+    \item MaximoPorSub: $O(n^4)$. Son $O(n)$ iteraciones de algo $O(n^3)$.
+    \item MaximoPorSwap: $O(n^5)$. El primer For recorre un vector $v$ y el For anidado recorre su complemento. Si consideramos que $|v| = \frac{n}{2}$, entonces el tamaño del complemento también es $\frac{n}{2}$, por lo que en total se recorren $O(n^2)$ elementos. Son $O(n^2)$ iteraciones de algo $O(n^3)$.
+    \item BusquedaLocal: $O(n^5)$. Esto es por la complejidad de MaximoPorSwap que es la mayor, todo el resto es $O(n^4)$ o menor.
+    \item Resolver: $O(\#iteraciones * n^5)$. Son $\#iteraciones$ veces de BusquedaLocal.
+\end{itemize}
+
+Por lo tanto, mejorar una solución inicial con este algoritmo de búsqueda local cuesta $O(\#iteraciones * n^5)$.
 
 \subsection{Optimalidad}
 \todo[inline]{Contar como con esto mejoramos los peores casos del greedy del punto 2}
