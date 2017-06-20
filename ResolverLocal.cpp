@@ -4,6 +4,34 @@
 // INTERFAZ ++++++++++++++++++++++++++++++++++++
 // +++++++++++++++++++++++++++++++++++++++++++++
 
+bool ResolverLocal::leerInput() {
+    int n, m;
+    std::cin >> n >> m;
+
+    
+    this->n = n;
+    this->grafo_lst.clear();
+    this->grafo_lst.resize(n, vector<int>(0));
+
+    this->grafo_ady.resize(n, vector<int>(n, 0));
+    for (int i = 0; i < m; i++) {
+        int v1, v2;
+        std::cin >> v1 >> v2;
+
+        v1--;
+        v2--;
+
+        this->grafo_lst[v1].push_back(v2);
+        this->grafo_lst[v2].push_back(v1);
+
+        this->grafo_ady[v1][v2] = 1;
+        this->grafo_ady[v2][v1] = 1;
+    }
+
+    return true;
+}
+
+
 void ResolverLocal::copiarInput(ResolverGreedyConstructiva problema) {
     // El input la lee el objeto 'problema' por la stdin
     this->n = problema.grafo_lst.size();
@@ -26,10 +54,21 @@ vector<int> ResolverLocal::resolver(bool imprimirOutput, vector<int> solucion) {
         int frontera_solucion = frontera(solucion);
         if (frontera_actual == frontera_solucion) {
             break; // si no mejoró, corto
-        } else {
+        } else if (frontera_solucion > frontera_actual) {
             frontera_actual = frontera_solucion;
-        }
+        } // El caso 'menor' no pasa nunca por cómo está hecha búsquedaLocal
     }
+
+    if (imprimirOutput) {
+        // Recordar que a cada nodo hacerle un +1
+        std::cout << frontera_actual << " ";
+        std::cout << solucion.size() << " ";
+        for (int v : solucion) {
+            std::cout << v + 1 << " ";
+        }
+        std::cout << "\n";
+    }
+
     return solucion;
 }
 

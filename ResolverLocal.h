@@ -11,6 +11,7 @@ using std::vector;
 class ResolverLocal {
 
 public:
+    bool leerInput();
     void copiarInput(ResolverGreedyConstructiva problema);
     vector<int> resolver(bool imprimirOutput, vector<int> inicial);
 
