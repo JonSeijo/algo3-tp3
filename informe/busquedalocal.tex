@@ -45,7 +45,6 @@ El algoritmo goloso del ítem anterior (desde ahora, $goloso A$) es muy bueno, p
     \State $solucionSub \gets$ MaximoPorSub($solucionInicial$, $complementoInicial$)
     \State $fronteraSub \gets$ Frontera($solucionSub$) \\
 
-
     \State $solucionSuprema \gets solucionSwap$
     \State $fronteraSuprema \gets fronteraSwap$ \\
 
@@ -65,6 +64,69 @@ El algoritmo goloso del ítem anterior (desde ahora, $goloso A$) es muy bueno, p
 \end{algorithmic}
 \end{algorithm}
 
+
+\begin{algorithm}[H]
+\begin{algorithmic}
+\Function{MaximoPorSwap}{$solucionInicial$, $complementoInicial$}
+
+    \State $candidatos \gets solucionInicial$
+    \State $maxFrontera \gets$ Frontera($solucionInicial$)
+    \State $max\_i \gets -1$
+    \State $max\_j \gets -1$
+
+    \For{$i \in [0..|solucionInicial|)$}
+        \For{$j \in [0..|complementoInicial|)$}
+
+            \State $candidato$[$i$] $\gets complementoInicial$[$j$] \Comment Hacemos swap
+
+            \If{EsClique($candidatos$)}
+                \State $fronteraCandidato \gets$ Frontera($candidato$)
+                \If{$fronteraCandidato > maxFrontera$}
+                    \State $max\_i \gets i$
+                    \State $max\_j \gets j$
+                    \State $maxFrontera \gets fronteraCandidato$
+                \EndIf
+            \EndIf
+
+            \State $candidato$[$i$] $\gets solucionInicial$[$j$] \Comment Restauro swap
+        \EndFor
+    \EndFor
+
+    \If{$max\_i \neq -1$}
+        \State $candidato$[$max\_i$] $\gets$ $complementoInicial$[$max\_j$] \Comment Swapeo definitivamente
+    \EndIf
+
+    \State return $candidatos$
+
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+
+
+
+\begin{algorithm}[H]
+\begin{algorithmic}
+\Function{MaximoPorAdd}{$solucionInicial$, $complementoInicial$}
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+
+\begin{algorithm}[H]
+\begin{algorithmic}
+\Function{MaximoPorSub}{$solucionInicial$, $complementoInicial$}
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+
+\begin{algorithm}[H]
+\begin{algorithmic}
+\Function{Complemento}{$solucionInicial$}
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
 
 \subsection{Complejidad}
