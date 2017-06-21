@@ -33,7 +33,7 @@ Las funciones EsClique() y Frontera() no son incluidas aquí por ser inguales a 
 \end{algorithmic}
 \end{algorithm}
 
-\todo[inline]{Consideramos la vecindad como swapear, agregar o quitar un nodo. Nos quedamos con la mejor y blah}
+En nuestra búsqueda local, dado una solucion tratamos de moverlos a la mejor solucion posible de la vecindad. Consideramos que nuestra vecindad de soluciones es aquella formada por las que tienen un nodo swapeado, un nodo extra, o un nodo menos. La solución final de la búsqueda local es la mejor de las tres posibilidades de nuestra vecindad. \\
 
 \begin{algorithm}[H]
 \begin{algorithmic}
@@ -68,7 +68,7 @@ Las funciones EsClique() y Frontera() no son incluidas aquí por ser inguales a 
 \end{algorithmic}
 \end{algorithm}
 
-\todo[inline]{MaximoPorSwap hace tal y tal cosa}
+Al swappear no nos quedamos con el primer swappeo que se pueda, sino que vemos las $n^2$ combinaciones de swaps para elegir la mejor (siempre que el swap mantenga una clique solución).
 
 \begin{algorithm}[H]
 \begin{algorithmic}
@@ -107,7 +107,7 @@ Las funciones EsClique() y Frontera() no son incluidas aquí por ser inguales a 
 \end{algorithmic}
 \end{algorithm}
 
-\todo[inline]{MaximoPorSub hace tal y tal cosa}
+En ``MaximoPorSub'' calculamos la frontera al sacar un único nodo (lo hacemos para todos los nodos) y vemos si la frontera aumenta. Puede pasar que al disminuir el tamaño de una clique queden muchas aristas ``libres'' que hagan que la frontera aumente. Probamos con todos y nos quedamos con la respuesta que mejoró la frontera, si es que hubo alguna.
 
 \begin{algorithm}[H]
 \begin{algorithmic}
@@ -136,7 +136,7 @@ Las funciones EsClique() y Frontera() no son incluidas aquí por ser inguales a 
 \end{algorithmic}
 \end{algorithm}
 
-\todo[inline]{MaximoPorAdd hace tal y tal cosa}
+En ``MaximoPorAdd'' probamos agregar de a un nodo, viendo que forme clique y calculando la nueva frontera. Si la frontera aumenta, nos guardamos la nueva solución.
 
 \begin{algorithm}[H]
 \begin{algorithmic}
