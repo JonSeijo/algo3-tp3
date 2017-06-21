@@ -1,0 +1,208 @@
+% !TEX root = ./informe.tex
+\section{Búsqueda Local}
+
+\subsection{Explicación}
+
+
+El algoritmo goloso del ítem anterior (desde ahora, $goloso A$) es muy bueno, pero al intentarlo usar con búsqueda local tenemos un problema: no podemos salir del extremo local. Esto es asi porque el $goloso A$ comienza siempre del nodo con mayor cantidad de vecinos, y va agregando a la solucion aquellos que maximizan la frontera.
+\todo[inline]{Explicar la idea de que ninguna busqueda local la mejora, por lo que decidimos tomar otro punto de partida para el goloso. Explicar como con este cambio se puede mejorar las soluciones obtenidas, ver peor caso}
+
+\todo[inline]{Contar como funciona busqueda local en general, hablar un poquito de la implementacion}
+
+\subsection{Pseudocódigo}
+
+Las funciones EsClique() y Frontera() no son incluidas aquí por ser inguales a las incluidas previamente. Las complejidades son $O(n^3)$ y $O(n^2)$ respectivamente. \\
+
+\begin{algorithm}[H]
+\begin{algorithmic}
+\Function{Resolver}{$solucion$, $iteraciones$}          \Comment $O(iteraciones * n^5)$
+
+    \State $fronteraMaxima \gets$ Frontera($solucion$)                      \Comment $O(n^2)$
+    \For{$i \in [1..iteraciones]$ }                                         \Comment $O(iteraciones * n^5)$
+        \State $solucionActual \gets$ BusquedaLocal($solucion$)             \Comment $O(n^5)$
+        \State $fronteraActual \gets$ Frontera($solucionActual$)            \Comment $O(n^2)$
+
+        \If{$fronteraActual > fronteraMaxima$}                              \Comment $O(1)$
+            \State $fronteraMaxima \gets fronteraActual$                    \Comment $O(1)$
+            \State $solucion \gets solucionActual$                          \Comment $O(1)$
+        \EndIf
+    \EndFor
+    \State return $solucion$
+
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+En nuestra búsqueda local, dado una solucion tratamos de moverlos a la mejor solucion posible de la vecindad. Consideramos que nuestra vecindad de soluciones es aquella formada por las que tienen un nodo swapeado, un nodo extra, o un nodo menos. La solución final de la búsqueda local es la mejor de las tres posibilidades de nuestra vecindad. \\
+
+\begin{algorithm}[H]
+\begin{algorithmic}
+\Function{BusquedaLocal}{$solucionInicial$}             \Comment $O(n^5)$
+    \State $complementoInicial \gets$ Complemento($solucionInicial$) \Comment $O(n)$\\
+
+    \State $solucionSwap \gets$ MaximoPorSwap($solucionInicial$, $complementoInicial$)  \Comment $O(n^5)$
+    \State $fronteraSwap \gets$ Frontera($solucionSwap$)                                \Comment $O(n^2)$ \\
+
+    \State $solucionAdd \gets$ MaximoPorAdd($solucionInicial$, $complementoInicial$)    \Comment $O(n^4)$
+    \State $fronteraAdd \gets$ Frontera($solucionAdd$)                                  \Comment $O(n^2)$\\
+
+    \State $solucionSub \gets$ MaximoPorSub($solucionInicial$)      \Comment $O(n^4)$
+    \State $fronteraSub \gets$ Frontera($solucionSub$)              \Comment $O(n^2)$\\
+
+    \State $solucionSuprema \gets solucionSwap$ \Comment $O(1)$
+    \State $fronteraSuprema \gets fronteraSwap$ \Comment $O(1)$\\
+
+    \If{$fronteraAdd > fronteraSuprema$}                \Comment $O(1)$
+        \State $fronteraSuprema \gets$ $fronteraAdd$    \Comment $O(1)$
+        \State $solucionSuprema \gets$ $solucionAdd$    \Comment $O(1)$\\
+    \EndIf
+
+    \If{$fronteraSub > fronteraSuprema$}                \Comment $O(1)$
+        \State $fronteraSuprema \gets$ $fronteraSub$    \Comment $O(1)$
+        \State $solucionSuprema \gets$ $solucionSub$    \Comment $O(1)$\\
+    \EndIf
+
+    \State return $solucionSuprema$                     \Comment $O(1)$
+\EndFunction
+
+\end{algorithmic}
+\end{algorithm}
+
+Al swappear no nos quedamos con el primer swappeo que se pueda, sino que vemos las $n^2$ combinaciones de swaps para elegir la mejor (siempre que el swap mantenga una clique solución).
+
+\begin{algorithm}[H]
+\begin{algorithmic}
+\Function{MaximoPorSwap}{$solucionInicial$, $complementoInicial$}   \Comment $O(n^5)$
+
+    \State $candidatos \gets solucionInicial$
+    \State $maxFrontera \gets$ Frontera($solucionInicial$)  \Comment $O(n^2)$
+    \State $max\_i \gets -1$                                \Comment $O(1)$
+    \State $max\_j \gets -1$                                \Comment $O(1)$\\
+
+    \For{$i \in [0..|solucionInicial|)$}                    \Comment $O(n^5)$ Ver sección Complejidad
+        \For{$j \in [0..|complementoInicial|)$}
+
+            \State $candidato$[$i$] $\gets complementoInicial$[$j$] \Comment Hacemos swap $O(1)$
+
+            \If{EsClique($candidatos$)}                                         \Comment $O(n^3)$
+                \State $fronteraCandidato \gets$ Frontera($candidato$)          \Comment $O(n^2)$
+                \If{$fronteraCandidato > maxFrontera$}                          \Comment $O(1)$
+                    \State $max\_i \gets i$                                     \Comment $O(1)$
+                    \State $max\_j \gets j$                                     \Comment $O(1)$
+                    \State $maxFrontera \gets fronteraCandidato$                \Comment $O(1)$
+                \EndIf
+            \EndIf
+
+            \State $candidato$[$i$] $\gets solucionInicial$[$j$] \Comment Restauro swap $O(1)$
+        \EndFor
+    \EndFor
+
+    \If{$max\_i \neq -1$}                           \Comment $O(1)$
+        \State $candidato$[$max\_i$] $\gets$ $complementoInicial$[$max\_j$] \Comment Swapeo definitivamente $O(1)$
+    \EndIf
+
+    \State return $candidatos$                      \Comment $O(1)$
+
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+En ``MaximoPorSub'' calculamos la frontera al sacar un único nodo (lo hacemos para todos los nodos) y vemos si la frontera aumenta. Puede pasar que al disminuir el tamaño de una clique queden muchas aristas ``libres'' que hagan que la frontera aumente. Probamos con todos y nos quedamos con la respuesta que mejoró la frontera, si es que hubo alguna.
+
+\begin{algorithm}[H]
+\begin{algorithmic}
+\Function{MaximoPorSub}{$solucionInicial$}                      \Comment $O(n^4)$
+    \State $candidatos \gets solucionInicial$
+    \State $maxFrontera \gets$ Frontera($solucionInicial$)      \Comment $O(n^2)$
+    \State $max\_c \gets -1$  \\                                \Comment $O(1)$
+
+    \For{$c \in candidatos$}                                                \Comment $O(n^4)$
+        \If{EsClique($candidatos - \{c\}$)}                                 \Comment $O(n^3)$
+            \State $fronteraCandidato \gets$ Frontera($candidatos - \{c\}$) \Comment $O(n^2)$
+            \If{$fronteraCandidato > maxFrontera$}                          \Comment $O(1)$
+                \State $max\_c \gets c$                                     \Comment $O(1)$
+                \State $maxFrontera \gets fronteraCandidato$                \Comment $O(1)$ \\
+            \EndIf
+        \EndIf
+    \EndFor
+
+    \If{$max\_c \neq -1$}                                           \Comment $O(1)$
+        \State $candidatos \gets (candidatos - \{max\_c\})$         \Comment $O(1)$
+    \EndIf
+
+    \State return $candidatos$
+
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+En ``MaximoPorAdd'' probamos agregar de a un nodo, viendo que forme clique y calculando la nueva frontera. Si la frontera aumenta, nos guardamos la nueva solución.
+
+\begin{algorithm}[H]
+\begin{algorithmic}
+\Function{MaximoPorAdd}{$solucionInicial$, $complementoInicial$}        \Comment $O(n^4)$
+
+    \State $maxFrontera \gets$ Frontera($solucionInicial$)              \Comment $O(n^2)$
+    \State $max\_c \gets -1$                                            \Comment $O(1)$
+    \State $candidatos \gets solucionInicial$                           \Comment $O(1)$\\
+
+    \For{$c \in complementoInicial$}                                            \Comment $O(n^4)$
+        \If{EsClique($candidatos + \{c\}$)}                                     \Comment $O(n^3)$
+            \State $fronteraCandidato \gets$ Frontera($candidatos + \{c\}$)     \Comment $O(n^2)$
+            \If{$fronteraCandidato > maxFrontera$}                              \Comment $O(1)$
+                \State $max\_c \gets c$                                         \Comment $O(1)$
+                \State $maxFrontera \gets fronteraCandidato$                    \Comment $O(1)$\\
+            \EndIf
+        \EndIf
+    \EndFor
+
+    \If{$max\_c \neq -1$}                                           \Comment $O(1)$
+        \State $candidatos \gets (candidatos + \{max\_c\})$         \Comment $O(1)$
+    \EndIf
+
+    \State return $candidatos$                      \Comment $O(1)$
+
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+Para calcular el complemento, armamos un vector de booleanos que dicen si un nodo pertenece o no a la solución input. Luego recorremos el vector y armamos un nuevo vector con aquellos nodos que no estaban en la solución original.
+
+\begin{algorithm}[H]
+\begin{algorithmic}
+\Function{Complemento}{$solucionInicial$}
+    \State $pertenece[i] =$ True $\iff i \in solucionInicial$   \Comment $O(n)$
+    \State $complemento \gets \{\}$                             \Comment $O(1)$
+
+    \For{$i \in [0..n)$}                                        \Comment $O(n)$
+        \If{$pertenece$[$i$]$ = $True}                          \Comment $O(1)$
+            \State $complemento$.PushBack($i$)                  \Comment $O(1)$  amortizado
+        \EndIf
+    \EndFor
+
+    \State return $complemento$                                 \Comment $O(1)$
+
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+
+\subsection{Complejidad}
+
+Las complejidades de cada linea fueron marcadas en el pseudocódigo, por lo que calcular la complejidad total es bastante sencillo.
+
+\begin{itemize}
+    \item MaximoPorAdd: $O(n^4)$. Son $O(n)$ iteraciones de algo $O(n^3)$.
+    \item MaximoPorSub: $O(n^4)$. Son $O(n)$ iteraciones de algo $O(n^3)$.
+    \item MaximoPorSwap: $O(n^5)$. El primer For recorre un vector $v$ y el For anidado recorre su complemento. Si consideramos que $|v| = \frac{n}{2}$, entonces el tamaño del complemento también es $\frac{n}{2}$, por lo que en total se recorren $O(n^2)$ elementos. Son $O(n^2)$ iteraciones de algo $O(n^3)$.
+    \item BusquedaLocal: $O(n^5)$. Esto es por la complejidad de MaximoPorSwap que es la mayor, todo el resto es $O(n^4)$ o menor.
+    \item Resolver: $O(\#iteraciones * n^5)$. Son $\#iteraciones$ veces de BusquedaLocal.
+\end{itemize}
+
+Por lo tanto, mejorar una solución inicial con este algoritmo de búsqueda local cuesta $O(\#iteraciones * n^5)$.
+
+\subsection{Optimalidad}
+\todo[inline]{Contar como con esto mejoramos los peores casos del greedy del punto 2}
+
+\subsection{Experimentación}
+\todo[inline]{Hacer comparaciones de fronteras entre soluciones de greedyA y busqueda local, fundamentalmente para los inputs malos}
