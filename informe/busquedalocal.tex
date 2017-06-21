@@ -203,17 +203,20 @@ Por lo tanto, mejorar una solución inicial con este algoritmo de búsqueda loca
 \subsection{Optimalidad}
 
 \todo[inline]{...Haría falta un poco más de explicación, ¿no?}
-Algo que notamos al probar este método es que el algoritmo goloso ya llega a un máximo local, por lo que es redundante aplicarle una búsqueda local para mejorarla. \\
+Algo que notamos al probar este método es que el algoritmo goloso presentado en la sección anterior ya llega a un máximo local, por lo que es redundante aplicarle una búsqueda local para mejorarla. \\
 
-Sin embargo, podemos encontrarle un uso. En la sección de Optimalidad del algoritmo goloso notamos que la diferencia entre la solución proporcionada por el algoritmo y la solución real puede ser arbitrariamente grande, con lo cuál pueden haber casos muy malos para nuestro algoritmo. Una forma de paliar este problema es que el algoritmo tome como entrada un nodo inicial, y que a partir de ahí construya una solución golosa. Llamaremos a esta variante $golosoB$, y al original $golosoA$. Por cuestiones de tiempo y del alcance de este informe no detallaremos la implementación de $golosoB$, pero es el algoritmo que motivará los apartados Búsqueda Local y Metaheurística. Sin embargo, no es más que lo que acabamos de decir, es sencillamente fijar un nodo antes de aplicar el algoritmo. \\
+Sin embargo, podemos encontrarle un uso. En la sección de Optimalidad del algoritmo goloso notamos que la diferencia entre la solución proporcionada por el algoritmo y la solución real puede ser arbitrariamente grande, con lo cuál pueden haber casos muy malos para nuestro algoritmo. Una forma de paliar este problema es que el algoritmo tome como entrada un nodo inicial, y que a partir de ahí construya una solución golosa. Llamaremos a esta variante $golosoB$, y al original $golosoA$. Por cuestiones de tiempo y del alcance de este informe no detallaremos la implementación de $golosoB$, pero es el algoritmo que motivará los apartados Búsqueda Local y Metaheurística. Sin embargo, no es más que lo que acabamos de decir, es sencillamente fijar un nodo incial antes de aplicar el algoritmo. \\
 
 ¿Por qué sirve nuestro algoritmo de búsqueda local para $golosoB$? Esto ocurre porque el primer nodo no fue elegido golosamente, es un nodo que fijamos en nuestra solución. Como consecuencia, una vez que la solución golosa queda construida, eliminar o swappear el primer nodo podría llegar producir un aumento en la frontera (agregar no, pues el algoritmo goloso siempre llega a un máximo local respecto a esa operación) \todo{¿Está de más este paréntesis?}. Si esto llegase a ocurrir, aparecerían nuevos nodos candidatos a entrar en nuestra solución que no podiamos tomar antes porque no estaban conectados con el primer nodo. De esta forma, podemos continuar moviéndonos por las soluciones para llegar a algún máximo local mejor que el nos devolvió $golosoB$. \\
 
-Veamos el mismo ejemplo que complicaba a $golosoA$ utilizando $golosoB$ y \textit{búsquedaLocal}. \\
+Tomemos el mismo ejemplo que complicaba a $golosoA$ utilizando $golosoB$ y \textit{búsquedaLocal}. \\
 
-Si a $golosoB$ le pasamos como entrada un nodo perteneciente al arbol $1$, o el nodo $4$; es imposible mejorar la solución de $golosoA$. Es el riesgo que tenemos al dejar libre el nodo inicial. Sin embargo, si elegimos un nodo cualquiera del arbol $2$ o $3$, la situación es distinta. \\
+{\centering
+    \includegraphics[width=0.57\textwidth]{informe/imgs/greedy_base_nodes_v1.png} \\
+}
+$ $\newline
 
-\todo[inline] {Dibujito de recuerdo de como era ese grafo}
+Si a $golosoB$ le pasamos como entrada un nodo perteneciente al arbol $1$, o el nodo $4$; es imposible mejorar la solución de $golosoA$. Es el riesgo que tenemos al dejar libre el nodo inicial. \textit{Explicaremos este caso al final de la sección.} Sin embargo, si elegimos un nodo cualquiera del arbol $2$ o $3$, la situación es distinta. \\
 
 El caso facil es si elegimos $2$ o $3$, en donde $golosoB$ se queda con la solución $(2,3)$, ya que ni las hojas ni el cuatro generan un clique con mayor frontera que ese par de nodos. \\
 
@@ -223,6 +226,7 @@ Más complicado es lo que ocurre al tomar una hoja de los arboles $2$ y $3$ como
 
 \todo[inline] {Seijodibujo}
 
+Retomando lo mencionado hace unos párrafos, ¿que sucede si se elije un nodo del árbol $1$? Claramente $golosoB$ se vuelve tan malo como $golosoA$, pero \textbf{existe una solución muy sencilla}: podríamos elegir al azar el nodo inicial y correr el algortimo muchas veces, para quedarnos con la mejor. Exploraremos esta idea en la última sección del informe: $GRASP$.
 
 \subsection{Experimentación}
 \todo[inline]{Hacer comparaciones de fronteras entre soluciones de greedyA y busqueda local, fundamentalmente para los inputs malos}
