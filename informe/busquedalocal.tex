@@ -212,7 +212,7 @@ Sin embargo, podemos encontrarle un uso. En la sección de Optimalidad del algor
 Tomemos el mismo ejemplo que complicaba a $golosoA$ utilizando $golosoB$ y \textit{búsquedaLocal}. \\
 
 {\centering
-    \includegraphics[width=0.57\textwidth]{informe/imgs/greedy_base_nodes_v1.png} \\
+    \includegraphics[width=0.57\textwidth]{informe/imgs/greedy_base_nodes_v2.png} \\
 }
 $ $\newline
 
@@ -220,11 +220,17 @@ Si a $golosoB$ le pasamos como entrada un nodo perteneciente al arbol $1$, o el 
 
 El caso facil es si elegimos $2$ o $3$, en donde $golosoB$ se queda con la solución $(2,3)$, ya que ni las hojas ni el cuatro generan un clique con mayor frontera que ese par de nodos. \\
 
-\todo[inline] {Seijodibujo}
+{\centering
+    \includegraphics[width=0.57\textwidth]{informe/imgs/local_base_nodes_v2.png} \\
+}
+$ $\newline
 
 Más complicado es lo que ocurre al tomar una hoja de los arboles $2$ y $3$ como inicial. Asumamos que tomamos una hoja del $2$ (tomar una hoja del $3$ es análogo). La hoja sólo está conectada con el $2$, por lo que el $2$ se incluye en la solución. Una vez realizado esto, como nadie más está conectado con la hoja, \textit{golosoB} devuelve $(hoja,2)$. Es en este caso en donde \textit{búsquedaLocal} ayuda, pues a partir de $(hoja,2)$ busca los cliques que se pueden obtener haciendo swaps, con lo cual considera como candidato al clique producto de swappear la $hoja$ con el $2$, que es el clique $(2,3)$. Al ser la solución óptima, el algoritmo la toma en la primera iteración, y corta en la segunda. Termina devolviendo lo que queriamos: $(2,3)$. \\
 
-\todo[inline] {Seijodibujo}
+{\centering
+    \includegraphics[width=0.57\textwidth]{informe/imgs/local_base_nodes_v3.png} \\
+}
+$ $\newline
 
 Retomando lo mencionado hace unos párrafos, ¿que sucede si se elije un nodo del árbol $1$? Claramente $golosoB$ se vuelve tan malo como $golosoA$, pero \textbf{existe una solución muy sencilla}: podríamos elegir al azar el nodo inicial y correr el algortimo muchas veces, para quedarnos con la mejor. Exploraremos esta idea en la última sección del informe: $GRASP$.
 
