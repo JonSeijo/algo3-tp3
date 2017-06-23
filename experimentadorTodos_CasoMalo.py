@@ -19,17 +19,17 @@ ejecutable_tiempos_greedy = "./tiempoGreedy"
 # InputFile donde se van a guardar cada instancia que se ejecute
 input_path_tmp = "./experimentos/input.tmp"
 
-repeticiones = 10
+repeticiones = 1
 
 csv_exacta = "./experimentos/exacta/grafo_malo.csv"
 csv_greedy = "./experimentos/greedy/grafo_malo.csv"
 csv_local = "./experimentos/local/grafo_malo.csv"
 csv_grasp = "./experimentos/grasp/grafo_malo.csv"
 
-n_exacta = 25
-n_greedy = 30
-n_local = 30
-n_grasp = 30
+n_exacta = 31
+n_greedy = 61
+n_local = 61
+n_grasp = 61
 
 nodos = [x for x in range(15)]
 grafo_malo_incial = [
