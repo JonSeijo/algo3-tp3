@@ -19,14 +19,14 @@ ejecutable_tiempos_greedy = "./tiempoGreedy"
 # InputFile donde se van a guardar cada instancia que se ejecute
 input_path_tmp = "./experimentos/input.tmp"
 
-repeticiones = 20
+repeticiones = 10
 
 csv_exacta = "./experimentos/exacta/grafo_malo.csv"
 csv_greedy = "./experimentos/greedy/grafo_malo.csv"
 csv_local = "./experimentos/local/grafo_malo.csv"
 csv_grasp = "./experimentos/grasp/grafo_malo.csv"
 
-n_exacta = 23
+n_exacta = 25
 n_greedy = 30
 n_local = 30
 n_grasp = 30
@@ -59,7 +59,7 @@ def generate_input(n):
 # Experimentacion generica, el input es lo que varia dependiendo de los parametros que se le pasen
 # CSV_FILENAMES = [EXACTA, GREEDY]
 
-def experimentar(csv_filenames, n_max):
+def experimentar(csv_filenames, ejecutables, n_max):
     global nodos
     global grafo_malo
     # Guardar encabezado de csv
@@ -74,24 +74,27 @@ def experimentar(csv_filenames, n_max):
 
         # Para cada repes_random de cada tamaño
         for repe in range(repeticiones):
+            print("pasame la repe: " + str(repe))
 
             # Generar el input falopa en un input_tmp
             random.shuffle(nodos)
             generate_input(n)
 
-            # Correr ejecutable con el input falopa
-            # Guarda tiempo en output, ignora stderr (Python3!)
             for i in range(len(csv_filenames)):
+                # Correr ejecutable con el input falopa
+                # Guarda tiempo en output, ignora stderr (Python3!)
+                # for i in range(len(csv_filenames)):
                 with open(input_path_tmp) as input_file:
-                    tiempo_y_output_exacta = subprocess.check_output(
-                                [ejecutable_tiempos_exacta], stdin=input_file, stderr=subprocess.DEVNULL
+                    tiempo_y_output = subprocess.check_output(
+                                [ejecutables[i]], stdin=input_file, stderr=subprocess.DEVNULL
                             ).decode(sys.stdout.encoding)
 
                 # Guardar en un csv
                 # Cada linea: n,tiempo_y_output = n,fronteraMax,tamClique,tiempo
                 # csv_filenames = [EXACTA, GREEDY]
                 with open(csv_filenames[i], 'a') as csv :
-                    csv.write(str(n) + "," + tiempo_y_output_exacta + '\n')
+                    csv.write(str(n) + "," + tiempo_y_output + '\n')
+
 
 
         nodos += [n, n+1, n+2]
@@ -115,15 +118,15 @@ if __name__ == '__main__':
     if args.todos:
         # @DEBUG
         # AGREGAR LOS DEMAS TIPOS CUANDO ESTEN LISTOS
-        experimentar([csv_exacta, csv_greedy], n_exacta)
+        experimentar([csv_exacta, csv_greedy], [ejecutable_tiempos_exacta, ejecutable_tiempos_greedy], n_exacta)
 
     else:
         if args.exacto:
-            experimentar([csv_exacta], n_exacta)
+            experimentar([csv_exacta], [ejecutable_tiempos_exacta], n_exacta)
         if args.greedy:
-            experimentar([csv_greedy], n_greedy)
-        if args.local:
-            experimentar([csv_local], n_local)
-        if args.grasp:
-            experimentar([csv_grasp], n_grasp)
+            experimentar([csv_greedy], [ejecutable_tiempos_greedy], n_greedy)
+        # if args.local:
+            # experimentar([csv_local], n_local)
+        # if args.grasp:
+            # experimentar([csv_grasp], n_grasp)
 
