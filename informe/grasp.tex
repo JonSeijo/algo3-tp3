@@ -1,0 +1,50 @@
+% !TEX root = ./informe.tex
+\section{Grasp}
+
+\subsection{Explicación}
+
+
+\subsection{Pseudocódigo}
+
+Las funciones greedy.resolver(), local.resolver() y Frontera() no son incluidas aquí por ser iguales a las incluidas previamente. Las complejidades son $O(n^5)$, $O(n^5)$ y $O(n^2)$ respectivamente. \\
+
+Referencias de variables globales para el pseudocódigo:
+\begin{itemize}
+    \item $n$: La cantidad de nodos
+    \item $solucion$: Secuencia que contiene la clique solución
+\end{itemize}
+
+\begin{algorithm}[H]
+\begin{algorithmic}
+\Function{Resolver}{$maximo$}         
+	\State $fronteraMax \gets 0$
+	\State $fronteraNueva \gets 0$
+	\State $repes \gets 0$
+	\While{$repes < maximo$}
+        \State $semilla \gets rand().mod(n)$
+        \State $actual \gets greedy.resolver(semilla)$
+    	\State $nueva \gets local.resolver(actual)$
+    	\State $fronteraNueva \gets Frontera(nueva)$
+    	\If {$fronteraNueva > fronteraMax$}
+    		\State $solucion \gets nueva$
+    		\State $fronteraMax \gets fronteraNueva$
+            \State $repes \gets 0$
+    	\Else 
+    		\State $repes \gets repes + 1$
+    	\EndIf
+    \EndWhile
+    \State return $solucion$
+
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+
+\subsection{Complejidad}
+
+
+\subsection{Optimalidad}
+
+
+\subsection{Experimentación}
+

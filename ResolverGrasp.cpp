@@ -64,13 +64,3 @@ int ResolverGrasp::frontera(vector<int> &clique) {
     }
     return contador;
 }
-
-bool ResolverGrasp::valeLaPena(int max) {
-	if (max == ultimoMax) {
-		repetidos++;
-	} else {
-		repetidos = 0;
-	}
-	ultimoMax = max;
-	return repetidos < 3;
-}
