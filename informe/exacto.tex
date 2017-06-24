@@ -120,4 +120,27 @@ Para Resolver() se lee el input y luego se llama a GenerarSubconjuntos. La compl
 
 $$ O(n^2) + O(2^{n} * n^{3}) = O(2^{n} * n^{3})$$
 
+\subsection{Experimentación}
+
+\todo[inline]{Los graficos fueron generados de tal y tal forma}
+
+\todo[inline]{Mejorar intro}
+Sabemos que es muy lento. ¿Qué tan lento? Para $n = 22$, se tarda aproximadamente 4 minuos. (Peor caso es completo, ¿por que?) \\
+
+{\centering
+    \includegraphics[width=1\textwidth]{informe/imgs/exp_completo_tiempo_exacta.pdf} \\
+}
+
+Aprovechemos esta sección para tratar de entender mejor futuras estrategias. Una posible primera idea para de encontrar la clique con máxima frontera, es intentar encontrar la clique máxima. Esta es una \textit{pésima} idea, porque si consideramos un grafo completo de $n$ nodos, la clique máxima es $K_n$ con una frontera de tamaño 0. \\
+
+Vemos en el caso particular de los grafos completos, que la clique que maximiza la frontera tiene tamaño $n/2$. \\
+
+{\centering
+    \includegraphics[width=1\textwidth]{informe/imgs/exp_completo_clique_exacta.pdf} \\
+}
+
+Como curiosidad, si nuestro grafo es completo no es necesario correr el algoritmo para conocer cuál será la frontera máxima. Basta considerar que la clique que la maximiza tiene $\frac{n}{2}$ nodos, y por cada nodo de la clique hay $\frac{n}{2}$ vecinos exteriores. Por lo tanto, la frontera máxima de un grafo completo es $\frac{n^2}{4}$ \\
+
+Si la clique es demasiado grande, es posible que disminuyamos la cantidad de vecinos que están fuera de la clique. Por lo tanto, la estrategia en las seguientes secciones no será buscar una clique máxima, sino ir construyéndolas pero solo mientras la frontera va aumentando. \\
+
 \todo[inline]{Esto es demasiado lento bla veamos formas aproximadas de resolverlo blabla}
