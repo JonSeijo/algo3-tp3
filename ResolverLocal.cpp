@@ -39,6 +39,13 @@ void ResolverLocal::copiarInput(ResolverGreedyVariante problema) {
     this->grafo_ady = problema.grafo_ady;
 }
 
+void ResolverLocal::copiarInput(ResolverGreedyGrasp problema) {
+    // El input la lee el objeto 'problema' por la stdin
+    this->n = problema.grafo_lst.size();
+    this->grafo_lst = problema.grafo_lst;
+    this->grafo_ady = problema.grafo_ady;
+}
+
 vector<int> ResolverLocal::resolver(bool imprimirOutput, vector<int> solucion, bool minimoOutput) {
     /*
     La función 'búsquedaLocal' es la que explora los vecinos y busca una solución

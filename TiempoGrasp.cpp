@@ -10,9 +10,11 @@ int main() {
     ResolverGrasp problema;
     bool leyoInputCorrectamente = problema.leerInput();
 
+    double alpha = 0.5;
+
     auto start = ya();
     if (leyoInputCorrectamente) {
-        problema.resolver(false);
+        problema.resolver(alpha, false);
     } else {
         std::cerr << "NO SE LEYO INPUT CORRECTAMENTE";
         return 1;

@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "ResolverGreedyVariante.h"
+#include "ResolverGreedyGrasp.h"
 
 using std::vector;
 
@@ -13,6 +14,7 @@ class ResolverLocal {
 public:
     bool leerInput();
     void copiarInput(ResolverGreedyVariante problema);
+    void copiarInput(ResolverGreedyGrasp problema);
     vector<int> resolver(bool imprimirOutput, vector<int> inicial, bool minimoOutput=false);
 
     vector<int> busquedaLocal(vector<int> &inicial);

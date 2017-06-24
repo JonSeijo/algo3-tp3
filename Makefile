@@ -24,11 +24,11 @@ tiempoGreedy: TiempoGreedy.cpp  ResolverGreedyConstructiva.cpp ResolverGreedyCon
 tiempoLocal: TiempoLocal.cpp  ResolverLocal.cpp ResolverLocal.h ResolverGreedyVariante.cpp ResolverGreedyVariante.h
 	$(CPP) $(FLAGS) -o  $@  ResolverLocal.cpp ResolverGreedyVariante.cpp $<
 
-solucionGrasp: SolucionGrasp.cpp ResolverGrasp.h ResolverGreedyVariante.h
-	$(CPP) $(FLAGS) -o  $@ ResolverGrasp.cpp ResolverLocal.cpp ResolverGreedyVariante.cpp $<
+solucionGrasp: SolucionGrasp.cpp ResolverGrasp.h ResolverGreedyGrasp.cpp ResolverGreedyGrasp.h
+	$(CPP) $(FLAGS) -o  $@ ResolverGrasp.cpp ResolverLocal.cpp ResolverGreedyGrasp.cpp $<
 
-tiempoGrasp: TiempoGrasp.cpp ResolverGrasp.h ResolverLocal.h ResolverGreedyVariante.h
-	$(CPP) $(FLAGS) -o  $@ ResolverGrasp.cpp ResolverLocal.cpp ResolverGreedyVariante.cpp $<
+tiempoGrasp: TiempoGrasp.cpp ResolverGrasp.h ResolverLocal.h ResolverGreedyGrasp.cpp ResolverGreedyGrasp.h
+	$(CPP) $(FLAGS) -o  $@ ResolverGrasp.cpp ResolverLocal.cpp ResolverGreedyGrasp.cpp $<
 
 %.o: %.cpp
 	$(CPP) $(FLAGS) -c -o $@ $<
@@ -42,4 +42,5 @@ clean:
 	rm -f tiempoExacta
 	rm -f tiempoGreedy
 	rm -f tiempoLocal
+	rm -f tiempoGrasp
 	rm -f solucionGrasp

@@ -10,16 +10,20 @@ bool ResolverGrasp::leerInput() {
     return leyoCorrectamente;
 }
 
-vector<int> ResolverGrasp::resolver(bool imprimirOutput) {
+vector<int> ResolverGrasp::resolver(double alpha_in, bool imprimirOutput) {
+
+    double alpha = alpha_in;
+
 	vector<int> actual;
 	int fronteraMax = 0;
 	int fronteraNueva = 0;
 	int repes = 0;
 	int i = 0;
 	while (repes < 2) {
-        int semilla = rand() % this->grafo_lst.size();
-        actual = greedy.resolver(semilla);
-    	vector<int> nueva = local.resolver(false, actual);
+
+        actual = greedy.resolver(alpha, false, false);
+        vector<int> nueva = local.resolver(false, actual);
+
     	fronteraNueva = frontera(nueva);
     	if (fronteraNueva > fronteraMax) {
     		mejor = nueva;
@@ -32,7 +36,6 @@ vector<int> ResolverGrasp::resolver(bool imprimirOutput) {
     }
 
     if (imprimirOutput) {
-        
         std::cout << fronteraMax << " ";
         std::cout << mejor.size() << " ";
         for (int v : mejor) {
