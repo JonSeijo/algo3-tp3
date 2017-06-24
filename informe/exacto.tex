@@ -3,14 +3,18 @@
 \section{Algoritmo Exacto}
 
 \subsection{Explicación}
-Para saber si un conjunto $vs$ de vértices es clique, revisamos si todos los vértices en $vs$ son vecinos entre sí.
-Esto significa que forman un subgrafo completo (son subgrafo pues los vértices y aristas forman parte del grafo principal), por lo tanto es clique. \\
 
-Para calcular una frontera, dado una clique $c$ recorremos cada vértice $v$ de la clique y vemos cuales son los vecinos de $v$ que \textbf{no} están en $c$. \\
+Nuestro problema a resolver es CFM: Clique de Frontera Máxima. Debemos encontrar un clique en el grafo que tenga frontera máxima. Como aclaración, una clique es un subgrafo completo pero no necesariamente es maximal (aunque podría serlo). Como una clique está formada por nodos del grafo, una forma de resolver CFM es revisando todos los posibles subconjuntos de nodos. En caso de que formen clique, calculamos su frontera y nos quedamos con el máximo de ellas.  \\
 
-Como una clique está formada por nodos del grafo, para resolver el problema de encontrar la clique de frontera máxima (CFM) revisamos todos los posibles subconjuntos de nodos. En caso de que formen clique, calculamos su frontera y nos quedamos con el máximo de ellas. \\
+Para saber si un conjunto $vs$ de vértices es clique, revisamos si todos los vértices en $vs$ son vecinos entre sí. Esto significa que forman un subgrafo completo (pues los vértices y aristas forman parte del grafo principal) por lo tanto es clique. \\
 
-Recorriendo todos los subconjuntos posibles de nodos estamos recorriendo todas las posibles cliques, y nos quedamos con aquella que tenga máxima frontera. Por lo tanto es un algoritmo exacto, siempre encuentra la solución óptima. \\
+Para calcular la frontera, dada una clique $c$ recorremos cada vértice $v \in c$ y contamos cuántos son los vecinos de $v$ que \textbf{no} están en $c$. \\
+
+Si recorremos todos los subconjuntos posibles de nodos estamos recorriendo todas las posibles cliques, entonces podemos quedarnos con aquella que tenga máxima frontera. Siempre encuentra la solución óptima, pues encuentra todas las soluciones, implicando que efectivamente es un algoritmo exacto. \\
+
+La implementación de la generación de todos los posibles subconjuntos está hecha recursivamente, utilizando el árbol binario que está implícito en la recursión. Considerando que cada nodo es un elemento, en cada etapa puede estar o no estar incluido, por lo que consideramos ambos estados posibles. Al final se terminan considerando todas las combinaciones posibles. \\
+
+Una vez obtenido algún subconjunto (cuando ya no hay mas elementos que considerar), revisamos si lo acumulado forma clique, y en caso que sí, calculamos su frontera. Nos quedamos con la máxima de todas ellas. \\
 
 \subsection{Pseudocódigo}
 
