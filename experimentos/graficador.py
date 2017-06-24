@@ -6,13 +6,14 @@ Graficador
 IMPORTANTE:
 Para hacerlo funcionar es NECESARIO que existan los archivos que se cargan.
 No hace falta que tengan contenido, pero la pirmera linea DEBE ser: n,fronteraMax,tamClique,tiempo
+(con algunos valores en la 2da linea)
 Esto es porque con Pandas tomo las columnas y tira error si no existen.
 
 TODO: Solucionar el problema anterior capturando errores con try/except
 
 
 USO:
-Modificar las variables: "algos" y "tipo" a la que se quiera
+Modificar las variables: "algos", "tipo", "grafo" a la que se quiera
 """
 
 
@@ -41,7 +42,7 @@ azul = '#4C72B0'
 colores = [azul, verde, rojo]
 
 T_TIEMPO = (0, "Tiempo medio para diferentes tamaños de grafos", "Segundos")
-T_TAMCLIQUE = (1, "Clique solución para diferentes tamaños de grafos", "Tamaño clique")
+T_TAMCLIQUE = (1, "Tamaño de la clique solución para diferentes tamaños de grafos", "Tamaño clique")
 T_FRONTERA = (2, "Frontera máxima para diferentes tamaños de grafos", "Frontera máxima")
 
 T_EXACTA = (0, "Exacta")
@@ -49,10 +50,23 @@ T_GREEDY = (1, "Golosa")
 T_LOCAL = (2, "Búsqueda local")
 T_GRASP = (3, "GRASP")
 
-data_exacta = pd.read_csv('experimentos/exacta/grafo_malo.csv')
-data_greedy = pd.read_csv('experimentos/greedy/grafo_malo.csv')
-data_local = pd.read_csv('experimentos/local/grafo_malo.csv')
-data_grasp = pd.read_csv('experimentos/grasp/grafo_malo.csv')
+T_GRAFO_MALO = ("grafo_malo.csv", "")
+T_GRAFO_50 = ("random_aristas_50.csv", "50% Aristas random\n")
+T_GRAFO_COMPLETO = ("completo.csv", "Grafo completo\n")
+
+
+# Elegir al menos uno de cada uno!
+
+tipo = T_TAMCLIQUE
+algos = [T_LOCAL, T_GREEDY]
+grafo = T_GRAFO_50
+titulo = grafo[1]
+
+
+data_exacta = pd.read_csv('experimentos/exacta/' + grafo[0])
+data_greedy = pd.read_csv('experimentos/greedy/' + grafo[0])
+data_local = pd.read_csv('experimentos/local/' + grafo[0])
+data_grasp = pd.read_csv('experimentos/grasp/' + grafo[0])
 
 data = [
     crear_lista_dataframes(data_exacta),
@@ -60,11 +74,6 @@ data = [
     crear_lista_dataframes(data_local),
     crear_lista_dataframes(data_grasp)
 ]
-
-# Al menos uno!
-algos = [T_LOCAL, T_GREEDY]
-tipo = T_FRONTERA
-titulo = ""
 
 plt.clf()
 
