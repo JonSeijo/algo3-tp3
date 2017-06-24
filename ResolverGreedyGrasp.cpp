@@ -85,17 +85,19 @@ vector<int> ResolverGreedyGrasp::resolver(double alpha, bool imprimirOutput, boo
         // alpha = 0 --> Greedy 100%
         // alpha = 1 --> Random 100%
         for (auto cand : candidatos) {
-            if (cand.first >= frontera_max_tmp + alpha*(frontera_min_tmp - frontera_max_tmp)) {
+            if (cand.first >= frontera_max_tmp + int(alpha*(frontera_min_tmp - frontera_max_tmp))) {
                 RCL.push_back(cand.second);
             }
         }
 
-        // Agrego a la solucion un elemento random de la RCL
-        int randomIndex = rand() % RCL.size();
-        solucion.push_back(RCL[randomIndex]);
+        if (puedoConstruirClique) {
+            // Agrego a la solucion un elemento random de la RCL
+            int randomIndex = rand() % RCL.size();
+            solucion.push_back(RCL[randomIndex]);
 
-        // Quito el nuevo elemento de la vieja lista de candidatos
-        candidatosInicial.erase(std::find(candidatosInicial.begin(), candidatosInicial.end(), RCL[randomIndex]));
+            // Quito el nuevo elemento de la vieja lista de candidatos
+            candidatosInicial.erase(std::find(candidatosInicial.begin(), candidatosInicial.end(), RCL[randomIndex]));
+        }
     }
 
     fronteraMax = frontera(solucion);
