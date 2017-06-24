@@ -19,8 +19,8 @@ ejecutable_tiempos_greedy = "./tiempoGreedy"
 # InputFile donde se van a guardar cada instancia que se ejecute
 input_path_tmp = "./experimentos/input.tmp"
 
-repeticiones = 25
-n_max = 22 # Aumentar
+repeticiones = 20
+n_max = 24 # Aumentar
 
 # random25
 csv_random25 = [
