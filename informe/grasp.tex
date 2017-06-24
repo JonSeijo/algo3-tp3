@@ -2,7 +2,9 @@
 \section{Grasp}
 
 \subsection{Explicación}
+GRASP es sigla de Procedimientos Golosos Aleatorios Adaptativos de Búsqueda (Greedy Randomized Adaptive Search Procedures. Es una metaheurística que se basa en utilizar métodos golosos constructivos y de búsqueda local para resolver un problema computacionalmente dificil, utilizando el azar para no estancarse en un único máximo local. Cada iteración de un algoritmo GRASP construye golosamente una solución desde cero, admitiendo cierto grado de aleatoriedad al añadir elementos a la solución; para después mejorar el resultado con un método de búsqueda local. Realizamos varias iteraciones, deteníendonos bajo algún criterio de corte, ya sea por que conseguimos una solución lo suficientemente buena, o porque nos pasamos de una cantidad de iteraciones predeterminada. La mejor solución conseguida entre todas las iteraciones es el resultado final del algoritmo. \\
 
+El algoritmo goloso constructivo que vamos a utilizar es el \textit{golosoB} del que hablamos en la sección de optimalidad de Búsqueda Local. Vamos a introducir el azar en el nodo inicial que tomará el algoritmo, que eligiremos de manera aleatoria. Para mejorar los resultados obtenidos utilizaremos el algoritmo de Búsqueda Local de la anterior sección.
 
 \subsection{Pseudocódigo}
 
