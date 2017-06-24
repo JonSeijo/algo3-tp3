@@ -10,7 +10,7 @@ bool ResolverGrasp::leerInput() {
     return leyoCorrectamente;
 }
 
-vector<int> ResolverGrasp::resolver(double alpha_in, bool imprimirOutput) {
+vector<int> ResolverGrasp::resolver(double alpha_in, bool imprimirOutput, bool minimoOutput) {
 
     double alpha = alpha_in;
 
@@ -44,6 +44,12 @@ vector<int> ResolverGrasp::resolver(double alpha_in, bool imprimirOutput) {
         std::cout << "\n";
         std::cout <<"cantidad: " << i << "\n";
     }
+
+    if (minimoOutput) {
+        std::cout << fronteraMax << ",";
+        std::cout << mejor.size();
+    }
+
     return mejor;
 }
 
