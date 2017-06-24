@@ -15,11 +15,12 @@ import math
 
 ejecutable_tiempos_exacta = "./tiempoExacta"
 ejecutable_tiempos_greedy = "./tiempoGreedy"
+ejecutable_tiempos_local = "./tiempoLocal"
 
 # InputFile donde se van a guardar cada instancia que se ejecute
 input_path_tmp = "./experimentos/input.tmp"
 
-repeticiones = 1
+repeticiones = 20
 
 csv_exacta = "./experimentos/exacta/grafo_malo.csv"
 csv_greedy = "./experimentos/greedy/grafo_malo.csv"
@@ -27,9 +28,9 @@ csv_local = "./experimentos/local/grafo_malo.csv"
 csv_grasp = "./experimentos/grasp/grafo_malo.csv"
 
 n_exacta = 31
-n_greedy = 61
-n_local = 61
-n_grasp = 61
+n_greedy = 2000
+n_local = 2000
+n_grasp = 2000
 
 nodos = [x for x in range(15)]
 grafo_malo_incial = [
@@ -74,7 +75,6 @@ def experimentar(csv_filenames, ejecutables, n_max):
 
         # Para cada repes_random de cada tamaño
         for repe in range(repeticiones):
-            print("pasame la repe: " + str(repe))
 
             # Generar el input falopa en un input_tmp
             random.shuffle(nodos)
@@ -118,15 +118,15 @@ if __name__ == '__main__':
     if args.todos:
         # @DEBUG
         # AGREGAR LOS DEMAS TIPOS CUANDO ESTEN LISTOS
-        experimentar([csv_exacta, csv_greedy], [ejecutable_tiempos_exacta, ejecutable_tiempos_greedy], n_exacta)
+        experimentar([csv_exacta, csv_greedy, csv_Local], [ejecutable_tiempos_exacta, ejecutable_tiempos_greedy, ejecutable_tiempos_local], n_exacta)
 
     else:
         if args.exacto:
             experimentar([csv_exacta], [ejecutable_tiempos_exacta], n_exacta)
         if args.greedy:
             experimentar([csv_greedy], [ejecutable_tiempos_greedy], n_greedy)
-        # if args.local:
-            # experimentar([csv_local], n_local)
+        if args.local:
+            experimentar([csv_local], [ejecutable_tiempos_local], n_local)
         # if args.grasp:
             # experimentar([csv_grasp], n_grasp)
 

@@ -15,7 +15,15 @@ int main() {
     std::vector<int> solucion;
 
     if (leyoInputCorrectamente) {
-        solucion = problema.resolver(false);
+        // Elijo el primer vecino que no sea aislado:
+        int inicial = 0;
+        for (int i = 0; i < (int)problema.grafo_lst.size(); i++) {
+            if ((int)problema.grafo_lst[i].size() > 0) {
+                inicial = i;
+                break;
+            }
+        }
+        solucion = problema.resolver(inicial);
     } else {
         return 1;
     }
