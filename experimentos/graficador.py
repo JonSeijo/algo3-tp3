@@ -23,11 +23,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # El orden debe ser preciso: tiempo, tamClique, frontera
-def crear_lista_dataframes(datos):
+def crear_lista_dataframes(datos, tope=None):
     return [
-        datos.groupby('n')['tiempo'].mean() / 1000000000,
-        datos.groupby('n')['tamClique'].median(),
-        datos.groupby('n')['fronteraMax'].mean()
+        (datos.groupby('n')['tiempo'].mean() / 1000000000)[:tope],
+        (datos.groupby('n')['tamClique'].median())[:tope],
+        (datos.groupby('n')['fronteraMax'].mean())[:tope]
     ]
 
 
@@ -57,11 +57,12 @@ T_GRAFO_COMPLETO = ("completo.csv", "Grafo completo\n")
 
 # Elegir al menos uno de cada uno!
 
-tipo = T_TAMCLIQUE
+tipo = T_TIEMPO
 algos = [T_LOCAL, T_GREEDY]
-grafo = T_GRAFO_50
+grafo = T_GRAFO_MALO
 titulo = grafo[1]
 
+logy = False
 
 data_exacta = pd.read_csv('experimentos/exacta/' + grafo[0])
 data_greedy = pd.read_csv('experimentos/greedy/' + grafo[0])
@@ -77,7 +78,7 @@ data = [
 
 plt.clf()
 
-plot_grafo = obtener_dataframe(algos[0], tipo).plot(fontsize = 13, figsize=(11,8), color=colores[0])
+plot_grafo = obtener_dataframe(algos[0], tipo).plot(fontsize = 13, figsize=(11,8), logy=logy, color=colores[0])
 plot_grafo.set_title(titulo + tipo[1], fontsize = 15)
 plot_grafo.set_ylabel(tipo[2], size = 14)
 
