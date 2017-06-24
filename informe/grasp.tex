@@ -18,7 +18,7 @@ Referencias de variables globales para el pseudocódigo:
 
 \begin{algorithm}[H]
 \begin{algorithmic}
-\Function{Resolver}{$maximo$}         
+\Function{Resolver}{$maximo$}
 	\State $fronteraMax \gets 0$
 	\State $fronteraNueva \gets 0$
 	\State $repes \gets 0$
@@ -31,7 +31,7 @@ Referencias de variables globales para el pseudocódigo:
     		\State $solucion \gets nueva$
     		\State $fronteraMax \gets fronteraNueva$
             \State $repes \gets 0$
-    	\Else 
+    	\Else
     		\State $repes \gets repes + 1$
     	\EndIf
     \EndWhile
@@ -49,4 +49,21 @@ Referencias de variables globales para el pseudocódigo:
 
 
 \subsection{Experimentación}
+
+{\centering
+    \includegraphics[width=1\textwidth]{informe/imgs/exp_malo_frontera_grasp_local.pdf}
+}
+
+{\centering
+    \includegraphics[width=1\textwidth]{informe/imgs/exp_malo_frontera_grasp.pdf}
+}
+
+{\centering
+    \includegraphics[width=1\textwidth]{informe/imgs/exp_malo_frontera_grasp_zoom.pdf}
+    \captionof{figure}{$\uparrow$ Zoom del gráfico anterior}
+}
+
+{\centering
+    \includegraphics[width=1\textwidth]{informe/imgs/exp_malo_tiempo_grasp.pdf}
+}
 

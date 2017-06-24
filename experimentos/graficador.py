@@ -39,7 +39,7 @@ verde = '#55A868'
 rojo = '#C44E52'
 azul = '#4C72B0'
 amarillo = '#EAEA25'
-violeta = '#8c108c'
+violeta = '#591463'
 
 colores = [azul, verde, rojo, amarillo, violeta]
 
@@ -50,10 +50,10 @@ T_FRONTERA = (2, "Frontera máxima para diferentes tamaños de grafos", "Fronter
 T_EXACTA = (0, "Exacta")
 T_GREEDY = (1, "Golosa")
 T_LOCAL = (2, "Búsqueda local")
-T_GRASP_0 = (3, "GRASP: alpha=0")
-T_GRASP_25 = (4, "GRASP: alpha=0.25")
-T_GRASP_50 = (5, "GRASP: alpha=0.50")
-T_GRASP_1 = (6, "GRASP: alpha=1")
+T_GRASP_0 = (3, "GRASP: α = 0")
+T_GRASP_25 = (4, "GRASP: α = 0.25")
+T_GRASP_50 = (5, "GRASP: α = 0.50")
+T_GRASP_1 = (6, "GRASP: α = 1")
 
 T_GRAFO_MALO = ("grafo_malo", "")
 T_GRAFO_50 = ("random_aristas_50", "50% Aristas random\n")
@@ -62,8 +62,8 @@ T_GRAFO_COMPLETO = ("completo", "Grafo completo\n")
 
 # Elegir al menos uno de cada uno!
 
-tipo = T_FRONTERA
-algos = [T_LOCAL, T_GRASP_0, T_GRASP_25, T_GRASP_50, T_GRASP_1]
+tipo = T_TIEMPO
+algos = [T_GRASP_50, T_GRASP_1, T_GRASP_0]
 grafo = T_GRAFO_MALO
 titulo = grafo[1]
 
@@ -80,7 +80,7 @@ data_grasp_1 = pd.read_csv('experimentos/grasp/' + grafo[0] + '_1.csv')
 data = [
     crear_lista_dataframes(data_exacta),
     crear_lista_dataframes(data_greedy),
-    crear_lista_dataframes(data_local),
+    crear_lista_dataframes(data_local, 400),
     crear_lista_dataframes(data_grasp_0),
     crear_lista_dataframes(data_grasp_25),
     crear_lista_dataframes(data_grasp_50),
