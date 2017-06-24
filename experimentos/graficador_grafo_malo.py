@@ -38,7 +38,7 @@ verde = '#55A868'
 rojo = '#C44E52'
 azul = '#4C72B0'
 
-colores = [verde, rojo, azul]
+colores = [azul, verde, rojo]
 
 T_TIEMPO = (0, "Tiempo medio para diferentes tamaños de grafos", "Segundos")
 T_TAMCLIQUE = (1, "Clique solución para diferentes tamaños de grafos", "Tamaño clique")
@@ -46,7 +46,7 @@ T_FRONTERA = (2, "Frontera máxima para diferentes tamaños de grafos", "Fronter
 
 T_EXACTA = (0, "Exacta")
 T_GREEDY = (1, "Golosa")
-T_LOCAL = (2, "Búsqeda local")
+T_LOCAL = (2, "Búsqueda local")
 T_GRASP = (3, "GRASP")
 
 data_exacta = pd.read_csv('experimentos/exacta/grafo_malo.csv')
@@ -62,7 +62,7 @@ data = [
 ]
 
 # Al menos uno!
-algos = [T_GREEDY, T_LOCAL]
+algos = [T_LOCAL, T_GREEDY]
 tipo = T_FRONTERA
 titulo = ""
 
