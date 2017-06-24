@@ -8,7 +8,7 @@ bool ResolverLocal::leerInput() {
     int n, m;
     std::cin >> n >> m;
 
-    
+
     this->n = n;
     this->grafo_lst.clear();
     this->grafo_lst.resize(n, vector<int>(0));
@@ -39,7 +39,7 @@ void ResolverLocal::copiarInput(ResolverGreedyVariante problema) {
     this->grafo_ady = problema.grafo_ady;
 }
 
-vector<int> ResolverLocal::resolver(bool imprimirOutput, vector<int> solucion) {
+vector<int> ResolverLocal::resolver(bool imprimirOutput, vector<int> solucion, bool minimoOutput) {
     /*
     La función 'búsquedaLocal' es la que explora los vecinos y busca una solución
     mejor. Pero corresponde a una única iteración: explora sólo los vecinos de la
@@ -67,6 +67,13 @@ vector<int> ResolverLocal::resolver(bool imprimirOutput, vector<int> solucion) {
             std::cout << v + 1 << " ";
         }
         std::cout << "\n";
+    }
+
+
+    // @DEBUG, esto es para las mediciones, borrar luego
+    if (minimoOutput) {
+        std::cout << frontera_actual << ",";
+        std::cout << solucion.size();
     }
 
     return solucion;
@@ -100,7 +107,7 @@ vector<int> ResolverLocal::busquedaLocal(vector<int> &inicial) {
 // Maximiza la frontera de los cliques obtenidos al agregar un nodo en la solución inicial
 // O(n^2)
 vector<int> ResolverLocal::maximoPorAdd(vector<int> &inicial, vector<int> &complemento_inicial) {
-    
+
     if (complemento_inicial.size() == 0) {
         return inicial;
     }
@@ -133,7 +140,7 @@ vector<int> ResolverLocal::maximoPorAdd(vector<int> &inicial, vector<int> &compl
 // Maximiza la frontera de los cliques obtenidos al eliminar un nodo en la solución inicial
 // O(n^2)
 vector<int> ResolverLocal::maximoPorSub(vector<int> &inicial, vector<int> &complemento_inicial) {
-    
+
     if (inicial.size() == 0) {
         return inicial;
     }
