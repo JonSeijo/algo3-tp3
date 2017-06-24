@@ -8,7 +8,7 @@ El algoritmo goloso constructivo que vamos a utilizar es el \textit{golosoB} del
 
 \subsection{Pseudocódigo}
 
-Las funciones greedy.resolver(), local.resolver() y Frontera() no son incluidas aquí por ser iguales a las incluidas previamente. Las complejidades son $O(n^5)$, $O(n^5)$ y $O(n^2)$ respectivamente. \\
+Las funciones local.resolver() y Frontera() no son incluidas aquí por ser iguales a las incluidas previamente. Las complejidades son $O(n^5)$ y $O(n^2)$ respectivamente. \\
 
 Referencias de variables globales para el pseudocódigo:
 \begin{itemize}
@@ -18,13 +18,12 @@ Referencias de variables globales para el pseudocódigo:
 
 \begin{algorithm}[H]
 \begin{algorithmic}
-\Function{Resolver}{$maximo$}         
+\Function{Resolver}{$\alpha$}
 	\State $fronteraMax \gets 0$
 	\State $fronteraNueva \gets 0$
 	\State $repes \gets 0$
-	\While{$repes < maximo$}
-        \State $semilla \gets rand().mod(n)$
-        \State $actual \gets greedy.resolver(semilla)$
+	\While{$repes < 2$}
+        \State $actual \gets GreedyRandom(\alpha)$
     	\State $nueva \gets local.resolver(actual)$
     	\State $fronteraNueva \gets Frontera(nueva)$
     	\If {$fronteraNueva > fronteraMax$}
@@ -36,7 +35,57 @@ Referencias de variables globales para el pseudocódigo:
     	\EndIf
     \EndWhile
     \State return $solucion$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
+
+\begin{algorithm}[H]
+\begin{algorithmic}
+\Function{GreedyRandom}{$\alpha$}
+    \State $fronteraMax \gets -1$
+
+    \State $candidatosInicial \gets []$
+
+    \State $solucion \gets []$
+
+    \State $puedoConstruirClique \gets true$
+
+    \While {$puedoConstruirClique \land candidatosInicial.size() \geq 0$}
+        \State $puedoConstruirClique \gets false$
+
+        \State $candidatos \gets []$
+        \State $RCL \gets []$
+
+        \For {$c \in candidatosInicial$}
+            \If {$esClique(solucion + c)$}
+                \State $front \gets frontera(solucion)$
+                \State $candidatos \gets candidate + (front, c)$
+                \State $puedoConstruirClique \gets true$
+            \EndIf
+        \EndFor
+        \State $fronteraMinTmp \gets INFINITO$
+        \State $fronteraMaxTmp \gets -1$
+        \For {$cand \in candidatos$}
+            \State $fronteraMinTmp \gets min(fronteraMinTmp, cand.first)$
+            \State $fronteraMaxTmp \gets max(fronteraMaxTmp, cand.first)$
+        \EndFor
+
+        \For {$cand : candidatos$}
+            \If {$cand.first \geq fronteraMaxTmp + (alpha*(fronteraMinTmp - fronteraMaxTmp))$}
+                \State $RCL \gets RCL + cand.second$
+            \EndIf
+        \EndFor
+
+        \If {$puedoConstruirClique$}
+            \State $randomIndex \gets rand().mod(RCL.size()$
+            \State $solucion \gets solucion + RCL[randomIndex]$
+
+            \State $candidatosInicial \gets candidatosInicial - RCL[randomIndex]$
+        \EndIf
+    \EndWhile
+    \State $fronteraMax \gets frontera(solucion)$
+    \State return $solucion$
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
