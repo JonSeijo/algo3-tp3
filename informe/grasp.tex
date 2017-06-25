@@ -121,9 +121,19 @@ Con esta información en mano, el grueso de la complejidad de GRASP proviene sim
 % {\centering
 %     \includegraphics[width=1\textwidth]{informe/imgs/exp_malo_tiempo_grasp_local_greedy.pdf}
 % }
-El nivel de aleatoriedad con el que se crea la RCL del GRASP depende de nuestro parámetro $\alpha$. $\alpha = 0$ representa una elección puramente greedy, mientras que $\alpha = 1$ hace una elección puramente aleatoria. Veremos luego comparaciones entre diferentes valores de $\alpha$, pero es razonable esperar que el mejor valor para nuestros propositos se encuentre en un punto medio, con $\alpha = 0.5$. \\
+El nivel de aleatoriedad con el que se crea la RCL del GRASP depende de nuestro parámetro $\alpha$. $\alpha = 0$ representa una elección puramente greedy, mientras que $\alpha = 1$ hace una elección puramente aleatoria. Dado que los valores de frontera son muy similares a pesar de que variamos el alpha, mostramos un gráfico para $400 \leq n \leq 800$. Aquí puede verse que el mejor valor es $\alpha = 0.5$, así que será lo que usaremos.
 
-Nos interesa averiguar entonces qué tan lejos estamos del óptimo para nuestros ``grafos malos''. Estamos interesados en saber si la estretagia para escapar de los extremos locales funciona. Veamos lo que nos muestran los datos, recordamos que anteriormente pudimos calcular cuál es la solución óptima para este tipo de grafos. \\
+% No merece la pena, es mas de lo mismo
+% {\centering
+%     \includegraphics[width=1\textwidth]{informe/imgs/exp_malo_frontera_grasp.pdf}
+% }
+
+{\centering
+    \includegraphics[width=0.90\textwidth]{informe/imgs/exp_malo_frontera_grasp_zoom.pdf}
+    % \captionof{figure}{$\uparrow$ Zoom del gráfico anterior}
+}
+
+Nos interesa averiguar entonces qué tan lejos estamos del óptimo para nuestros ``grafos malos''. Estamos interesados en saber si la estretagia para escapar de los extremos locales funciona. Veamos lo que nos muestran los datos, recordando que anteriormente pudimos calcular cuál es la solución óptima para este tipo de grafos. \\
 
 {\centering
     \includegraphics[width=1\textwidth]{informe/imgs/exp_malo_frontera_grasp_local_optimo.pdf}
@@ -131,14 +141,9 @@ Nos interesa averiguar entonces qué tan lejos estamos del óptimo para nuestros
 
 La solución promedio de GRASP es \textbf{exactamente} la solución óptima! \\
 
-{\centering
-    \includegraphics[width=1\textwidth]{informe/imgs/exp_malo_frontera_grasp.pdf}
-}
+Logramos resolver el problema de forma óptima para el caso en los que las demas técnicas fallaban. Es esperable que GRASP también sea bastante bueno para grafos en general. Veremos qué tan cierta es esta intuición en la siguiente sección. \\
 
-{\centering
-    \includegraphics[width=1\textwidth]{informe/imgs/exp_malo_frontera_grasp_zoom.pdf}
-    \captionof{figure}{$\uparrow$ Zoom del gráfico anterior}
-}
+Antes de concluir con este apartado, es interesante considerar cuál es el costo temporal de utilizar GRASP. Aquí unas comparaciones:
 
 {\centering
     \includegraphics[width=1\textwidth]{informe/imgs/exp_malo_tiempo_grasp.pdf}
