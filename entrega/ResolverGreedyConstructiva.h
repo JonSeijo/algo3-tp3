@@ -10,7 +10,7 @@ class ResolverGreedyConstructiva {
 
 public:
     bool leerInput();
-    vector<int> resolver(bool imprimirOutput, bool minimoOutput=false);
+    vector<int> resolver(bool imprimirOutput);
 
     // Lista de adyacencia para representar al grafo
     vector<vector<int> > grafo_lst;

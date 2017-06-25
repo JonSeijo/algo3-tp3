@@ -25,7 +25,7 @@ bool ResolverGreedyConstructiva::leerInput() {
     return true;
 }
 
-vector<int> ResolverGreedyConstructiva::resolver(bool imprimirOutput=false, bool minimoOutput) {
+vector<int> ResolverGreedyConstructiva::resolver(bool imprimirOutput=false) {
     /*
     La idea es la siguiente:
 
@@ -98,12 +98,6 @@ vector<int> ResolverGreedyConstructiva::resolver(bool imprimirOutput=false, bool
             std::cout << v + 1 << " ";
         }
         std::cout << "\n";
-    }
-
-    // @DEBUG, esto es para las mediciones, borrar luego
-    if (minimoOutput) {
-        std::cout << fronteraMax << ",";
-        std::cout << solucion.size();
     }
 
     return solucion;
