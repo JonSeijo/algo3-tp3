@@ -18,7 +18,7 @@ Recorremos la lista de candidatos y tomo alguno, $c$. Consideramos $c$ como part
 
 Comparamos la frontera $f$ con la frontera máxima $FM$. Si $f < FM$, entonces quitamos a $c$ de $S$, pues no hace que la solucion mejore. Si $f \geq FM$, entonces mantenemos a $c$, ahora $c$ es nuestro mejor candidato, pues la frontera máxima no empeoró. Actualizamos $FM$ con el valor de $f$. En ambos casos quitamos también a $c$ de la lista de candidatos, para no repetirlo dos veces. \\
 
-Una vez encontrado el $c$ que maximice mi solución, lo agregamos definitivamente y seguimos iterando hasta que ya no se pueda considerar mas candidatos. \\
+Una vez encontrado el $c$ que maximice la solución, lo agregamos definitivamente y seguimos iterando hasta que ya no se pueda considerar mas candidatos. \\
 
 Finalizado el algoritmo, $S$ es una clique elegida de manera golosa, con la mayor frontera que se puedo encontrar. \\
 
@@ -96,13 +96,13 @@ La complejidad principal del algoritmo se encuentra en ``ObtenerSolucion()'', qu
 
 Mas intuitivamente, EsClique ($O(n^3)$) se ejecuta $O(n)$ veces en el For, y a su vez se ejecuta $O(n)$ veces en el While. Por lo tanto, es $O(n^5)$. \\
 
-Si bien $O(n^5)$ puede parecer un polinomio ``grande'', es exponencialmente mejor que el algortimo exacto que tenía $O(2^{n} * n^{3})$. El trade-off es que no siempre se producen soluciones óptimas, como veremos más adelante. \\
+Si bien $O(n^5)$ puede parecer un polinomio ``grande'', es exponencialmente mejor que el algortimo exacto que tenía $O(2^{n} * n^{3})$. El trade-off es que no siempre se producen soluciones óptimas. \\
 
 \subsection{Optimalidad}
 
 Como podrá verse mas adelante, las soluciones para grafos aleatorios son bastante buenas, pero existe al menos un tipo específico de grafos donde la diferencia entre el exacto y el greedy puede ser \textbf{arbitrariamente grande}. \\
 
-Veamos como podemos construir este tipo de grafos. Vamos a aprovecharnos de que el algoritmo greedy recorre los nodos en orden: 1, 2, 3, 4. \\
+Veamos como podemos construir este tipo de grafos. \\
 
 {\centering
     \includegraphics[width=0.57\textwidth]{informe/imgs/greedy_base.png} \\
@@ -126,19 +126,22 @@ Este es un procedimiento que podemos seguir repitiendo. Agregamos un vecino al n
 
 \subsection{Experimentación}
 
+% Innecesarios, con uno solo de tiempo es suficiente
+% {\centering
+%     \includegraphics[width=1\textwidth]{informe/imgs/exp_random50_tiempo_greedy_exacta_logy.pdf} \\
+%        \captionof{figure}{Escala logarítmica}
+% }
+% {\centering
+%     \includegraphics[width=1\textwidth]{informe/imgs/exp_completo_tiempo_greedy_exacta.pdf} \\
+% }
 
-{\centering
-    \includegraphics[width=1\textwidth]{informe/imgs/exp_random50_tiempo_greedy_exacta_logy.pdf} \\
-       \captionof{figure}{Escala logarítmica}
-}
+La principal motivación de buscar heurísticas fue de disminuir el tiempo de cómputo. Analizando la cota temporal teórica vimos que $O(n^5)$ es exponencialmente mejor que $O(2^{n} * n^{3})$. Veamos cómo son los tiempos en la práctica. \\
 
-{\centering
-    \includegraphics[width=1\textwidth]{informe/imgs/exp_completo_tiempo_greedy_exacta.pdf} \\
-}
+Dado que el algoritmo greedy es extremadamente rápido, decidimos mostrar un gráfico en \textbf{escala logarítmica} sobre los tiempo. Lo que puede verse es lo esperado.
 
 {\centering
     \includegraphics[width=1\textwidth]{informe/imgs/exp_completo_tiempo_greedy_exacta_logy.pdf} \\
-    \captionof{figure}{Escala lagarítmica}
+    \captionof{figure}{$\uparrow$ Escala lagarítmica}
 }
 
 \todo[inline]{Dato de color, podemos ver el funcionamiento que el greedy toma cliques de menor tamaño, bla}
