@@ -12,7 +12,7 @@ Mas detalladamente, el algoritmo funciona de la siguiente manera: \\
 
 Primero consideramos que todos los nodos son candidatos, y vamos a ejecutar el algoritmo siempre que exista algún candidato en la lista. Además mantenemos un vector $S$ que representa la solución actual, inicialmente vacío. Consideramos que mi frontera máxima $FM$ inicia con valor $-1$. \\
 
-Para cada iteracion del ciclo principal, queremos agregar el mejor candidato posible a la solución. Esto significa iterar por todos los candidatos y agregar a la solución aquel que maximice la frontera. \\
+Para cada iteración del ciclo principal, queremos agregar el mejor candidato posible a la solución. Esto significa iterar por todos los candidatos y agregar a la solución aquel que maximice la frontera. \\
 
 Recorremos la lista de candidatos y tomo alguno, $c$. Consideramos $c$ como parte de la solución. Si la solución $S$ no forma una clique, entonces quitamos $c$ de $S$ , consideramos que ya no es mas un candidato y volvemos al comienzo del algortimo. Si $S$ forma una clique, entonces calculamos su frontera $f$. \\
 
@@ -92,7 +92,7 @@ Las funciones ``EsClique()'' y ``Frontera()'' son las mismas que en el algortimo
 
 \subsection{Complejidad}
 
-La complejidad principal del algoritmo se encuentra en ``ObtenerSolucion()'', que es $O(n^5)$. Esto es fácil de ver: como nunca se agregan candidatos y siempre se quita al menos uno, el ciclo exterior se ejecuta a lo sumo $O(n)$ veces. El $For$ recorre la lista de candidatos, que son tambien a lo sumo $O(n)$. Dentro del $For$ encontramos solo dos funciones grandes, ``EsClique'' de $O(n^3)$ y ``Frontera'' de $O(n^2)$. El resto son comparaciones, asignaciones y borrados, de $O(n)$. \\
+La complejidad principal del algoritmo se encuentra en ``ObtenerSolucion()'', que es $O(n^5)$. Esto es fácil de ver: como nunca se agregan candidatos y siempre se quita al menos uno, el ciclo exterior se ejecuta a lo sumo $O(n)$ veces. El $For$ recorre la lista de candidatos, que son también a lo sumo $O(n)$. Dentro del $For$ encontramos solo dos funciones grandes, ``EsClique'' de $O(n^3)$ y ``Frontera'' de $O(n^2)$. El resto son comparaciones, asignaciones y borrados, de $O(n)$. \\
 
 Mas intuitivamente, EsClique ($O(n^3)$) se ejecuta $O(n)$ veces en el For, y a su vez se ejecuta $O(n)$ veces en el While. Por lo tanto, es $O(n^5)$. \\
 
@@ -150,7 +150,7 @@ Si bien en el caso de los grafos completos, la frontera solución coincide con l
     \includegraphics[width=1\textwidth]{informe/imgs/exp_completo_clique_greedy_exacta.pdf} \\
 }
 
-Retomando el análisis con los casos malos, habíamos mostrado que existen al menos un tipo de grafos (desde ahora simplemente \textbf{``grafos malos''}) donde la solución golosa podía estar tan lejor de la óptima como se quiera. Veamos gráficamente la diferencia en las soluciones. \\
+Retomando el análisis con los casos malos, habíamos mostrado que existen al menos un tipo de grafos (desde ahora simplemente \textbf{``grafos malos''}) donde la solución golosa podía estar tan lejos de la óptima como se quiera. Veamos gráficamente la diferencia en las soluciones. \\
 
 {\centering
     \includegraphics[width=1\textwidth]{informe/imgs/exp_malo_frontera_greedy_exacta.pdf} \\
@@ -178,4 +178,4 @@ $$\frac{1}{3}n - 4$$
 
 Demostramos entonces que la diferencia entre la solución óptima y la solución greedy para un mismo grafo puede ser arbitrariamente grande. Es decir, dado un $n$ lo suficientemente grande las soluciones pueden ser tan diferentes como uno quiera. La motivación de las siguientes heurísticas será intentar de mejorar las soluciones en los grafos malos, para intentar acercarnos lo más posible al óptimo. \\
 
-Para finalizar este apartado, es importante notar que en promedio el algoritmo greedy dá resultados razonablemente buenos, sobre todo teniendo en cuenta el mínimo costo computacional que tiene asociado. Veremos más sobre casos promedios al final del informe, donde realizaremos una comparación entre las diferentes heurísticas. \\
+Para finalizar este apartado, es importante notar que en promedio el algoritmo greedy da resultados razonablemente buenos, sobre todo teniendo en cuenta el mínimo costo computacional que tiene asociado. Veremos más sobre casos promedios al final del informe, donde realizaremos una comparación entre las diferentes heurísticas. \\
