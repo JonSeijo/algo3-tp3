@@ -2,13 +2,13 @@
 \section{Grasp}
 
 \subsection{Explicación}
-GRASP es sigla de Procedimientos Golosos Aleatorios Adaptativos de Búsqueda (Greedy Randomized Adaptive Search Procedures. Es una metaheurística que se basa en utilizar métodos golosos constructivos y de búsqueda local para resolver un problema computacionalmente dificil, utilizando el azar para no estancarse en un único máximo local. Cada iteración de un algoritmo GRASP construye golosamente una solución desde cero, admitiendo cierto grado de aleatoriedad al añadir elementos a la solución; para después mejorar el resultado con un método de búsqueda local. Realizamos varias iteraciones, deteníendonos bajo algún criterio de corte, ya sea por que conseguimos una solución lo suficientemente buena, o porque nos pasamos de una cantidad de iteraciones predeterminada. La mejor solución conseguida entre todas las iteraciones es el resultado final del algoritmo. \cite{paper_grasp} \\
+GRASP es sigla de Procedimientos Golosos Aleatorios Adaptativos de Búsqueda (Greedy Randomized Adaptive Search Procedures). Es una metaheurística que se basa en utilizar métodos golosos constructivos y de búsqueda local para resolver problemas computacionalmente difíciles, utilizando el azar para evitar estancarse en un único máximo local. Cada iteración de un algoritmo GRASP construye golosamente una solución desde cero, admitiendo cierto grado de aleatoriedad al añadir elementos, para después mejorarla con un método de búsqueda local. Realizamos varias iteraciones deteniéndonos bajo algún criterio de corte, ya sea por que conseguimos una solución lo suficientemente buena o porque nos pasamos de una cantidad de iteraciones predeterminada. La mejor solución conseguida entre todas las iteraciones es el resultado final del algoritmo. \cite{paper_grasp} \\
 
-El algoritmo goloso constructivo que va a ir un poco más allá del algoritmo \textit{golosoB} del que hablamos en la sección anterior. En vez de tomar el nodo inicial como parámetro y seguir con un algoritmo puramente greedy, en cada nuevo elemento admitiremos un poco de azar dentro de lo razonable. Para esto, en vez de maximizar de forma directa nuestra funcion greedy (cardinalidad de la frontera) sobre los nodos no agregados, construiremos una RCL (Restricted Candidate List). La misma contendrá los candidatos que cumplan con un cierto nivel de optimalidad, del que será elegido un nodo al azar para finalmente agregarse a la solución final. \\
+El algoritmo goloso constructivo que vamos a utilizar va a ir un poco más allá del algoritmo \textit{golosoB} del que hablamos en la sección anterior. En vez de maximizar de forma directa nuestra funcion greedy (cardinalidad de la frontera) sobre los nodos no agregados, construiremos un conjunto de candidatos llamado RCL (Restricted Candidate List). La misma contendrá los candidatos que cumplan con un cierto nivel de optimalidad, del que será elegido un nodo al azar para ser agregado a la solución final. \\
 
-El criterio con el cuál se tomarán candidatos al RCL estará dictaminado por un parámetro $alpha$, que indicará qué porcentaje del rango de valores posibles que pueden tomar los candidatos, se admiten en la RCL. Formalmente, un nodo $c$ que resulta en una frontera $f_c$ al ser agregado a la solución parcial, pertenece al RCL solo si $f_c \geq f_{max} + \alpha * (f_{min} - f_{max})$, con $max$ nodo localmente óptimo, y $min$ nodo localmente peor. A grandes rasgos, un $alpha$ grande implica darle más peso al azar, y uno más chico, a la porción golosa del algoritmo. (Notemos que para que esto tenga sentido, $\alpha \in \mathbb{R}$ y $0 \leq \alpha \leq 1$). Una vez que el RCL está formado, se elije un nodo al azar, y se comienza el proceso de nuevo, hasta no poder continuar. \\
+El criterio con el cuál se tomarán candidatos al RCL estará dictaminado por un parámetro $alpha$, que indicará qué porcentaje del rango de valores posibles que pueden tomar los candidatos se admiten en la RCL. Formalmente, un nodo $c$ que resulta en una frontera $f_c$ al ser agregado a la solución parcial, pertenece al RCL solo si $f_c \geq f_{max} + \alpha * (f_{min} - f_{max})$, con $max$ nodo localmente óptimo, y $min$ nodo localmente peor. A grandes rasgos, un $alpha$ grande implica darle más peso al azar, y uno más chico, a la porción golosa del algoritmo. (Notemos que para que esto tenga sentido, $\alpha \in \mathbb{R}$ y $0 \leq \alpha \leq 1$). Una vez que el RCL está formado, se elije un nodo al azar, y se comienza el proceso de nuevo, hasta no poder continuar. \\
 
-Obtenida una solución inicial, como nuestro método no es (en general) completamente goloso, podemos utilizar un algoritmo de búsqueda local movernos hacia un máximo local, mejorando nuestra solución y completando una iteración de GRASP. El algoritmo que usamos para este propósito es el mismo de la sección anterior.
+Obtenida una solución inicial, como nuestro método no es (en general) completamente goloso, podemos utilizar un algoritmo de búsqueda local para movernos hacia un máximo local, mejorando nuestra solución y completando una iteración de GRASP. El algoritmo que usamos para este propósito es el mismo de la sección anterior.
 
 \subsection{Pseudocódigo}
 
@@ -103,8 +103,8 @@ Analicemos en primer lugar la complejidad de ``GreedyRandom'':
 \begin{itemize}
     \item Iteraciones del while son $O(n)$: Se corta cuando $candidatosInicial.size = 0$, y en cada iteración a $candidatosInicial$ se le resta $RCL$, que nunca está vacio pues siempre el nodo golosamente óptimo pertenece, por lo cual la cantidad de iteraciones es $O(n)$.
     \item Calcular fronteras de candidatos es $O(n^4)$: Recorremos la lista de candidatos ($O(n)$), y para cada uno preguntamos si es clique en $O(n^3)$ y si lo es, su frontera en $O(n^2)$.
-    \item Calcular fronteras máximas y mínimas es $O(n)$: Calculadas todas las fronteras de los candidatos, solo hay que recorrer esa secuencia y quedarme con el máximo y mínimo
-    \item Construir el RCL es $O(n)$: Consta de recorrer los candidatos y verificar para cada una si se cumple una fórmula calculable en $O(1)$
+    \item Calcular fronteras máximas y mínimas es $O(n)$: Calculadas todas las fronteras de los candidatos, solo hay que recorrer esa secuencia y quedarme con el máximo y el mínimo
+    \item Construir el RCL es $O(n)$: Consta de recorrer los candidatos y verificar para cada uno si se cumple una fórmula calculable en $O(1)$
 \end{itemize}
 
 Entonces, su complejidad es:
@@ -121,9 +121,11 @@ Con esta información en mano, el grueso de la complejidad de GRASP proviene sim
 % {\centering
 %     \includegraphics[width=1\textwidth]{informe/imgs/exp_malo_tiempo_grasp_local_greedy.pdf}
 % }
-El nivel de aleatoriedad con el que se crea la RCL del GRASP depende de nuestro parámetro $\alpha$. $\alpha = 0$ representa una elección puramente greedy, mientras que $\alpha = 1$ hace una elección puramente aleatoria. Dado que los nuestro son grafos bastantes particulares, al introducir un poco de aleatoriedad con el alpha, ya logramos obtener las mejores fronteras posibles. Puede verse que como adelantamos, cuando alpha es 0 se produce una eleccion puramente greedy, por lo que siempre es peor. \\
+El nivel de aleatoriedad con el que se crea la RCL del GRASP depende de nuestro parámetro $\alpha$. $\alpha = 0$ representa una elección puramente greedy, mientras que $\alpha = 1$ hace una elección puramente aleatoria. Dado nuestros grafos son bastantes particulares, al introducir un poco de aleatoriedad con el alpha ya logramos obtener las mejores fronteras posibles. Puede verse que como adelantamos, cuando alpha es 0 se produce una eleccion puramente greedy, por lo que siempre es peor. \\
 
 Es importante aclarar que esto es así por el tipo particular de grafos que estamos tratando, en el caso general esto puede no ser cierto. Intuitivamente los mejores resultados se obtienen en el equilibrio, con $\alpha = $0.5, por lo que en los siguientes casos utilizaremos este valor. \\
+
+\todo[inline]{¿Qué es este gráfico?}
 
 {\centering
     \includegraphics[width=1\textwidth]{informe/imgs/exp_malo_frontera_grasp_alphas.pdf}
@@ -137,7 +139,7 @@ Es importante aclarar que esto es así por el tipo particular de grafos que esta
 
 Otro parámetro importante es la cantidad de iteraciones a realizar, tanto en GRASP como en la búsqueda local interna. Para búsqueda local utilizamos $repsLocal = 2000$, al igual que en el apartado anterior. Con $repsGrasp$ fuimos variándolo y no encontramos ninguna diferencia apreciable, creemos que es por el tipo de grafo. Para estos experimentos tomamos $repsGrasp = 50$. \\
 
-Nos interesa averiguar entonces qué tan lejos estamos del óptimo para nuestros ``grafos malos''. Estamos interesados en saber si la estretagia para escapar de los extremos locales funciona. Veamos lo que nos muestran los datos, recordando que anteriormente pudimos calcular cuál es la solución óptima para este tipo de grafos. \\
+Nos interesa averiguar entonces qué tan lejos estamos del óptimo para nuestros ``grafos malos''. Estamos interesados en saber si la estrategia para escapar de los extremos locales funciona. Veamos lo que nos muestran los datos, recordando que anteriormente pudimos calcular cuál es la solución óptima para este tipo de grafos. \\
 
 {\centering
     \includegraphics[width=1\textwidth]{informe/imgs/exp_malo_frontera_grasp_local_optimo.pdf}
