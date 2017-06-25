@@ -42,7 +42,6 @@ vector<int> ResolverGrasp::resolver(int repsGrasp, int repsLocal, double alpha_i
             std::cout << v + 1 << " ";
         }
         std::cout << "\n";
-        std::cout <<"cantidad: " << i << "\n";
     }
 
     return mejor;
