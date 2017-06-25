@@ -4,7 +4,7 @@
 
 \subsection{Explicación}
 
-Nuestro problema a resolver es CFM: Clique de Frontera Máxima. Debemos encontrar una clique en el grafo que tenga frontera máxima. Como aclaración, una clique es un subgrafo completo pero no necesariamente es maximal (aunque podría serlo). Como una clique está formada por nodos del grafo, una forma de resolver CFM es revisando todos los posibles subconjuntos de nodos. En caso de que formen clique, calculamos su frontera y nos quedamos con el máximo de ellas.  \\
+Nuestro problema a resolver es CFM: Clique de Frontera Máxima. Como aclaración, una clique es un subgrafo completo pero no necesariamente es maximal (aunque podría serlo). Debemos encontrar una clique en el grafo que tenga frontera máxima. Como una clique está formada por nodos del grafo, una forma de resolver CFM es revisando todos los posibles subconjuntos de nodos. En caso de que formen clique, calculamos su frontera y nos quedamos con el máximo de ellas.  \\
 
 Para saber si un conjunto $vs$ de vértices es clique, revisamos si todos los vértices en $vs$ son vecinos entre sí. Esto significa que forman un subgrafo completo (pues los vértices y aristas forman parte del grafo principal) por lo tanto es clique. \\
 
@@ -115,9 +115,9 @@ Referencias de variables globales para el pseudocódigo:
 \begin{itemize}
     \item LeerInput es $O(n^2)$: Leo como máximo todas las aristas posibles.
     \item SonVecinos es $O(n)$: Recorro la lista de adyacencia de un vértice, como mucho tiene $O(n)$ vecinos.
-    \item EsClique es $O(n^{3})$: Para cada vértice se recorren todos los demas y se revisa si son vecinos.
+    \item EsClique es $O(n^{3})$: Para cada vértice se recorren todos los demás y se revisa si son vecinos.
     \item Frontera es $O(n^{2})$: Para cada vértice de la clique se revisan todos sus vecinos.
-    \item GenerarSubconjuntos es $O(2^{n} * n^{3})$: Hay $O(2^n)$ llamados recursivos (pues cada vertice está o no está), y en cada llamado recursivo se revisa si EsClique en $O(n^3)$ y luego su Frontera en $O(n^2)$ ($=$ $O(n^3)$). También puede pensarse que se generan $2^n$ subconjuntos, y por cada subconjunto se hacen $O(n^3)$ operaciones.
+    \item GenerarSubconjuntos es $O(2^{n} * n^{3})$: Hay $O(2^n)$ llamados recursivos (pues cada vértice está o no está), y en cada llamado recursivo se revisa si EsClique en $O(n^3)$ y luego su Frontera en $O(n^2)$ ($=$ $O(n^3)$). También puede pensarse que se generan $2^n$ subconjuntos, y por cada subconjunto se hacen $O(n^3)$ operaciones.
 \end{itemize}
 
 Para Resolver() se lee el input y luego se llama a GenerarSubconjuntos. La complejidad final es:
@@ -128,21 +128,21 @@ $$ O(n^2) + O(2^{n} * n^{3}) = O(2^{n} * n^{3})$$
 
 Por lo que vimos en la sección complejidad, obtenemos la solución exacta pero a un costo temporal \textbf{muy} alto. Veamos empíricamente cuánto se tarda en resolver para cada tamaño de $n$. Consideramos para esta muestra grafos completos ya que tienen la máxima cantidad de vecinos por nodos, y son por lo tanto el peor caso. \\
 
-Se puede observar en el siguiente gráfico como los tiempos aumentan exponencialmente con respecto al tamaño del grafo, y también puede observarse que para $n = 22$, se tardan aproximadamente 4 minutos. Es claro que es completamente inusable para grafos de mayor tamaño. \\
+Se puede observar en el siguiente gráfico cómo los tiempos aumentan exponencialmente con respecto al tamaño del grafo, y también puede observarse que para $n = 22$, se tardan aproximadamente 4 minutos. Es claro que es completamente inusable para grafos de mayor tamaño. \\
 
 {\centering
     \includegraphics[width=1\textwidth]{informe/imgs/exp_completo_tiempo_exacta.pdf} \\
 }
 
-Aprovechemos esta sección para tratar de entender mejor el por qué de nuestras futuras estrategias. Una posible primera idea para de encontrar la clique con máxima frontera, es intentar encontrar la clique máxima. Esta es una \textit{pésima} idea, porque si consideramos un grafo completo de $n$ nodos, la clique máxima es $K_n$ con una frontera de tamaño 0. \\
+Aprovechemos esta sección para tratar de entender mejor el por qué de nuestras futuras estrategias. Una posible primera idea para encontrar la clique con máxima frontera es intentar encontrar la clique máxima. Esta es una \textit{pésima} idea, porque si consideramos un grafo completo de $n$ nodos, la clique máxima es $K_n$ con una frontera de tamaño 0. \\
 
-Por ejemplo, vemos en el caso particular de los grafos completos, que la clique que maximiza la frontera tiene tamaño $n/2$.
+Por ejemplo, vemos en el caso particular de los grafos completos que la clique que maximiza la frontera tiene tamaño $n/2$.
 
 {\centering
     \includegraphics[width=1\textwidth]{informe/imgs/exp_completo_clique_exacta.pdf} \\
 }
 
-Como curiosidad, si nuestro grafo es completo no es necesario correr el algoritmo para conocer cuál será la frontera máxima. Basta considerar que la clique que la maximiza tiene $\frac{n}{2}$ nodos, y por cada nodo de la clique hay $\frac{n}{2}$ vecinos exteriores. Por lo tanto, la frontera máxima de un grafo completo es $\frac{n^2}{4}$
+Como curiosidad, si nuestro grafo es completo no es necesario correr el algoritmo para conocer cuál será la frontera máxima. Basta considerar que la clique que la maximiza tiene $\frac{n}{2}$ nodos, y por cada nodo de la clique hay $\frac{n}{2}$ vecinos exteriores. Por lo tanto, la frontera máxima de un grafo completo es $\frac{n^2}{4}$.
 
 % Not worthed
 % {\centering
