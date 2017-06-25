@@ -123,6 +123,8 @@ Con esta información en mano, el grueso de la complejidad de GRASP proviene sim
 % }
 El nivel de aleatoriedad con el que se crea la RCL del GRASP depende de nuestro parámetro $\alpha$. $\alpha = 0$ representa una elección puramente greedy, mientras que $\alpha = 1$ hace una elección puramente aleatoria. Dado que los valores de frontera son muy similares a pesar de que variamos el alpha, mostramos un gráfico para $400 \leq n \leq 800$. Aquí puede verse que el mejor valor es $\alpha = 0.5$, así que será lo que usaremos.
 
+\todo[inline]{NO! Al final es fruta, estoy corriendo los exp de nuevo y los graficos son nada que ver. Esto era porque grasp y local hacian muy pocas repes. Voy a actualizar cuando termine de arrglar todo, pero basicamente alpha 1 da -exactamente- igual que el greedy (esperado),y ajustando alpha un poquito ya se encuentra el optimo, pero tiene que ver con que nuestros grafos son muy particulares. En el caso general es probable que alpha 0.5 sea el mejor, pero en este caso particular es fruta}
+
 % No merece la pena, es mas de lo mismo
 % {\centering
 %     \includegraphics[width=1\textwidth]{informe/imgs/exp_malo_frontera_grasp.pdf}
