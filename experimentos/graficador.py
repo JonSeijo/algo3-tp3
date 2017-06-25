@@ -62,30 +62,34 @@ T_GRAFO_COMPLETO = ("completo", "Grafo completo\n")
 
 # Elegir al menos uno de cada uno!
 
-tipo = T_TIEMPO
-algos = [T_GRASP_50, T_GRASP_1, T_GRASP_0]
+tipo = T_FRONTERA
+algos = [T_LOCAL, T_GREEDY]
 grafo = T_GRAFO_MALO
 titulo = grafo[1]
-
+mostrar_optimo = True
 logy = False
 
 data_exacta = pd.read_csv('experimentos/exacta/' + grafo[0] + '.csv')
 data_greedy = pd.read_csv('experimentos/greedy/' + grafo[0] + '.csv')
 data_local = pd.read_csv('experimentos/local/' + grafo[0] + '.csv')
-data_grasp_0 = pd.read_csv('experimentos/grasp/' + grafo[0] + '_0.csv')
-data_grasp_25 = pd.read_csv('experimentos/grasp/' + grafo[0] + '_25.csv')
-data_grasp_50 = pd.read_csv('experimentos/grasp/' + grafo[0] + '_50.csv')
-data_grasp_1 = pd.read_csv('experimentos/grasp/' + grafo[0] + '_1.csv')
+# data_grasp_0 = pd.read_csv('experimentos/grasp/' + grafo[0] + '_0.csv')
+# data_grasp_25 = pd.read_csv('experimentos/grasp/' + grafo[0] + '_25.csv')
+# data_grasp_50 = pd.read_csv('experimentos/grasp/' + grafo[0] + '_50.csv')
+# data_grasp_1 = pd.read_csv('experimentos/grasp/' + grafo[0] + '_1.csv')
 
 data = [
     crear_lista_dataframes(data_exacta),
     crear_lista_dataframes(data_greedy),
-    crear_lista_dataframes(data_local, 400),
-    crear_lista_dataframes(data_grasp_0),
-    crear_lista_dataframes(data_grasp_25),
-    crear_lista_dataframes(data_grasp_50),
-    crear_lista_dataframes(data_grasp_1)
+    crear_lista_dataframes(data_local)#,
+    # crear_lista_dataframes(data_grasp_0),
+    # crear_lista_dataframes(data_grasp_25),
+    # crear_lista_dataframes(data_grasp_50),
+    # crear_lista_dataframes(data_grasp_1)
 ]
+
+dominio = [x for x in range(15, 1999, 3)]
+imagen = [2*x/3 - 3 for x in range(15, 1999, 3)]
+optimo_df = pd.DataFrame(data=imagen, index=dominio)
 
 plt.clf()
 
@@ -95,6 +99,10 @@ plot_grafo.set_ylabel(tipo[2], size = 14)
 
 for i in range(1, len(algos)):
     obtener_dataframe(algos[i], tipo).plot(ax=plot_grafo, color=colores[i])
+
+if mostrar_optimo:
+    optimo_df.plot(ax=plot_grafo, style='--', color=violeta)
+    algos.append((None, "Óptimo"))
 
 plot_grafo.legend([algo[1] for algo in algos], fontsize = 14)
 plot_grafo.set_xlabel("Cantidad de nodos", size = 14)
