@@ -15,42 +15,66 @@ import math
 
 ejecutable_tiempos_exacta = "./tiempoExacta"
 ejecutable_tiempos_greedy = "./tiempoGreedy"
+ejecutable_tiempos_local = "./tiempoLocal"
+ejecutable_tiempos_grasp = "./tiempoGrasp"
 
 # InputFile donde se van a guardar cada instancia que se ejecute
 input_path_tmp = "./experimentos/input.tmp"
 
-repeticiones = 20
-n_max = 24 # Aumentar
+repeticiones = 1
+n_max = 26 # Aumentar
+
+ejecutables = [
+    ejecutable_tiempos_exacta,
+    ejecutable_tiempos_greedy,
+    ejecutable_tiempos_local,
+    ejecutable_tiempos_grasp
+]
+
+def generar_lista_outs(ejecutables, porc):
+    a = []
+    csv = ""
+
+    if (porc == 25):
+        csv = "random_aristas_25.csv"
+    elif (porc == 50):
+        csv = "random_aristas_50.csv"
+    elif (porc == 75):
+        csv = "random_aristas_75.csv"
+    elif (porc == 100):
+        csv = "completo.csv"
+    else:
+        print("ERROR")
+
+    if (ejecutable_tiempos_exacta in ejecutables):
+        a.append("./experimentos/exacta/" + csv)
+    if (ejecutable_tiempos_greedy in ejecutables):
+        a.append("./experimentos/greedy/" + csv)
+    if (ejecutable_tiempos_local in ejecutables):
+        a.append("./experimentos/local/" + csv)
+    if (ejecutable_tiempos_grasp in ejecutables):
+        a.append("./experimentos/grasp/" + csv)
+
+    return a
+
 
 # random25
-csv_random25 = [
-    "./experimentos/exacta/random_aristas_25.csv",
-    "./experimentos/greedy/random_aristas_25.csv"
-]
+csv_random25 = generar_lista_outs(ejecutables, 25)
 n_max_random25 = n_max
 tipo_random25 = "RANDOM_ARISTAS_25"
 
 # random50
-csv_random50 = [
-    "./experimentos/exacta/random_aristas_50.csv",
-    "./experimentos/greedy/random_aristas_50.csv"
-]
+csv_random50 = generar_lista_outs(ejecutables, 50)
 n_max_random50 = n_max
 tipo_random50 = "RANDOM_ARISTAS_50"
 
 # random75
-csv_random75 = [
-    "./experimentos/exacta/random_aristas_75.csv",
-    "./experimentos/greedy/random_aristas_75.csv"
-]
+csv_random75 = generar_lista_outs(ejecutables, 75)
 n_max_random75 = n_max
 tipo_random75 = "RANDOM_ARISTAS_75"
 
 # completo
-csv_completo = [
-    "./experimentos/exacta/completo.csv",
-    "./experimentos/greedy/completo.csv"
-]
+csv_completo = generar_lista_outs(ejecutables, 100)
 n_max_completo = n_max
 tipo_completo = "GRAFO_COMPLETO"
 
@@ -99,6 +123,8 @@ def generate_input(tipo, n, todas_las_aristas):
 # CSV_FILENAMES = [EXACTA, GREEDY]
 
 def experimentar(csv_filenames, n_max, tipo):
+    global ejecutables
+
     # Guardar encabezado de csv
     for csv_filename in csv_filenames:
         with open(csv_filename, 'w') as csv :
@@ -122,26 +148,24 @@ def experimentar(csv_filenames, n_max, tipo):
             # Correr ejecutable con el input falopa
             # Guarda tiempo en output, ignora stderr (Python3!)
 
-            with open(input_path_tmp) as input_file:
-                tiempo_y_output_exacta = subprocess.check_output(
-                            [ejecutable_tiempos_exacta], stdin=input_file, stderr=subprocess.DEVNULL
-                        ).decode(sys.stdout.encoding)
+            for i in range(len(csv_filenames)):
+                with open(input_path_tmp) as input_file:
+                    leyo = True
+                    try:
+                        tiempo_y_output = subprocess.check_output(
+                                    [ejecutables[i]], stdin=input_file, stderr=subprocess.DEVNULL
+                                ).decode(sys.stdout.encoding)
+                    except:
+                        print("ups")
+                        leyo = False
+                if (leyo):
+                    # Guardar en un csv
+                    # Cada linea: n,tiempo_y_output = n,fronteraMax,tamClique,tiempo
+                    # csv_filenames = [EXACTA, GREEDY]
+                    with open(csv_filenames[i], 'a') as csv :
+                        csv.write(str(n) + "," + tiempo_y_output + '\n')
 
-            # Guardar en un csv
-            # Cada linea: n,tiempo_y_output = n,fronteraMax,tamClique,tiempo
-            # csv_filenames = [EXACTA, GREEDY]
-            with open(csv_filenames[0], 'a') as csv :
-                csv.write(str(n) + "," + tiempo_y_output_exacta + '\n')
 
-
-
-            with open(input_path_tmp) as input_file:
-                tiempo_y_output_greedy = subprocess.check_output(
-                            [ejecutable_tiempos_greedy], stdin=input_file, stderr=subprocess.DEVNULL
-                        ).decode(sys.stdout.encoding)
-
-            with open(csv_filenames[1], 'a') as csv :
-                csv.write(str(n) + "," + tiempo_y_output_greedy + '\n')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
