@@ -260,6 +260,6 @@ La siguiente pregunta que surge es, ¿mejoramos la solución del caso malo? Cons
 %     \includegraphics[width=1\textwidth]{informe/imgs/exp_malo_frontera_greedy_local.pdf} \\
 % }
 % $ $\newline
+Recordemos que por construcción, en la sección anterior pudimos calcular analiticamente cuál era la solución óptima para cada $n$ de nuestros \textit{grafos malos}. Recordemos también que lo que graficamos es \textbf{el promedio} de las soluciones, es decir, \textit{en realidad hay soluciones que alcanzan al óptimo}, pero muchas otras que no. Con una cantidad suficiente de repeticiones vemos que el promedio se encuentra aproximadamente en el centro: por ese motivo decimos que en promedio no consigue la solución óptima. \\
 
-
-\todo[inline]{Terminó siendo lo mismo, pero hay que tener en cuenta que este es un tipo particular de grafo. Veremos en la última seccion como se comporta en el caso de grafos aleatorios}
+En general con búsqueda local se logró una mejora con respecto a la solución golosa, pero no lo suficiente. Sigue siendo un método que está condenado a caer en extremos locales, y una vez dentro no puede escapar. La motivación de la siguiente sección será intentar resolver esta falencia.
