@@ -14,25 +14,19 @@ vector<int> ResolverGrasp::resolver(int repsGrasp, int repsLocal, double alpha_i
 
     double alpha = alpha_in;
 
-	vector<int> actual;
-	int fronteraMax = 0;
-	int fronteraNueva = 0;
-	int repes = 0;
-	int i = 0;
-	while (repes < 2) {
+    vector<int> actual;
+    int fronteraMax = 0;
+    int fronteraNueva = 0;
 
+    for (int repes = 0; repes < repsGrasp; repes++) {
         actual = greedy.resolver(alpha, false);
         vector<int> nueva = local.resolver(repsLocal, false, actual);
 
-    	fronteraNueva = frontera(nueva);
-    	if (fronteraNueva > fronteraMax) {
-    		mejor = nueva;
-    		fronteraMax = fronteraNueva;
-    		repes = 0;
-    	} else {
-    		repes++;
-    	}
-    	i++;
+        fronteraNueva = frontera(nueva);
+        if (fronteraNueva > fronteraMax) {
+            mejor = nueva;
+            fronteraMax = fronteraNueva;
+        }
     }
 
     if (imprimirOutput) {
