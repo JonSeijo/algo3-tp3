@@ -12,7 +12,7 @@ Obtenida una solución inicial, como nuestro método no es (en general) completa
 
 \subsection{Pseudocódigo}
 
-Las funciones local.resolver() y Frontera() no son incluidas aquí por ser iguales a las incluidas previamente. Las complejidades son $O(n^5)$ y $O(n^2)$ respectivamente. \\
+Las funciones local.resolver() y Frontera() no son incluidas aquí por ser iguales a las incluidas previamente. Las complejidades son $O(n^5)$ y $O(n^2)$ respectivamente.
 
 Referencias de variables globales para el pseudocódigo:
 \begin{itemize}
@@ -20,78 +20,77 @@ Referencias de variables globales para el pseudocódigo:
     \item $solucion$: Secuencia que contiene la clique solución
 \end{itemize}
 
-\todo[inline]{¿Queda en 2 iteraciones? ¿No es muy poco? Moreover, ¿no habría que ponerlo como una variable tal y como se hizo en Búsqueda Local?}
-
 \begin{algorithm}[H]
 \begin{algorithmic}
-\Function{Resolver}{$\alpha$}
-    \State $fronteraMax \gets 0$   \Comment $O(1)$
-    \State $fronteraNueva \gets 0$   \Comment $O(1)$
-    \State $repes \gets 0$   \Comment $O(1)$
-    \While{$repes < 2$}  \Comment $What Goes Here$
-        \State $actual \gets GreedyRandom(\alpha)$  \Comment $O(n^5)$
-        \State $nueva \gets local.resolver(actual)$  \Comment $O(iteraciones * n^5)$
-        \State $fronteraNueva \gets Frontera(nueva)$  \Comment $O(n^2)$
-        \If {$fronteraNueva > fronteraMax$}   \Comment $O(1)$
-            \State $solucion \gets nueva$   \Comment $O(1)$
-            \State $fronteraMax \gets fronteraNueva$   \Comment $O(1)$
-            \State $repes \gets 0$   \Comment $O(1)$
-        \Else
-            \State $repes \gets repes + 1$   \Comment $O(1)$
+\Function{Resolver}{$\alpha$, $repsGrasp$, $repsLocal$}
+    \State $fronteraMax \gets 0$                    \Comment $O(1)$
+    \State $fronteraNueva \gets 0$                  \Comment $O(1)$
+    \State $reps \gets 0$                           \Comment $O(1)$
+    \For{$reps \in $[$1..repsGrasp$]}                           \Comment $O(repsGrasp * repsLocal * n^5)$
+    % \While{$reps < repsGrasp$}  \Comment $What Goes Here$
+        \State $actual \gets GreedyRandom(\alpha)$              \Comment $O(n^5)$
+        \State $nueva \gets local.resolver(actual, repsLocal)$  \Comment $O(repsLocal * n^5)$
+        \State $fronteraNueva \gets Frontera(nueva)$            \Comment $O(n^2)$
+        \If {$fronteraNueva > fronteraMax$}                     \Comment $O(1)$
+            \State $solucion \gets nueva$                       \Comment $O(1)$
+            \State $fronteraMax \gets fronteraNueva$            \Comment $O(1)$
+        %     \State $reps \gets 0$   \Comment $O(1)$
+        % \Else
+        %     \State $reps \gets reps + 1$   \Comment $O(1)$
         \EndIf
-    \EndWhile
+    % \EndWhile
+    \EndFor
     \State return $solucion$
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
-
 Para calcular el $RCL$ hacemos un primer pasaje para calcular el máximo y el mínimo de los nodos candidatos a agregarse al clique parcial. En una segunda pasada es cuando vamos agregando los nodos a medida que encontramos aquellos que cumplen con la fórmula planteada en la Explicación.
 
 \begin{algorithm}[H]
 \begin{algorithmic}
 \Function{GreedyRandom}{$\alpha$}
-    \State $fronteraMax \gets -1$   \Comment $O(1)$
+    \State $fronteraMax \gets -1$                       \Comment $O(1)$
 
-    \State $candidatosInicial \gets []$   \Comment $O(1)$
+    \State $candidatosInicial \gets \{1..n\}$         \Comment $O(n)$
 
-    \State $solucion \gets []$   \Comment $O(1)$
+    \State $solucion \gets \emptyset$                   \Comment $O(1)$
 
-    \State $puedoConstruirClique \gets true$   \Comment $O(1)$
+    \State $puedoConstruirClique \gets$ True            \Comment $O(1)$ \\
 
-    \While {$puedoConstruirClique \land candidatosInicial.size() > 0$}   \Comment $O(n^5)$
-        \State $puedoConstruirClique \gets false$   \Comment $O(1)$
+    \While {$puedoConstruirClique \land |candidatosInicial| > 0$}   \Comment $O(n^5)$
+        \State $puedoConstruirClique \gets$ False                        \Comment $O(1)$
 
-        \State $candidatos \gets []$   \Comment $O(1)$
-        \State $RCL \gets []$   \Comment $O(1)$
+        \State $candidatos \gets \emptyset$   \Comment $O(1)$
+        \State $RCL \gets \emptyset$          \Comment $O(1)$ \\
 
-        \For {$c \in candidatosInicial$}   \Comment $O(n^4)$
-            \If {$esClique(solucion + c)$}   \Comment $O(n^3)$
-                \State $front \gets Frontera(solucion)$   \Comment $O(n^2)$
-                \State $candidatos \gets candidate + (front, c)$   \Comment $O(1)$
-                \State $puedoConstruirClique \gets true$   \Comment $O(1)$
+        \For {$c \in candidatosInicial$}                                \Comment $O(n^4)$
+            \If {$esClique(solucion + \{c\})$}                          \Comment $O(n^3)$
+                \State $front \gets$ Frontera($solucion$)               \Comment $O(n^2)$
+                \State $candidatos \gets candidatos + \{(front, c)\}$   \Comment $O(1)$
+                \State $puedoConstruirClique \gets$ True                \Comment $O(1)$ \\
             \EndIf
         \EndFor
-        \State $fronteraMinTmp \gets INFINITO$   \Comment $O(1)$
+        \State $fronteraMinTmp \gets \infty$   \Comment $O(1)$
         \State $fronteraMaxTmp \gets -1$   \Comment $O(1)$
         \For {$cand \in candidatos$}   \Comment $O(n)$
             \State $fronteraMinTmp \gets min(fronteraMinTmp, cand.first)$   \Comment $O(1)$
-            \State $fronteraMaxTmp \gets max(fronteraMaxTmp, cand.first)$   \Comment $O(1)$
+            \State $fronteraMaxTmp \gets max(fronteraMaxTmp, cand.first)$   \Comment $O(1)$ \\
         \EndFor
 
         \For {$cand \in candidatos$}   \Comment $O(n)$
-            \If {$cand.first \geq fronteraMaxTmp + (alpha*(fronteraMinTmp - fronteraMaxTmp))$}   \Comment $O(1)$
-                \State $RCL \gets RCL + cand.second$   \Comment $O(1)$
+            \If {$cand.first \geq fronteraMaxTmp + \alpha*(fronteraMinTmp - fronteraMaxTmp)$}   \Comment $O(1)$
+                \State $RCL \gets RCL + \{cand.second\}$   \Comment $O(1)$ \\
             \EndIf
         \EndFor
 
         \If {$puedoConstruirClique$}   \Comment $O(1)$
-            \State $randomIndex \gets rand().mod(RCL.size()$   \Comment $O(1)$
-            \State $solucion \gets solucion + RCL[randomIndex]$   \Comment $O(1)$
+            \State $randomIndex \gets random(\{1 .. |RCL|\})  $   \Comment $O(1)$
+            \State $solucion \gets solucion + \{RCL[randomIndex]\}$   \Comment $O(1)$
 
-            \State $candidatosInicial \gets candidatosInicial - RCL[randomIndex]$   \Comment $O(1)$
+            \State $candidatosInicial \gets candidatosInicial - \{RCL[randomIndex]\}$   \Comment $O(1)$ \\
         \EndIf
     \EndWhile
-    \State $fronteraMax \gets frontera(solucion)$   \Comment $O(1)$
+    \State $fronteraMax \gets$ Frontera($solucion$)   \Comment $O(1)$
     \State return $solucion$
 \EndFunction
 \end{algorithmic}
