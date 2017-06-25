@@ -5,7 +5,7 @@
 
 Búsqueda local es una estrategia utilizada para mejorar una solución obtenida con una heurística. La idea general es dar una definición de vecindad para toda solución (por ejemplo, si mis soluciones son nodos, los vecinos pueden ser sus adyacentes), y buscar el candidato óptimo dentro de ese conjunto. Este proceso puede repetirse para tender hacia un máximo local. \\
 
-Para este problema particular consideramos que todo clique es solución, y que en su vencindad se encuentran aquellos cliques que pueden obtenerse aplicando una operación de swap (reemplazar un nodo en el clique por uno que no está), una operación de agregado (de un nodo) o una operación de borrado (de un nodo). En cada iteración del algoritmo, revisamos toda la vecindad y nos quedamos con el clique de mayor frontera. La solución final de la búsqueda local es la mejor de las tres posibilidades de nuestra vecindad. \\
+Para este problema particular consideramos que todo clique es solución, y que en su vencindad se encuentran aquellos cliques que pueden obtenerse aplicando una operación de swap (reemplazar un nodo en la clique por uno que no está), una operación de agregado (de un nodo) o una operación de borrado (de un nodo). En cada iteración del algoritmo, revisamos toda la vecindad y nos quedamos con la clique de mayor frontera. La solución final de la búsqueda local es la mejor de las tres posibilidades de nuestra vecindad. \\
 
 \subsection{Pseudocódigo}
 
@@ -200,7 +200,7 @@ Por lo tanto, mejorar una solución inicial con este algoritmo de búsqueda loca
 
 \subsection{Optimalidad}
 
-Algo que notamos al probar este método es que el algoritmo goloso presentado en la sección anterior ya llega a un máximo local, por lo que es redundante aplicarle una búsqueda local para mejorarla. ¿Por qué ocurre esto? Porque si hubiera un nodo al que swappear con alguna de afuera para conseguir una mejor frontera, como este algoritmo siempre se queda con el mejor nodo fuera del clique, entonces el nodo de afuera ya tendría que estar dentro del clique. Tampoco podemos agregar nodos, pues si pudiesemos tomar más, el algoritmo goloso ya lo hubiera hecho.  \\
+Algo que notamos al probar este método es que el algoritmo goloso presentado en la sección anterior ya llega a un máximo local, por lo que es redundante aplicarle una búsqueda local para mejorarla. ¿Por qué ocurre esto? Porque si hubiera un nodo al que swappear con alguna de afuera para conseguir una mejor frontera, como este algoritmo siempre se queda con el mejor nodo fuera de la clique, entonces el nodo de afuera ya tendría que estar dentro de la clique. Tampoco podemos agregar nodos, pues si pudiesemos tomar más, el algoritmo goloso ya lo hubiera hecho.  \\
 
 % Lo siento, no hay tiempo
 % \todo{Mmm... No se me ocurre que pasa con Sub}
@@ -218,9 +218,9 @@ $ $\newline
 
 Si a $golosoB$ le pasamos como entrada un nodo perteneciente al arbol $1$, o el nodo $4$; es imposible mejorar la solución de $golosoA$. Es el riesgo que tenemos al dejar libre el nodo inicial. Es importante notar que la solución \textbf{no} es peor, sino que simplemente no se mejora. \textit{-Desarrollaremos un poco más en unos párrafos-.} Sin embargo, si elegimos un nodo cualquiera del arbol $2$ o $3$, la situación es distinta. \\
 
-El caso fácil es si elegimos los nodos $2$ o $3$, en donde $golosoB$ se queda con la solución $[2,3]$, ya que ni las hojas ni el cuatro generan un clique con mayor frontera que ese par de nodos, mejorando la anterior solución. \\
+El caso fácil es si elegimos los nodos $2$ o $3$, en donde $golosoB$ se queda con la solución $[2,3]$, ya que ni las hojas ni el cuatro generan una clique con mayor frontera que ese par de nodos, mejorando la anterior solución. \\
 
-Más complicado es lo que ocurre al tomar una hoja de los arboles $2$ y $3$ como inicial. Asumamos que tomamos una hoja del $2$ (tomar una hoja del $3$ es análogo). La hoja sólo está conectada con el $2$, por lo que el $2$ se incluye en la solución. Una vez realizado esto, como nadie más está conectado con la hoja, \textit{golosoB} devuelve $[hoja,2]$. Es en este caso en donde \textit{búsquedaLocal} ayuda, pues a partir de $[hoja,2]$ busca los cliques que se pueden obtener haciendo swaps, con lo cual considera como candidato al clique producto de swappear la $hoja$ con el $2$, que es el clique $[2,3]$. Al ser la solución óptima, el algoritmo la toma en la primera iteración, y corta en la segunda. Termina devolviendo lo que queriamos: $[2,3]$. \\
+Más complicado es lo que ocurre al tomar una hoja de los arboles $2$ y $3$ como inicial. Asumamos que tomamos una hoja del $2$ (tomar una hoja del $3$ es análogo). La hoja sólo está conectada con el $2$, por lo que el $2$ se incluye en la solución. Una vez realizado esto, como nadie más está conectado con la hoja, \textit{golosoB} devuelve $[hoja,2]$. Es en este caso en donde \textit{búsquedaLocal} ayuda, pues a partir de $[hoja,2]$ busca los cliques que se pueden obtener haciendo swaps, con lo cual considera como candidato al clique producto de swappear la $hoja$ con el $2$, que es la clique $[2,3]$. Al ser la solución óptima, el algoritmo la toma en la primera iteración, y corta en la segunda. Termina devolviendo lo que queriamos: $[2,3]$. \\
 
 {\centering
     \includegraphics[width=0.57\textwidth]{informe/imgs/local_base_nodes_v2.png} \\
