@@ -24,10 +24,10 @@ tiempoGreedy: TiempoGreedy.cpp  ResolverGreedyConstructiva.cpp ResolverGreedyCon
 tiempoLocal: TiempoLocal.cpp  ResolverLocal.cpp ResolverLocal.h ResolverGreedyVariante.cpp ResolverGreedyVariante.h
 	$(CPP) $(FLAGS) -o  $@  ResolverLocal.cpp ResolverGreedyVariante.cpp $<
 
-solucionGrasp: SolucionGrasp.cpp ResolverGrasp.h ResolverGreedyGrasp.cpp ResolverGreedyGrasp.h
+solucionGrasp: SolucionGrasp.cpp ResolverGrasp.h ResolverGrasp.cpp ResolverGreedyGrasp.cpp ResolverGreedyGrasp.h
 	$(CPP) $(FLAGS) -o  $@ ResolverGrasp.cpp ResolverLocal.cpp ResolverGreedyGrasp.cpp $<
 
-tiempoGrasp: TiempoGrasp.cpp ResolverGrasp.h ResolverLocal.h ResolverGreedyGrasp.cpp ResolverGreedyGrasp.h
+tiempoGrasp: TiempoGrasp.cpp ResolverGrasp.h ResolverGrasp.cpp ResolverLocal.h ResolverGreedyGrasp.cpp ResolverGreedyGrasp.h
 	$(CPP) $(FLAGS) -o  $@ ResolverGrasp.cpp ResolverLocal.cpp ResolverGreedyGrasp.cpp $<
 
 %.o: %.cpp

@@ -10,29 +10,25 @@ bool ResolverGrasp::leerInput() {
     return leyoCorrectamente;
 }
 
+// REPES podria ser un parametro
 vector<int> ResolverGrasp::resolver(double alpha_in, bool imprimirOutput, bool minimoOutput) {
 
     double alpha = alpha_in;
+    int repsGrasp = 50;
 
-	vector<int> actual;
-	int fronteraMax = 0;
-	int fronteraNueva = 0;
-	int repes = 0;
-	int i = 0;
-	while (repes < 2) {
+    vector<int> actual;
+    int fronteraMax = 0;
+    int fronteraNueva = 0;
 
+    for (int repes = 0; repes < repsGrasp; repes++) {
         actual = greedy.resolver(alpha, false, false);
         vector<int> nueva = local.resolver(false, actual);
 
-    	fronteraNueva = frontera(nueva);
-    	if (fronteraNueva > fronteraMax) {
-    		mejor = nueva;
-    		fronteraMax = fronteraNueva;
-    		repes = 0;
-    	} else {
-    		repes++;
-    	}
-    	i++;
+        fronteraNueva = frontera(nueva);
+        if (fronteraNueva > fronteraMax) {
+            mejor = nueva;
+            fronteraMax = fronteraNueva;
+        }
     }
 
     if (imprimirOutput) {
@@ -42,7 +38,7 @@ vector<int> ResolverGrasp::resolver(double alpha_in, bool imprimirOutput, bool m
             std::cout << v + 1 << " ";
         }
         std::cout << "\n";
-        std::cout <<"cantidad: " << i << "\n";
+        std::cout <<"cantidad: " << repsGrasp << "\n";
     }
 
     if (minimoOutput) {

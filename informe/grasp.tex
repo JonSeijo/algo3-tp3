@@ -121,19 +121,21 @@ Con esta información en mano, el grueso de la complejidad de GRASP proviene sim
 % {\centering
 %     \includegraphics[width=1\textwidth]{informe/imgs/exp_malo_tiempo_grasp_local_greedy.pdf}
 % }
-El nivel de aleatoriedad con el que se crea la RCL del GRASP depende de nuestro parámetro $\alpha$. $\alpha = 0$ representa una elección puramente greedy, mientras que $\alpha = 1$ hace una elección puramente aleatoria. Dado que los valores de frontera son muy similares a pesar de que variamos el alpha, mostramos un gráfico para $400 \leq n \leq 800$. Aquí puede verse que el mejor valor es $\alpha = 0.5$, así que será lo que usaremos.
+El nivel de aleatoriedad con el que se crea la RCL del GRASP depende de nuestro parámetro $\alpha$. $\alpha = 0$ representa una elección puramente greedy, mientras que $\alpha = 1$ hace una elección puramente aleatoria. Dado que los nuestro son grafos bastantes particulares, al introducir un poco de aleatoriedad con el alpha, ya logramos obtener las mejores fronteras posibles. Puede verse que como adelantamos, cuando alpha es 0 se produce una eleccion puramente greedy, por lo que siempre es peor. \\
 
-\todo[inline]{NO! Al final es fruta, estoy corriendo los exp de nuevo y los graficos son nada que ver. Esto era porque grasp y local hacian muy pocas repes. Voy a actualizar cuando termine de arrglar todo, pero basicamente alpha 1 da -exactamente- igual que el greedy (esperado),y ajustando alpha un poquito ya se encuentra el optimo, pero tiene que ver con que nuestros grafos son muy particulares. En el caso general es probable que alpha 0.5 sea el mejor, pero en este caso particular es fruta}
-
-% No merece la pena, es mas de lo mismo
-% {\centering
-%     \includegraphics[width=1\textwidth]{informe/imgs/exp_malo_frontera_grasp.pdf}
-% }
+Es importante aclarar que esto es así por el tipo particular de grafos que estamos tratando, en el caso general esto puede no ser cierto. Intuitivamente los mejores resultados se obtienen en el equilibrio, con $\alpha = $0.5, por lo que en los siguientes casos utilizaremos este valor. \\
 
 {\centering
-    \includegraphics[width=0.90\textwidth]{informe/imgs/exp_malo_frontera_grasp_zoom.pdf}
-    % \captionof{figure}{$\uparrow$ Zoom del gráfico anterior}
+    \includegraphics[width=1\textwidth]{informe/imgs/exp_malo_frontera_grasp_alphas.pdf}
 }
+
+% Esto era fruta completamente, tenia que ver con que se hacian muy pocas iteraciones de grasp y local
+% {\centering
+%     \includegraphics[width=0.90\textwidth]{informe/imgs/exp_malo_frontera_grasp_zoom.pdf}
+%     % \captionof{figure}{$\uparrow$ Zoom del gráfico anterior}
+% }
+
+Otro parámetro importante es la cantidad de iteraciones a realizar, tanto en GRASP como en la búsqueda local interna. Para búsqueda local utilizamos $repsLocal = 2000$, al igual que en el apartado anterior. Con $repsGrasp$ fuimos variándolo y no encontramos ninguna diferencia apreciable, creemos que es por el tipo de grafo. Para estos experimentos tomamos $repsGrasp = 50$. \\
 
 Nos interesa averiguar entonces qué tan lejos estamos del óptimo para nuestros ``grafos malos''. Estamos interesados en saber si la estretagia para escapar de los extremos locales funciona. Veamos lo que nos muestran los datos, recordando que anteriormente pudimos calcular cuál es la solución óptima para este tipo de grafos. \\
 
@@ -145,7 +147,7 @@ La solución promedio de GRASP es \textbf{exactamente} la solución óptima! \\
 
 Logramos resolver el problema de forma óptima para el caso en los que las demas técnicas fallaban. Es esperable que GRASP también sea bastante bueno para grafos en general. Veremos qué tan cierta es esta intuición en la siguiente sección. \\
 
-Antes de concluir con este apartado, es interesante considerar cuál es el costo temporal de utilizar GRASP. Aquí unas comparaciones:
+Antes de concluir con este apartado, es interesante considerar cuál es el costo temporal de utilizar GRASP dependiendo el valor de $\alpha$. Aquí unas comparaciones:
 
 {\centering
     \includegraphics[width=1\textwidth]{informe/imgs/exp_malo_tiempo_grasp.pdf}
