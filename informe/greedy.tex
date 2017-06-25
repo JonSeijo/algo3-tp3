@@ -14,7 +14,7 @@ Primero consideramos que todos los nodos son candidatos, y vamos a ejecutar el a
 
 Para cada iteración del ciclo principal, queremos agregar el mejor candidato posible a la solución. Esto significa iterar por todos los candidatos y agregar a la solución aquel que maximice la frontera. \\
 
-Recorremos la lista de candidatos y tomo alguno, $c$. Consideramos $c$ como parte de la solución. Si la solución $S$ no forma una clique, entonces quitamos $c$ de $S$ , consideramos que ya no es mas un candidato y volvemos al comienzo del algortimo. Si $S$ forma una clique, entonces calculamos su frontera $f$. \\
+Recorremos la lista de candidatos y tomo alguno, $c$. Consideramos $c$ como parte de la solución. Si la solución $S$ no forma una clique, entonces quitamos $c$ de $S$ , consideramos que ya no es mas un candidato y volvemos al comienzo del algoritmo. Si $S$ forma una clique, entonces calculamos su frontera $f$. \\
 
 Comparamos la frontera $f$ con la frontera máxima $FM$. Si $f < FM$, entonces quitamos a $c$ de $S$, pues no hace que la solucion mejore. Si $f \geq FM$, entonces mantenemos a $c$, ahora $c$ es nuestro mejor candidato, pues la frontera máxima no empeoró. Actualizamos $FM$ con el valor de $f$. En ambos casos quitamos también a $c$ de la lista de candidatos, para no repetirlo dos veces. \\
 
@@ -33,7 +33,7 @@ Referencias de variables globales para el pseudocódigo:
     \item $fronteraMax$: El cardinal de la frontera de la clique solución
 \end{itemize}
 
-Las funciones ``EsClique()'' y ``Frontera()'' son las mismas que en el algortimo exacto. Dado que se usan en todos los algoritmos, son omitidas. Tienen complejidad $O(n^3)$ y $O(n^2)$ respectivamente.
+Las funciones ``EsClique()'' y ``Frontera()'' son las mismas que en el algoritmo exacto. Dado que se usan en todos los algoritmos, son omitidas. Tienen complejidad $O(n^3)$ y $O(n^2)$ respectivamente.
 
 \begin{algorithm}[H]
 \begin{algorithmic}
@@ -96,7 +96,7 @@ La complejidad principal del algoritmo se encuentra en ``ObtenerSolucion()'', qu
 
 Mas intuitivamente, EsClique ($O(n^3)$) se ejecuta $O(n)$ veces en el For, y a su vez se ejecuta $O(n)$ veces en el While. Por lo tanto, es $O(n^5)$. \\
 
-Si bien $O(n^5)$ puede parecer un polinomio ``grande'', es exponencialmente mejor que el algortimo exacto que tenía $O(2^{n} * n^{3})$. El trade-off es que no siempre se producen soluciones óptimas. \\
+Si bien $O(n^5)$ puede parecer un polinomio ``grande'', es exponencialmente mejor que el algoritmo exacto que tenía $O(2^{n} * n^{3})$. El trade-off es que no siempre se producen soluciones óptimas. \\
 
 \subsection{Optimalidad}
 
