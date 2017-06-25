@@ -25,7 +25,7 @@ Referencias de variables globales para el pseudocódigo:
 \Function{Resolver}{$\alpha$, $repsGrasp$, $repsLocal$}
     \State $fronteraMax \gets 0$                    \Comment $O(1)$
     \State $fronteraNueva \gets 0$                  \Comment $O(1)$
-    \State $reps \gets 0$                           \Comment $O(1)$
+    %\State $reps \gets 0$                           \Comment $O(1)$
     \For{$reps \in$ [$1..repsGrasp$]}                           \Comment $O(repsGrasp * repsLocal * n^5)$
     % \While{$reps < repsGrasp$}  \Comment $What Goes Here$
         \State $actual \gets $GreedyRandom($\alpha$)              \Comment $O(n^5)$
