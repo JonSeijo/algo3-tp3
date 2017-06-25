@@ -158,17 +158,17 @@ Retomando el análisis con los casos malos, habíamos mostrado que existen al me
 }
 $ $\newline
 
-Puede verse que a medida que $n$ crece, ambas soluciones se van alejando. No nos quedemos con la intuición, consideremos una demostración formal. \\
+Puede verse que a medida que $n$ crece, ambas soluciones se van alejando. No nos quedemos con la intuición, consideremos una demostración más formal: \\
 
 Dado que estos ``grafos malos'' tienen su construcción bien definida, calculemos analíticamente cuál es el valor de la solucion óptima para un tamaño de grafo $n$ dado. Esto nos será de utilidad para analizar optimalidad en secciones posteriores. \\
 
-Como la solución óptima se encuentra en la clique formada por los nodos 2 y 3, analicemos su construcción. En cada paso se agregan 3 nodos, cada nuevo nodo como vecino de 1, 2 y 3 respectivamente. Podemos ver que 2 de cada 3 nodos contribuyen a aumentar nuestra solución inicial, por lo tanto la solución óptima tiene que ser \textit{aproximadamente} $\frac{2}{3}n$, con constante sumada por los nodos iniciales. \\
+Como la solución óptima se encuentra en la clique formada por los nodos 2 y 3, consideremos el proceso de construcción. En cada paso se agregan 3 nodos, cada nuevo nodo como vecino de 1, 2 y 3 respectivamente. Podemos ver que 2 de cada 3 nodos contribuyen a aumentar nuestra solución inicial, por lo tanto la solución óptima tiene que ser \textit{aproximadamente} $\frac{2}{3}n$, con alguna constante por los nodos iniciales. \\
 
 Podemos comprobar empíricamente, observando los valores de frontera obtenidos por nuestro algoritmo exacto, que la solución óptima para ``grafos malos'' es exactamente $f(n) = \frac{2}{3}n - 3$. Este es un valor bien definido para $n$ divisibles por 3, dado que siempre los contruimos agregando 3 nodos por vez. \\
 
-Con un razonamiento análogo, de cada 3 nodos que se agregan, un único nodo se agrega a lo que será la solución golosa. De hecho, puee verse que la solución golosa para un grafo malo es exactamente $g(n) = \frac{1}{3}n + 1$, también bien definido para $n$ divisibles por 3. \\
+Con un razonamiento análogo, de cada 3 nodos que se agregan, un único nodo se agrega a lo que será la solución golosa. De hecho, puede verse que la solución golosa para un grafo malo es exactamente $g(n) = \frac{1}{3}n + 1$, también bien definido para $n$ divisibles por 3. \\
 
-Veamos finalmente que sucede con la diferencia entre ambas soluciones a medida que crece $n$:
+Veamos finalmente qué sucede con la diferencia entre ambas soluciones a medida que crece $n$:
 
 $$g(n) - f(n)$$
 $$(\frac{2}{3}n - 3) - (\frac{1}{3}n + 1)$$
@@ -176,6 +176,6 @@ $$\frac{2}{3}n - 3 - \frac{1}{3}n - 1$$
 $$\frac{1}{3}n - 4$$
 \[ \lim_{x \to \infty} (\frac{1}{3}n - 4) = \infty \] \qed \\
 
-Demostramos entonces que la diferencia entre la solución óptima y la solución greedy para un mismo grafo puede ser arbitrariamente grande. Es decir, dado un $n$ lo suficientemente grande las soluciones pueden ser tan diferentes como uno quiera. \\
+Demostramos entonces que la diferencia entre la solución óptima y la solución greedy para un mismo grafo puede ser arbitrariamente grande. Es decir, dado un $n$ lo suficientemente grande las soluciones pueden ser tan diferentes como uno quiera. La motivación de las siguientes heurísticas será intentar de mejorar las soluciones en los grafos malos, para intentar acercarnos lo más posible al óptimo. \\
 
-Para finalizar este apartado, es importante notar que en promedio el algoritmo greedy da resultados razonablemente buenos, sobre todo teniendo en cuenta el mínimo costo computacional que tiene asociado. Veremos más sobre casos promedios al final del informe, donde realizaremos una comparación entre las diferentes heurísticas. \\
+Para finalizar este apartado, es importante notar que en promedio el algoritmo greedy dá resultados razonablemente buenos, sobre todo teniendo en cuenta el mínimo costo computacional que tiene asociado. Veremos más sobre casos promedios al final del informe, donde realizaremos una comparación entre las diferentes heurísticas. \\
