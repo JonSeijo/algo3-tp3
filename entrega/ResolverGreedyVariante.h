@@ -10,7 +10,7 @@ class ResolverGreedyVariante {
 
 public:
     bool leerInput();
-    vector<int> resolver(int inicial,bool imprimirOutput=false, bool minimoOutput=false);
+    vector<int> resolver(int inicial,bool imprimirOutput=false);
 
     // Lista de adyacencia para representar al grafo
     vector<vector<int> > grafo_lst;

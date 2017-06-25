@@ -14,6 +14,6 @@ int main() {
             }
         }
 
-        problema.resolver(inicial, true, false);
+        problema.resolver(inicial, true);
     }
 }

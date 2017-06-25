@@ -25,7 +25,7 @@ bool ResolverGreedyVariante::leerInput() {
     return true;
 }
 
-vector<int> ResolverGreedyVariante::resolver(int inicial, bool imprimirOutput, bool minimoOutput) {
+vector<int> ResolverGreedyVariante::resolver(int inicial, bool imprimirOutput) {
 
     int n = grafo_lst.size();
     if (inicial < 0 || inicial >= n) {
@@ -93,12 +93,6 @@ vector<int> ResolverGreedyVariante::resolver(int inicial, bool imprimirOutput, b
             std::cout << v + 1 << " ";
         }
         std::cout << "\n";
-    }
-
-    // @DEBUG, esto es para las mediciones, borrar luego
-    if (minimoOutput) {
-        std::cout << fronteraMax << ",";
-        std::cout << solucion.size();
     }
 
     return solucion;

@@ -46,7 +46,7 @@ void ResolverLocal::copiarInput(ResolverGreedyGrasp problema) {
     this->grafo_ady = problema.grafo_ady;
 }
 
-vector<int> ResolverLocal::resolver(bool imprimirOutput, vector<int> solucion, bool minimoOutput) {
+vector<int> ResolverLocal::resolver(bool imprimirOutput, vector<int> solucion) {
     /*
     La función 'búsquedaLocal' es la que explora los vecinos y busca una solución
     mejor. Pero corresponde a una única iteración: explora sólo los vecinos de la
@@ -74,13 +74,6 @@ vector<int> ResolverLocal::resolver(bool imprimirOutput, vector<int> solucion, b
             std::cout << v + 1 << " ";
         }
         std::cout << "\n";
-    }
-
-
-    // @DEBUG, esto es para las mediciones, borrar luego
-    if (minimoOutput) {
-        std::cout << frontera_actual << ",";
-        std::cout << solucion.size();
     }
 
     return solucion;
