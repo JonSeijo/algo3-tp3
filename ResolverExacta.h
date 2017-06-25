@@ -26,10 +26,6 @@ private:
     // Pre: esClique(clique)
     int frontera(list<int> &clique);
     bool sonVecinos(int v1, int v2);
-
-    // DEBUG
-    bool DEBUG_MODE;
-    int cantidadSubconjuntos;
 };
 
 #endif

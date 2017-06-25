@@ -12,7 +12,6 @@ public:
     bool leerInput();
     vector<int> resolver(bool imprimirOutput, bool minimoOutput=false);
 
-//private: // CHAN. Esto para copiar la info desde ResolverLocal
     // Lista de adyacencia para representar al grafo
     vector<vector<int> > grafo_lst;
     vector<vector<int> > grafo_ady;
@@ -23,9 +22,6 @@ public:
     int frontera(vector<int> &clique);
 
     bool sonVecinos(int v1, int v2);
-
-private:
-    bool DEBUG_MODE;
 };
 
 #endif

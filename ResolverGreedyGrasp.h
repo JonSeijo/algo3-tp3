@@ -28,9 +28,6 @@ public:
     int frontera(vector<int> &clique);
 
     bool sonVecinos(int v1, int v2);
-
-private:
-    bool DEBUG_MODE;
 };
 
 #endif

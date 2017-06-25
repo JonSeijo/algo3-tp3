@@ -1,9 +1,7 @@
 #include "ResolverGreedyConstructiva.h"
 
+// Lee el input por stdin y guarda el grafo como lista de adyacencia
 bool ResolverGreedyConstructiva::leerInput() {
-    // Lee el input por stdin y guarda el grafo como lista de adyacencia
-    //     --> QUIZA convenga tenerlo como *matriz* de adyacencia, ver
-
     int n, m;
     std::cin >> n >> m;
     this->grafo_lst.clear();
@@ -28,7 +26,6 @@ bool ResolverGreedyConstructiva::leerInput() {
 }
 
 vector<int> ResolverGreedyConstructiva::resolver(bool imprimirOutput=false, bool minimoOutput) {
-    DEBUG_MODE = false;
     /*
     La idea es la siguiente:
 
@@ -51,7 +48,7 @@ vector<int> ResolverGreedyConstructiva::resolver(bool imprimirOutput=false, bool
     vector<int> candidatos(0);
 
     for (int i = 0; i < n; i++) {
-        candidatos.push_back(i);    //Agrego todos los nodos al vector de candidatos
+        candidatos.push_back(i);    // Agrego todos los nodos al vector de candidatos
     }
 
     while (!candidatos.empty()) {
@@ -66,10 +63,7 @@ vector<int> ResolverGreedyConstructiva::resolver(bool imprimirOutput=false, bool
 
             solucion.push_back(*it);    //Agrego temporalmente a la solucion
 
-            if (DEBUG_MODE) { std::cout << "PRUEBO: " << *it << std::endl; }
-
             if (!esClique(solucion)){   //No era clique => lo saco de la solucion y elimino de los candidatos
-                if (DEBUG_MODE) { std::cout << "NO CLIQUE" << std::endl; }
                 it = candidatos.erase(it);
                 solucion.pop_back();
                 continue;
@@ -78,7 +72,6 @@ vector<int> ResolverGreedyConstructiva::resolver(bool imprimirOutput=false, bool
             int fronteraActual = frontera(solucion);    //Es clique => calculo frontera
 
             if (fronteraActual < fronteraMaxAnterior){  //La frontera es peor a la que tenia => lo saco de la solucion y elimino de candidatos
-                if (DEBUG_MODE) { std::cout << "NO MEJORA" << std::endl; }
                 it = candidatos.erase(it);
                 solucion.pop_back();
                 continue;
@@ -87,19 +80,16 @@ vector<int> ResolverGreedyConstructiva::resolver(bool imprimirOutput=false, bool
             if (fronteraActual >= fronteraMax) {        //La frontera es mayor o igual a la maxima frontera encontrada hasta ahora
                 fronteraMax = fronteraActual;           //En caso de que el mejor candidato tenga igual frontera que la anterior me permite hacer cliques mas grandes y seguir buscando en vez de parar alli
                 mejor_candidato = it - candidatos.begin();
-                if (DEBUG_MODE) { std::cout << "SETEO" << std::endl; }
             }
             ++it;
             solucion.pop_back();
         }
         if (mejor_candidato != -1){ //Hay un mejor candidato => lo agrego definitivamente a la solucion y lo quito de candidatos
-            if (DEBUG_MODE) { std::cout << "MEJOR: " << mejor_candidato << " SIZE: " << candidatos.size() << std::endl; }
             solucion.push_back(candidatos[mejor_candidato]);
             candidatos.erase(candidatos.begin() + mejor_candidato);
         }
     }
 
-    if (DEBUG_MODE) { std::cout << "FIN" << std::endl; }
     if (imprimirOutput) {
         // Recordar que a cada nodo hacerle un +1
         std::cout << fronteraMax << " ";

@@ -28,8 +28,6 @@ bool ResolverGreedyGrasp::leerInput() {
 }
 
 vector<int> ResolverGreedyGrasp::resolver(double alpha, bool imprimirOutput, bool minimoOutput) {
-    DEBUG_MODE = false;
-
     int n = grafo_lst.size();
 
     int fronteraMax = -1;

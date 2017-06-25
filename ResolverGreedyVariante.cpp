@@ -1,9 +1,7 @@
 #include "ResolverGreedyVariante.h"
 
+// Lee el input por stdin y guarda el grafo como lista de adyacencia
 bool ResolverGreedyVariante::leerInput() {
-    // Lee el input por stdin y guarda el grafo como lista de adyacencia
-    //     --> QUIZA convenga tenerlo como *matriz* de adyacencia, ver
-
     int n, m;
     std::cin >> n >> m;
     this->grafo_lst.clear();
@@ -28,7 +26,6 @@ bool ResolverGreedyVariante::leerInput() {
 }
 
 vector<int> ResolverGreedyVariante::resolver(int inicial, bool imprimirOutput, bool minimoOutput) {
-    DEBUG_MODE = false;
 
     int n = grafo_lst.size();
     if (inicial < 0 || inicial >= n) {

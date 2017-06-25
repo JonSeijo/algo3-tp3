@@ -1,9 +1,8 @@
 #include "ResolverExacta.h"
 
+// Lee el input por stdin y guarda el grafo como lista de adyacencia
+// Consideramos que el nodo inicial es 0 para simplificar implementacion.
 bool ResolverExacta::leerInput() {
-    // Lee el input por stdin y guarda el grafo como lista de adyacencia
-    //     --> QUIZA convenga tenerlo como *matriz* de adyacencia, ver
-
     int n, m;
     std::cin >> n >> m;
 
@@ -28,16 +27,6 @@ bool ResolverExacta::leerInput() {
 void ResolverExacta::generarSubconjuntos(list<int> &conjNodos, int act) {
 
     if (act == this->n) {
-
-        if (this->DEBUG_MODE) {
-            this->cantidadSubconjuntos++;
-            // IMPRIMIR EL SUBCONJUNTO DE NODOS PARA VER SI SE ESTAN GENERANDO BIEN
-            for (int v : conjNodos) {
-                std::cout << v << " ";
-            }
-            std::cout << "\n";
-        }
-
         // Si es clique veo si la frontera es maxima
         if (esClique(conjNodos)) {
             int fronteraActual = frontera(conjNodos);
@@ -60,15 +49,12 @@ void ResolverExacta::generarSubconjuntos(list<int> &conjNodos, int act) {
 
 void ResolverExacta::resolver(bool imprimirOutput=false, bool minimoOutput=false) {
 
-    // @DEBUG
-    this->DEBUG_MODE = false;
-
     this->solucion.clear();
     this->solucion.resize(0);
     this->fronteraMax = -1;
 
     /*
-    La idea es la siguiente:
+    La idea principal es la siguiente:
 
     solucion = Vacio
     maxFrontera = -1
@@ -81,17 +67,8 @@ void ResolverExacta::resolver(bool imprimirOutput=false, bool minimoOutput=false
 
     */
 
-    if (this->DEBUG_MODE) {
-        this->cantidadSubconjuntos = 0;
-    }
-
     std::list<int> listaVacia; // Temporal para generar los subconjuntos
     this->generarSubconjuntos(listaVacia, 0);
-
-    if (this->DEBUG_MODE) {
-        std::cout << "\n\n";
-        std::cout << "cant subconjuntos: " << this->cantidadSubconjuntos << "\n\n";
-    }
 
     if (imprimirOutput) {
         // Recordar que a cada nodo hacerle un +1
