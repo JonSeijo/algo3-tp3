@@ -54,7 +54,7 @@ vector<int> ResolverLocal::resolver(bool imprimirOutput, vector<int> solucion, b
     para continuar mejorándo nuestra solución. Tiene como responsabilidad las
     condiciones de corte.
     */
-    int iteraciones = 10;
+    int iteraciones = 2000;
     int frontera_actual = frontera(solucion);
     for (int t = 1; t <= iteraciones; t++) {
         solucion = busquedaLocal(solucion); // búsqueda local para mejorar la solución
