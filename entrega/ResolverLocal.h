@@ -15,7 +15,7 @@ public:
     bool leerInput();
     void copiarInput(ResolverGreedyVariante problema);
     void copiarInput(ResolverGreedyGrasp problema);
-    vector<int> resolver(bool imprimirOutput, vector<int> inicial);
+    vector<int> resolver(int iteracionesLocal, bool imprimirOutput, vector<int> inicial);
 
     vector<int> busquedaLocal(vector<int> &inicial);
     vector<int> maximoPorSwap(vector<int> &inicial, vector<int> &complemento_inicial);
