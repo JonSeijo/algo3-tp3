@@ -3,21 +3,24 @@
 \section{Greedy}
 
 \subsection{Explicación}
-Teniendo un conjunto solución $S$ que forme una clique, golosamente podemos agregar a $S$ algún nodo que haga aumentar el tamaño de la frontera. \\
+
+Vimos que construir la mejor solución de forma exacta es algo que, en la práctica, es completamente inutilizable por su complejidad temporal. Consideremos entonces la siguiente heurística: teniendo un conjunto solución $S$ que forma una clique, en cada paso podemos golosamente agregar a $S$ el mejor nodo que haga aumentar el tamaño de la frontera. \\
+
+Intuitivamente es un algoritmo rápido, pues en cada iteración principal tomamos un nodo que forme clique con lo que ya tenemos, y ya no quitamos ese nodo. Además, parece razonable que el algoritmo encuentre soluciones buenas: en cada iteracion estamos maximizando la frontera con el mejor nodo posible. Luego de presentar el algoritmo veremos qué tan buena era nuestra intuición. \\
 
 Mas detalladamente, el algoritmo funciona de la siguiente manera: \\
 
-Primero considero que todos los nodos son candidatos, y voy a ejecutar el algoritmo siempre que exista algún candidato en la lista. Además mantengo un vector $S$ que representa mi solución actual, inicialmente vacío. Considero que mi frontera máxima $FM$ tiene valor $-1$. \\
+Primero consideramos que todos los nodos son candidatos, y vamos a ejecutar el algoritmo siempre que exista algún candidato en la lista. Además mantenemos un vector $S$ que representa la solución actual, inicialmente vacío. Consideramos que mi frontera máxima $FM$ inicia con valor $-1$. \\
 
-Para cada iteracion del ciclo principal, quiero agregar el mejor candidato posible a mi solución. Esto significa iterar por todos mis candidatos y agregar a la solución aquel que maximice la frontera. \\
+Para cada iteracion del ciclo principal, queremos agregar el mejor candidato posible a la solución. Esto significa iterar por todos los candidatos y agregar a la solución aquel que maximice la frontera. \\
 
-Recorro mi lista de candidatos y tomo alguno, $c$. Considero $c$ como parte de la solución. Si la solución $S$ no forma una clique, entonces quito $c$ de $S$ , considero que ya no es mas un candidato y vuelvo al comienzo del algortimo. Si $S$ forma una clique, entonces calculo su frontera $f$. \\
+Recorremos la lista de candidatos y tomo alguno, $c$. Consideramos $c$ como parte de la solución. Si la solución $S$ no forma una clique, entonces quitamos $c$ de $S$ , consideramos que ya no es mas un candidato y volvemos al comienzo del algortimo. Si $S$ forma una clique, entonces calculamos su frontera $f$. \\
 
-Comparo la frontera $f$ con la frontera máxima $FM$. Si $f < FM$, entonces quito a $c$ de $S$, pues no hace que la solucion mejore. Si $f \geq FM$, entonces mantengo a $c$, entonces $c$ es mi mejor candidato, pues la frontera máxima no empeoró. Actualizo $FM$ con el valor de $f$. En ambos casos quito tambíen a $c$ de la lista de candidatos, para no repetirlo dos veces. \\
+Comparamos la frontera $f$ con la frontera máxima $FM$. Si $f < FM$, entonces quitamos a $c$ de $S$, pues no hace que la solucion mejore. Si $f \geq FM$, entonces mantenemos a $c$, ahora $c$ es nuestro mejor candidato, pues la frontera máxima no empeoró. Actualizamos $FM$ con el valor de $f$. En ambos casos quitamos también a $c$ de la lista de candidatos, para no repetirlo dos veces. \\
 
-Una vez encontrado el $c$ que maximice mi solución, lo agrego definitivamente y sigo iterando hasta que ya no pueda considerar mas candidatos. \\
+Una vez encontrado el $c$ que maximice mi solución, lo agregamos definitivamente y seguimos iterando hasta que ya no se pueda considerar mas candidatos. \\
 
-Finalizado el algoritmo, en $S$ va a haber una clique elegida de manera golosa, con la mayor frontera que se puedo encontrar. \\
+Finalizado el algoritmo, $S$ es una clique elegida de manera golosa, con la mayor frontera que se puedo encontrar. \\
 
 
 \subsection{Pseudocódigo}
