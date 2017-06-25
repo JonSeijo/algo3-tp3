@@ -4,7 +4,7 @@
 
 \subsection{Explicación}
 
-Nuestro problema a resolver es CFM: Clique de Frontera Máxima. Debemos encontrar un clique en el grafo que tenga frontera máxima. Como aclaración, una clique es un subgrafo completo pero no necesariamente es maximal (aunque podría serlo). Como una clique está formada por nodos del grafo, una forma de resolver CFM es revisando todos los posibles subconjuntos de nodos. En caso de que formen clique, calculamos su frontera y nos quedamos con el máximo de ellas.  \\
+Nuestro problema a resolver es CFM: Clique de Frontera Máxima. Debemos encontrar una clique en el grafo que tenga frontera máxima. Como aclaración, una clique es un subgrafo completo pero no necesariamente es maximal (aunque podría serlo). Como una clique está formada por nodos del grafo, una forma de resolver CFM es revisando todos los posibles subconjuntos de nodos. En caso de que formen clique, calculamos su frontera y nos quedamos con el máximo de ellas.  \\
 
 Para saber si un conjunto $vs$ de vértices es clique, revisamos si todos los vértices en $vs$ son vecinos entre sí. Esto significa que forman un subgrafo completo (pues los vértices y aristas forman parte del grafo principal) por lo tanto es clique. \\
 
