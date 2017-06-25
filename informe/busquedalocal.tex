@@ -205,7 +205,7 @@ Algo que notamos al probar este método es que el algoritmo goloso presentado en
 % Lo siento, no hay tiempo
 % \todo{Mmm... No se me ocurre que pasa con Sub}
 
-Sin embargo, aún así podemos encontrarle un uso. En la sección de Optimalidad del algoritmo goloso notamos que la diferencia entre la solución proporcionada por el algoritmo y la solución real puede ser arbitrariamente grande, con lo cuál pueden haber casos muy malos para nuestro algoritmo. Una forma de paliar este problema es que el algoritmo tome como entrada un nodo inicial, y que a partir de ahí construya una solución golosa. Llamaremos a esta variante $golosoB$, y al original $golosoA$. Por cuestiones de tiempo y del alcance de este informe no detallaremos la implementación de $golosoB$, pero es el algoritmo que motivará este apartado. Sin embargo, no es más que lo que acabamos de decir, es sencillamente fijar un nodo incial antes de aplicar el algoritmo. \\
+Sin embargo, aún así podemos encontrarle un uso. En la sección de Optimalidad del algoritmo goloso notamos que la diferencia entre la solución proporcionada por el algoritmo y la solución real puede ser arbitrariamente grande, con lo cuál pueden haber casos muy malos para nuestro algoritmo. Una forma de paliar este problema es que el algoritmo tome como entrada un nodo inicial, y que a partir de ahí construya una solución golosa. Llamaremos a esta variante $golosoB$, y al original $golosoA$. Por cuestiones de tiempo y del alcance de este informe no detallaremos la implementación de $golosoB$, pero es el algoritmo que motivará este apartado. De todas maneras, no es más que lo que acabamos de decir, es sencillamente fijar un nodo incial antes de aplicar el algoritmo. \\
 
 ¿Por qué sirve nuestro algoritmo de búsqueda local para $golosoB$? Esto ocurre porque el primer nodo no fue elegido golosamente, es un nodo arbitrario que fijamos en nuestra solución. Como consecuencia, una vez que la solución golosa queda construida, eliminar o swappear el primer nodo podría llegar producir un aumento en la frontera (agregar no, pues el algoritmo goloso siempre llega a un máximo local respecto a esta operación). Si esto llegase a ocurrir, aparecerían nuevos nodos candidatos a entrar en nuestra solución que no podiamos tomar antes porque no estaban conectados con el primer nodo. De esta forma, podemos continuar moviéndonos por las soluciones para llegar a algún máximo local incluso mejor que el nos devolvió $golosoA$. \\
 
@@ -216,7 +216,7 @@ Tomemos el mismo ejemplo que complicaba a $golosoA$ utilizando $golosoB$ utiliza
 }
 $ $\newline
 
-Si a $golosoB$ le pasamos como entrada un nodo perteneciente al arbol $1$, o el nodo $4$; es imposible mejorar la solución de $golosoA$. Es el riesgo que tenemos al dejar libre el nodo inicial. Es importante notar que la solución \textbf{no} es peor, sino que simplemente no se mejora. \textit{-Desarrollaremos un poco más en unos párrafos-.} Sin embargo, si elegimos un nodo cualquiera del arbol $2$ o $3$, la situación es distinta. \\
+Si a $golosoB$ le pasamos como entrada un nodo perteneciente al arbol $1$, o el nodo $4$; es imposible mejorar la solución de $golosoA$. Es el riesgo que tenemos al dejar libre el nodo inicial. Es importante notar que la solución \textbf{no} es peor, sino que simplemente no se mejora. Desarrollaremos un poco más en unos párrafos. Sin embargo, si elegimos un nodo cualquiera del arbol $2$ o $3$, la situación es distinta. \\
 
 El caso fácil es si elegimos los nodos $2$ o $3$, en donde $golosoB$ se queda con la solución $[2,3]$, ya que ni las hojas ni el cuatro generan una clique con mayor frontera que ese par de nodos, mejorando la anterior solución. \\
 
@@ -236,9 +236,9 @@ Retomando lo mencionado hace unos párrafos, ¿que sucede si se elije un nodo de
 
 \subsection{Experimentación}
 
-Como contamos antes, el algoritmo goloso que utilizamos en búsqueda local depende de un nodo inicial. Creemos que la muestra mas representativa para \textit{grafos malos} se obtiene partiendo de un nodo al azar. Lo que hicimos para conseguir los datos es para cada tamaño de $n$, correr 50 veces el experimento y quedarnos con la media de los datos, lo que explica las fuertes variaciones de la curva. Con esto queda claro que esta técnica en promedio proporciona mejores resultados, es muy dependiente del nodo inicial. Intentaremos solucionar este problema en el siguiente apartado. \\
+Como contamos antes, el algoritmo goloso que utilizamos en búsqueda local depende de un nodo inicial. Creemos que la muestra mas representativa para \textit{grafos malos} se obtiene partiendo de un nodo al azar. Lo que hicimos para conseguir los datos es para cada tamaño de $n$, correr 50 veces el experimento y quedarnos con la media de los datos, lo que explica las fuertes variaciones de la curva. Con esto queda claro que esta técnica en promedio proporciona mejores resultados, pero es muy dependiente del nodo inicial. Intentaremos solucionar este problema en el siguiente apartado. \\
 
-Es claro que al aplicar búsqueda local se agregan muchas operaciones extra que antes no existían, por lo que es esperable que el tiempo de ejecución aumente. Una posible pregunta es ¿Cómo influye en esto la cantidad de iteraciones? ¿Aumenta el tiempo al punto de hacerlo inutilizable? \textbf{Los siguientes gráficos fueron realizados tomando el grafo malo que presentamos anteriormente}.
+Es claro que al aplicar búsqueda local se agregan muchas operaciones extra que antes no existían, por lo que es esperable que el tiempo de ejecución aumente. Posibles preguntas son ¿Cómo influye en esto la cantidad de iteraciones? ¿Aumenta el tiempo al punto de hacerlo inutilizable? \textbf{Los siguientes gráficos fueron realizados tomando el grafo malo que presentamos anteriormente}.
 
 {\centering
     \includegraphics[width=1\textwidth]{informe/imgs/exp_malo_tiempo_greedy_local.pdf}
@@ -252,7 +252,7 @@ $ $\newline
 
 El primer gráfico fue realizado con $10$ iteraciones, mientras que el segundo fue obtenido con $2000$ iteraciones. Si bien el tiempo en el de $2000$ es mayor, lo es solo por una \textit{pequeña} diferencia. Lo que sucede es que nuestro algoritmo deja de ejecutarse cuando se estanca en un extremo local, pues una vez dentro ya no tiene forma de escapar. \\
 
-La siguiente pregunta que surge es, ¿mejoramos la solución del caso malo? Considerando una búsqueda local de 2000 iteraciones, veamos como es la solución promedio. \\
+La siguiente pregunta que surge fue, ¿mejoramos la solución del caso malo? Considerando una búsqueda local de 2000 iteraciones, veamos como es la solución promedio. \\
 
 {\centering
     \includegraphics[width=1\textwidth]{informe/imgs/exp_malo_frontera_greedy_local_2000_optimo.pdf}
@@ -263,6 +263,6 @@ La siguiente pregunta que surge es, ¿mejoramos la solución del caso malo? Cons
 %     \includegraphics[width=1\textwidth]{informe/imgs/exp_malo_frontera_greedy_local.pdf} \\
 % }
 % $ $\newline
-Recordemos que por construcción, en la sección anterior pudimos calcular analiticamente cuál era la solución óptima para cada $n$ de nuestros \textit{grafos malos}. Recordemos también que lo que graficamos es \textbf{el promedio} de las soluciones, es decir, \textit{en realidad hay soluciones que alcanzan al óptimo}, pero muchas otras que no. Con una cantidad suficiente de repeticiones vemos que el promedio se encuentra aproximadamente en el centro: por ese motivo decimos que en promedio no consigue la solución óptima. \\
+Recordemos que por construcción, en la sección anterior pudimos calcular analíticamente cuál era la solución óptima para cada $n$ de nuestros \textit{grafos malos}. Recordemos también que lo que graficamos es \textbf{el promedio} de las soluciones, es decir, \textit{en realidad hay soluciones que alcanzan al óptimo}, pero muchas otras que no. Con una cantidad suficiente de repeticiones vemos que el promedio se encuentra aproximadamente en el centro: por ese motivo decimos que en promedio no consigue la solución óptima. \\
 
 En general con búsqueda local se logró una mejora con respecto a la solución golosa, pero no lo suficiente. Sigue siendo un método que está condenado a caer en extremos locales, y una vez dentro no puede escapar. La motivación de la siguiente sección será intentar resolver esta falencia.

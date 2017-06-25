@@ -25,7 +25,7 @@ Analicemos tambíen que pasa con los tiempos de cómputo. Como era esperable, el
 }
 $ $ \newline
 
-Repetimos el experimento pero para grafos con 75\% de aristas, sin embargo en todos los algoritmos nos dan la misma solución (la óptima!). Esto tiene que ver con la densidad del grafo, y probablemente porque estamos viendo tamaños pequeños. \\
+Repetimos el experimento pero para grafos con 75\% de aristas, sin embargo en todos los algoritmos nos dan la misma solución (¡La óptima!). Esto tiene que ver con la densidad del grafo, y probablemente porque estamos viendo tamaños pequeños. \\
 
 {\centering
     \includegraphics[width=1\textwidth]{informe/imgs/exp_random75_frontera_todos_v2.pdf}
@@ -58,9 +58,9 @@ El caso de tiempos de 75\% aristas no lo mostramos por ser idéntico en forma al
 
 El objetivo de este trabajo era la investigación de diferentes técnicas para resolver el problema de Clique de Máxima Frontera. Sabemos que no se conoce hasta el momento ningún algortimo exacto que lo resuelva en tiempo polinomial, por lo que mostramos una única forma de resolverlo de forma exacta, pero con complejidad temporal exponencial. \\
 
-Vimos que el algortimo exacto es inutilizable en la práctica para grafos con mas de 30 nodos, asi que es necesario recurrir a heurísticas que la resuelvan. \\
+Vimos que el algortimo exacto es inutilizable en la práctica para grafos con mas de 30 nodos, así que es necesario recurrir a heurísticas que la resuelvan. \\
 
-Consideramos un algoritmo sencillo, \textbf{greedy}, para intentar conseguir una buena solución. Lo que logramos encontrar fue un algortimo exponencialmente mas rápido que en general dá aproximaciones razonables. Encontramos además, al menos un tipo particular de grafos, los ``grafos malos'', para los cuales demostramos que la diferencia entre la solución óptima y la solución greedy tendía a infinito. \\
+Consideramos un algoritmo sencillo, \textbf{greedy}, para intentar conseguir una buena solución. Lo que logramos encontrar fue un algortimo exponencialmente mas rápido que en general da aproximaciones razonables. Encontramos además, al menos un tipo particular de grafos, los ``grafos malos'', para los cuales demostramos que la diferencia entre la solución óptima y la solución greedy tendía a infinito. \\
 
 Intentando ahora poder solucionar el problema de ``grafos malos'', consideramos una heurística de \textbf{búsqueda local} para mejorar soluciones preexistentes, en dónde analizamos distintas formas de movernos a soluciones similares. Si bien logramos mejorar, en ocasiones, el método anterior, seguimos cayendo en el problema de que una vez llegados a un extremo local ya nos era imposible salir de ahí pues ninguna solución en su vecindad la mejoraría. \\
 
