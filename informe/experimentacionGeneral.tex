@@ -31,9 +31,27 @@ Repetimos el experimento pero para grafos con 75\% de aristas, sin embargo en to
     \includegraphics[width=1\textwidth]{informe/imgs/exp_random75_frontera_todos_v2.pdf}
 }
 $ $ \newline
-$ $ \newline
 
-Veamos que sucede si hacemos crecer $n$. Dado que no podemos realizar las pruebas para el algortimo exacto debido a su complejidad temporal, no lo incluimos en el gráfico. No vamos a tener ninguna certeza de cuán cerca o lejos están de la solución óptima, sin embargo es interesante observar como varían las diferentes soluciones.
+Veamos que sucede si hacemos crecer $n$. Dado que no podemos realizar las pruebas para el algortimo exacto debido a su complejidad temporal, no lo incluimos en el gráfico. No vamos a tener ninguna certeza de cuán cerca o lejos están de la solución óptima, sin embargo es interesante observar como varían las diferentes soluciones. No incluímos 75\% aristas pues es idéntico al de 50\%.
+
+{\centering
+    \includegraphics[width=0.9\textwidth]{informe/imgs/exp_random50_frontera_todos_ngrande.pdf}
+}
+
+Como esperábamos, Grasp es la mejor alternativa que tenemos para resolver el problema de CMF. El componente random sumado a la cantidad de repeticiones hacen que sea superior a los demás algortimos, en términos de aproximación a la solución óptima. Variando la cantidad de $repsGrasp$ no obtuvimos diferencias significativas. En el gráfico se muestra con $repsGrasp = 50$. \\
+
+Grasp es mejor, ¿pero a qué costo? Mostramos el gráfico en \textit{escala logárítmica} debido al tamaño de los tiempos de Grasp en comparación a los demás. Podemos observar claramente que el costo temporal es incluso mayor al esperado (y quizá hasta mayor al deseado) dónde para $n = 600$ se demora aproximadamente 3 segundos.
+
+{\centering
+    \includegraphics[width=0.9\textwidth]{informe/imgs/exp_random50_tiempo_todos_ngrande_logy.pdf}
+}
+
+El caso de tiempos de 75\% aristas no lo mostramos por ser idéntico en forma al anterior, pero en ese caso con $n = 600$ Grasp tarda aproximadamente 17 segundos. Pueden disminuirse la cantidad de iteraciones para obtener una mayor eficiencia en términos del tiempo, pero a medida que $n$ crece Grasp es el primero que se vuelve inutilizable.
+
+% No vale la pena por ser igual a 50%
+% {\centering
+%     \includegraphics[width=1\textwidth]{informe/imgs/exp_random75_frontera_todos_ngrande.pdf}
+% }
 
 
 \subsection{Conclusión}
