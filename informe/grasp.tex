@@ -118,13 +118,18 @@ Con esta información en mano, el grueso de la complejidad de GRASP proviene sim
 
 \subsection{Experimentación}
 
-{\centering
-    \includegraphics[width=1\textwidth]{informe/imgs/exp_malo_tiempo_grasp_local_greedy.pdf}
-}
+% {\centering
+%     \includegraphics[width=1\textwidth]{informe/imgs/exp_malo_tiempo_grasp_local_greedy.pdf}
+% }
+El nivel de aleatoriedad con el que se crea la RCL del GRASP depende de nuestro parámetro $\alpha$. $\alpha = 0$ representa una elección puramente greedy, mientras que $\alpha = 1$ hace una elección puramente aleatoria. Veremos luego comparaciones entre diferentes valores de $\alpha$, pero es razonable esperar que el mejor valor para nuestros propositos se encuentre en un punto medio, con $\alpha = 0.5$. \\
+
+Nos interesa averiguar entonces qué tan lejos estamos del óptimo para nuestros ``grafos malos''. Estamos interesados en saber si la estretagia para escapar de los extremos locales funciona. Veamos lo que nos muestran los datos, recordamos que anteriormente pudimos calcular cuál es la solución óptima para este tipo de grafos. \\
 
 {\centering
     \includegraphics[width=1\textwidth]{informe/imgs/exp_malo_frontera_grasp_local_optimo.pdf}
 }
+
+La solución promedio de GRASP es \textbf{exactamente} la solución óptima! \\
 
 {\centering
     \includegraphics[width=1\textwidth]{informe/imgs/exp_malo_frontera_grasp.pdf}
