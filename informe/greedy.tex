@@ -4,7 +4,7 @@
 
 \subsection{Explicación}
 
-Vimos que construir la mejor solución de forma exacta es algo que, en la práctica, es completamente inutilizable por su complejidad temporal. Consideremos entonces la siguiente heurística: teniendo un conjunto solución $S$ que forma una clique, en cada paso podemos golosamente agregar a $S$ el mejor nodo que haga aumentar el tamaño de la frontera. \\
+Vimos que construir la mejor solución de forma exacta es algo que, en la práctica, es completamente inútil por su complejidad temporal. Consideremos entonces la siguiente heurística: teniendo un conjunto solución $S$ que forma una clique, en cada paso podemos golosamente agregar a $S$ el mejor nodo que haga aumentar el tamaño de la frontera. \\
 
 Intuitivamente es un algoritmo rápido, pues en cada iteración principal tomamos un nodo que forme clique con lo que ya tenemos, y ya no quitamos ese nodo. Además, parece razonable que el algoritmo encuentre soluciones buenas: en cada iteracion estamos maximizando la frontera con el mejor nodo posible. Luego de presentar el algoritmo veremos qué tan buena era nuestra intuición. \\
 
