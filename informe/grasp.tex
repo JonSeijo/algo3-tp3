@@ -4,7 +4,9 @@
 \subsection{Explicación}
 GRASP es sigla de Procedimientos Golosos Aleatorios Adaptativos de Búsqueda (Greedy Randomized Adaptive Search Procedures. Es una metaheurística que se basa en utilizar métodos golosos constructivos y de búsqueda local para resolver un problema computacionalmente dificil, utilizando el azar para no estancarse en un único máximo local. Cada iteración de un algoritmo GRASP construye golosamente una solución desde cero, admitiendo cierto grado de aleatoriedad al añadir elementos a la solución; para después mejorar el resultado con un método de búsqueda local. Realizamos varias iteraciones, deteníendonos bajo algún criterio de corte, ya sea por que conseguimos una solución lo suficientemente buena, o porque nos pasamos de una cantidad de iteraciones predeterminada. La mejor solución conseguida entre todas las iteraciones es el resultado final del algoritmo. \\
 
-El algoritmo goloso constructivo que vamos a utilizar es el \textit{golosoB} del que hablamos en la sección de optimalidad de Búsqueda Local. Vamos a introducir el azar en el nodo inicial que tomará el algoritmo, que eligiremos de manera aleatoria. Para mejorar los resultados obtenidos utilizaremos el algoritmo de Búsqueda Local de la anterior sección.
+El algoritmo goloso constructivo que va a ir un poco más allá del algoritmo \textit{golosoB} del que hablamos en la sección anterior. En vez de tomar el nodo inicial como parámetro y seguir con un algoritmo puramente greedy, en cada nuevo elemento admitiremos un poco de azar dentro de lo razonable. Para esto, en vez de maximizar de forma directa nuestra funcion greedy (cardinalidad de la frontera) sobre los nodos no agregados, construiremos una RCL (Restricted Candidate List). La misma contendrá los candidatos que cumplan con un cierto nivel de optimalidad, del que será elegido un nodo al azar para finalmente agregarse a la solución final. El criterio con el cuál se tomarán candidatos al RCL estará dictaminado por un parámetro $alpha$, que indicará qué porcentaje del rango de valores posibles que pueden tomar los candidatos, se admiten en la RCL. Formalmente, un nodo $c$ que resulta en una frontera $f_c$ al ser agregado a la solución parcial, pertenece al RCL solo si $f_c \leq f_{max} + \alpha * (f_{min} - f_{max})$, con $max$ nodo localmente óptimo, y $min$ nodo localmente peor. A grandes rasgos, un $alpha$ grande implica darle más peso al azar, y uno más chico, a la porción golosa del algoritmo. Una vez que el RCL está formado, se elije un nodo al azar, y se comienza el proceso de nuevo, hasta no poder continuar. \\
+
+Una vez obtenida una solución inicial, como nuestro método no es (en general) completamente goloso, podemos utilizar un algoritmo de búsqueda local movernos hacia un máximo local, mejorando nuestra solución y completando una iteración de GRASP. El algoritmo que usamos para este propósito es el mismo de la sección anterior.
 
 \subsection{Pseudocódigo}
 
@@ -16,22 +18,24 @@ Referencias de variables globales para el pseudocódigo:
     \item $solucion$: Secuencia que contiene la clique solución
 \end{itemize}
 
+\todo[inline]{¿Queda en 2 iteraciones? ¿No es muy poco? Moreover, ¿no habría que ponerlo como una variable tal y como se hizo en Búsqueda Local?}
+
 \begin{algorithm}[H]
 \begin{algorithmic}
 \Function{Resolver}{$\alpha$}
-    \State $fronteraMax \gets 0$
-    \State $fronteraNueva \gets 0$
-    \State $repes \gets 0$
-    \While{$repes < 2$}
-        \State $actual \gets GreedyRandom(\alpha)$
-        \State $nueva \gets local.resolver(actual)$
-        \State $fronteraNueva \gets Frontera(nueva)$
-        \If {$fronteraNueva > fronteraMax$}
-            \State $solucion \gets nueva$
-            \State $fronteraMax \gets fronteraNueva$
-            \State $repes \gets 0$
+    \State $fronteraMax \gets 0$   \Comment $O(1)$
+    \State $fronteraNueva \gets 0$   \Comment $O(1)$
+    \State $repes \gets 0$   \Comment $O(1)$
+    \While{$repes < 2$}  \Comment $What Goes Here$
+        \State $actual \gets GreedyRandom(\alpha)$  \Comment $O(n^5)$
+        \State $nueva \gets local.resolver(actual)$  \Comment $O(iteraciones * n^5)$
+        \State $fronteraNueva \gets Frontera(nueva)$  \Comment $O(n^2)$
+        \If {$fronteraNueva > fronteraMax$}   \Comment $O(1)$
+            \State $solucion \gets nueva$   \Comment $O(1)$
+            \State $fronteraMax \gets fronteraNueva$   \Comment $O(1)$
+            \State $repes \gets 0$   \Comment $O(1)$
         \Else
-            \State $repes \gets repes + 1$
+            \State $repes \gets repes + 1$   \Comment $O(1)$
         \EndIf
     \EndWhile
     \State return $solucion$
@@ -39,52 +43,53 @@ Referencias de variables globales para el pseudocódigo:
 \end{algorithmic}
 \end{algorithm}
 
+Para calcular el $RCL$ hacemos un primer pasaje para calcular el máximo y el mínimo de los nodos candidatos a agregarse al clique parcial. En una segunda pasada es cuando vamos agregando los nodos a medida que encontramos aquellos que cumplen con la fórmula planteada en la Explicación.
 
 \begin{algorithm}[H]
 \begin{algorithmic}
 \Function{GreedyRandom}{$\alpha$}
-    \State $fronteraMax \gets -1$
+    \State $fronteraMax \gets -1$   \Comment $O(1)$
 
-    \State $candidatosInicial \gets []$
+    \State $candidatosInicial \gets []$   \Comment $O(1)$
 
-    \State $solucion \gets []$
+    \State $solucion \gets []$   \Comment $O(1)$
 
-    \State $puedoConstruirClique \gets true$
+    \State $puedoConstruirClique \gets true$   \Comment $O(1)$
 
-    \While {$puedoConstruirClique \land candidatosInicial.size() \geq 0$}
-        \State $puedoConstruirClique \gets false$
+    \While {$puedoConstruirClique \land candidatosInicial.size() > 0$}   \Comment $O(n^5)$
+        \State $puedoConstruirClique \gets false$   \Comment $O(1)$
 
-        \State $candidatos \gets []$
-        \State $RCL \gets []$
+        \State $candidatos \gets []$   \Comment $O(1)$
+        \State $RCL \gets []$   \Comment $O(1)$
 
-        \For {$c \in candidatosInicial$}
-            \If {$esClique(solucion + c)$}
-                \State $front \gets frontera(solucion)$
-                \State $candidatos \gets candidate + (front, c)$
-                \State $puedoConstruirClique \gets true$
+        \For {$c \in candidatosInicial$}   \Comment $O(n^4)$
+            \If {$esClique(solucion + c)$}   \Comment $O(n^3)$
+                \State $front \gets Frontera(solucion)$   \Comment $O(n^2)$
+                \State $candidatos \gets candidate + (front, c)$   \Comment $O(1)$
+                \State $puedoConstruirClique \gets true$   \Comment $O(1)$
             \EndIf
         \EndFor
-        \State $fronteraMinTmp \gets INFINITO$
-        \State $fronteraMaxTmp \gets -1$
-        \For {$cand \in candidatos$}
-            \State $fronteraMinTmp \gets min(fronteraMinTmp, cand.first)$
-            \State $fronteraMaxTmp \gets max(fronteraMaxTmp, cand.first)$
+        \State $fronteraMinTmp \gets INFINITO$   \Comment $O(1)$
+        \State $fronteraMaxTmp \gets -1$   \Comment $O(1)$
+        \For {$cand \in candidatos$}   \Comment $O(n)$
+            \State $fronteraMinTmp \gets min(fronteraMinTmp, cand.first)$   \Comment $O(1)$
+            \State $fronteraMaxTmp \gets max(fronteraMaxTmp, cand.first)$   \Comment $O(1)$
         \EndFor
 
-        \For {$cand : candidatos$}
-            \If {$cand.first \geq fronteraMaxTmp + (alpha*(fronteraMinTmp - fronteraMaxTmp))$}
-                \State $RCL \gets RCL + cand.second$
+        \For {$cand \in candidatos$}   \Comment $O(n)$
+            \If {$cand.first \geq fronteraMaxTmp + (alpha*(fronteraMinTmp - fronteraMaxTmp))$}   \Comment $O(1)$
+                \State $RCL \gets RCL + cand.second$   \Comment $O(1)$
             \EndIf
         \EndFor
 
-        \If {$puedoConstruirClique$}
-            \State $randomIndex \gets rand().mod(RCL.size()$
-            \State $solucion \gets solucion + RCL[randomIndex]$
+        \If {$puedoConstruirClique$}   \Comment $O(1)$
+            \State $randomIndex \gets rand().mod(RCL.size()$   \Comment $O(1)$
+            \State $solucion \gets solucion + RCL[randomIndex]$   \Comment $O(1)$
 
-            \State $candidatosInicial \gets candidatosInicial - RCL[randomIndex]$
+            \State $candidatosInicial \gets candidatosInicial - RCL[randomIndex]$   \Comment $O(1)$
         \EndIf
     \EndWhile
-    \State $fronteraMax \gets frontera(solucion)$
+    \State $fronteraMax \gets frontera(solucion)$   \Comment $O(1)$
     \State return $solucion$
 \EndFunction
 \end{algorithmic}
@@ -93,6 +98,22 @@ Referencias de variables globales para el pseudocódigo:
 
 \subsection{Complejidad}
 
+Analicemos en primer lugar la complejidad de ``GreedyRandom'': \\
+
+\begin{itemize}
+    \item Iteraciones del while son $O(n)$: Se corta cuando $candidatosInicial.size = 0$, y en cada iteración a $candidatosInicial$ se le resta $RCL$, que nunca está vacio pues siempre el nodo golosamente óptimo pertenece, por lo cual la cantidad de iteraciones es $O(n)$.
+    \item Calcular fronteras de candidatos es $O(n^4)$: Recorremos la lista de candidatos ($O(n)$), y para cada uno preguntamos si es clique en $O(n^3)$ y si lo es, su frontera en $O(n^2)$.
+    \item Calcular fronteras máximas y mínimas es $O(n)$: Calculadas todas las fronteras de los candidatos, solo hay que recorrer esa secuencia y quedarme con el máximo y mínimo
+    \item Construir el RCL es $O(n)$: Consta de recorrer los candidatos y verificar para cada una si se cumple una fórmula calculable en $O(1)$
+\end{itemize}
+
+Entonces, su complejidad es:
+
+$$ O(n) * (O(n^4) + O(n^3) + O(n)) = O(n^5)$$
+
+Con esta información en mano, el grueso de la complejidad de GRASP proviene simplemente de aplicar ``GreedyRandom'' y luego ``BusquedaLocal'' que son ambas $O(n^5)$ (aunque busqueda local también depende de una cantidad de iteraciones), un número $repeticiones$ de veces. Por ende, la complejidad final del algoritmo es O($repeticiones * iteraciones * n^5$).
+
+\todo[inline]{¿un número arbitrario de iteraciones o lo vamos a dejar constante? Also, habría que elegir un nombre distinto al 'iteraciones' de busquedalocal}
 
 \subsection{Optimalidad}
 
