@@ -16,7 +16,7 @@ class ResolverGreedyGrasp {
 
 public:
     bool leerInput();
-    vector<int> resolver(double alpha, bool imprimirOutput=false, bool minimoOutput=false);
+    vector<int> resolver(double alpha, bool imprimirOutput=false);
 
     // Lista de adyacencia para representar al grafo
     vector<vector<int> > grafo_lst;

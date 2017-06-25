@@ -1,7 +1,7 @@
 CPP=g++
 FLAGS= -std=c++11 -g -Wall
 
-all: solucionExacta solucionGreedyConstructiva solucionGreedyVariante solucionLocal
+all: solucionExacta solucionGreedyConstructiva solucionGreedyVariante solucionLocal solucionGrasp
 
 solucionExacta: SolucionExacta.cpp ResolverExacta.cpp ResolverExacta.h
 	$(CPP) $(FLAGS) -o  $@ ResolverExacta.cpp $<

@@ -27,7 +27,7 @@ bool ResolverGreedyGrasp::leerInput() {
     return true;
 }
 
-vector<int> ResolverGreedyGrasp::resolver(double alpha, bool imprimirOutput, bool minimoOutput) {
+vector<int> ResolverGreedyGrasp::resolver(double alpha, bool imprimirOutput) {
     int n = grafo_lst.size();
 
     int fronteraMax = -1;
@@ -107,12 +107,6 @@ vector<int> ResolverGreedyGrasp::resolver(double alpha, bool imprimirOutput, boo
             std::cout << v + 1 << " ";
         }
         std::cout << "\n";
-    }
-
-    // @DEBUG, esto es para las mediciones, borrar luego
-    if (minimoOutput) {
-        std::cout << fronteraMax << ",";
-        std::cout << solucion.size();
     }
 
     return solucion;

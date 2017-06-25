@@ -12,7 +12,7 @@ class ResolverGrasp {
 
 public:
     bool leerInput();
-    vector<int> resolver(double alpha, bool imprimirOutput, bool minimoOutput=false);
+    vector<int> resolver(int repsGrasp, int repsLocal, double alpha, bool imprimirOutput);
 
 private:
 	// La mejor solucion hasta el momento
