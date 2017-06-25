@@ -12,7 +12,7 @@ Obtenida una solución inicial, como nuestro método no es (en general) completa
 
 \subsection{Pseudocódigo}
 
-Las funciones local.resolver() y Frontera() no son incluidas aquí por ser iguales a las incluidas previamente. Las complejidades son $O(n^5)$ y $O(n^2)$ respectivamente.
+Las funciones local.resolver(), EsClique() y Frontera() no son incluidas aquí por ser iguales a las incluidas previamente. Las complejidades son $O(n^5)$, $O(n^3)$ y $O(n^2)$ respectivamente.
 
 Referencias de variables globales para el pseudocódigo:
 \begin{itemize}
@@ -26,11 +26,11 @@ Referencias de variables globales para el pseudocódigo:
     \State $fronteraMax \gets 0$                    \Comment $O(1)$
     \State $fronteraNueva \gets 0$                  \Comment $O(1)$
     \State $reps \gets 0$                           \Comment $O(1)$
-    \For{$reps \in $[$1..repsGrasp$]}                           \Comment $O(repsGrasp * repsLocal * n^5)$
+    \For{$reps \in$ [$1..repsGrasp$]}                           \Comment $O(repsGrasp * repsLocal * n^5)$
     % \While{$reps < repsGrasp$}  \Comment $What Goes Here$
-        \State $actual \gets GreedyRandom(\alpha)$              \Comment $O(n^5)$
-        \State $nueva \gets local.resolver(actual, repsLocal)$  \Comment $O(repsLocal * n^5)$
-        \State $fronteraNueva \gets Frontera(nueva)$            \Comment $O(n^2)$
+        \State $actual \gets $GreedyRandom($\alpha$)              \Comment $O(n^5)$
+        \State $nueva \gets$ local.resolver($actual, repsLocal$)  \Comment $O(repsLocal * n^5)$
+        \State $fronteraNueva \gets$ Frontera($nueva$)            \Comment $O(n^2)$
         \If {$fronteraNueva > fronteraMax$}                     \Comment $O(1)$
             \State $solucion \gets nueva$                       \Comment $O(1)$
             \State $fronteraMax \gets fronteraNueva$            \Comment $O(1)$
@@ -64,7 +64,7 @@ Para calcular el $RCL$ hacemos un primer pasaje para calcular el máximo y el m�
         \State $RCL \gets \emptyset$          \Comment $O(1)$ \\
 
         \For {$c \in candidatosInicial$}                                \Comment $O(n^4)$
-            \If {$esClique(solucion + \{c\})$}                          \Comment $O(n^3)$
+            \If {EsClique($solucion + \{c\}$)}                          \Comment $O(n^3)$
                 \State $front \gets$ Frontera($solucion$)               \Comment $O(n^2)$
                 \State $candidatos \gets candidatos + \{(front, c)\}$   \Comment $O(1)$
                 \State $puedoConstruirClique \gets$ True                \Comment $O(1)$ \\
@@ -99,8 +99,7 @@ Para calcular el $RCL$ hacemos un primer pasaje para calcular el máximo y el m�
 
 \subsection{Complejidad}
 
-Analicemos en primer lugar la complejidad de ``GreedyRandom'': \\
-
+Analicemos en primer lugar la complejidad de ``GreedyRandom'':
 \begin{itemize}
     \item Iteraciones del while son $O(n)$: Se corta cuando $candidatosInicial.size = 0$, y en cada iteración a $candidatosInicial$ se le resta $RCL$, que nunca está vacio pues siempre el nodo golosamente óptimo pertenece, por lo cual la cantidad de iteraciones es $O(n)$.
     \item Calcular fronteras de candidatos es $O(n^4)$: Recorremos la lista de candidatos ($O(n)$), y para cada uno preguntamos si es clique en $O(n^3)$ y si lo es, su frontera en $O(n^2)$.
@@ -112,12 +111,10 @@ Entonces, su complejidad es:
 
 $$ O(n) * (O(n^4) + O(n^3) + O(n)) = O(n^5)$$
 
-Con esta información en mano, el grueso de la complejidad de GRASP proviene simplemente de aplicar ``GreedyRandom'' y luego ``BusquedaLocal'' que son ambas $O(n^5)$ (aunque busqueda local también depende de una cantidad de iteraciones), un número $repeticiones$ de veces. Por ende, la complejidad final del algoritmo es O($repeticiones * iteraciones * n^5$).
+Con esta información en mano, el grueso de la complejidad de GRASP proviene simplemente de aplicar ``GreedyRandom'' y luego ``BusquedaLocal'' que son ambas $O(n^5)$ (aunque busqueda local también depende de una cantidad de iteraciones), un número $repsGrasp$ de veces. Por ende, la complejidad final del algoritmo es O($repsGrasp * repsLocal * n^5$).
 
-\todo[inline]{¿un número arbitrario de iteraciones o lo vamos a dejar constante? Also, habría que elegir un nombre distinto al 'iteraciones' de busquedalocal}
-
-\subsection{Optimalidad}
-
+% Creo que no hay nada que decir para merecer una seccion "optimalidad". Si alguien tiene algo sea libre, pero en gral trato todo al analizar los experimentos.
+% \subsection{Optimalidad}
 
 \subsection{Experimentación}
 
