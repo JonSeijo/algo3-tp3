@@ -6,11 +6,11 @@
 
 Nuestro problema a resolver es CFM: Clique de Frontera Máxima. Como aclaración, una clique es un subgrafo completo pero no necesariamente es maximal (aunque podría serlo). Debemos encontrar una clique en el grafo que tenga frontera máxima. Como una clique está formada por nodos del grafo, una forma de resolver CFM es revisando todos los posibles subconjuntos de nodos. En caso de que formen clique, calculamos su frontera y nos quedamos con el máximo de ellas.  \\
 
-Para saber si un conjunto $vs$ de vértices es clique, revisamos si todos los vértices en $vs$ son vecinos entre sí. Esto significa que forman un subgrafo completo (pues los vértices y aristas forman parte del grafo principal) por lo tanto es clique. \\
+Para saber si un conjunto $vs$ de vértices es clique, revisamos si todos los vértices en $vs$ son vecinos entre sí. Esto significa que forman un subgrafo completo (pues los vértices y aristas forman parte del grafo principal), y por lo tanto una clique. \\
 
 Para calcular la frontera, dada una clique $c$ recorremos cada vértice $v \in c$ y contamos cuántos son los vecinos de $v$ que \textbf{no} están en $c$. \\
 
-Si recorremos todos los subconjuntos posibles de nodos estamos recorriendo todas las posibles cliques, entonces podemos quedarnos con aquella que tenga máxima frontera. Siempre encuentra la solución óptima, pues encuentra todas las soluciones, implicando que efectivamente es un algoritmo exacto. \\
+Si recorremos todos los subconjuntos posibles de nodos estamos recorriendo todas las posibles cliques. Entonces podemos quedarnos con aquella que tenga máxima frontera. El algoritmo siempre encuentra la solución óptima, pues encuentra todas las soluciones, implicando que efectivamente es un algoritmo exacto. \\
 
 La implementación de la generación de todos los posibles subconjuntos está hecha recursivamente, utilizando el árbol binario que está implícito en la recursión. Considerando que cada nodo es un elemento, en cada etapa puede estar o no estar incluido, por lo que consideramos ambos estados posibles. Al final se terminan considerando todas las combinaciones posibles. \\
 
@@ -126,15 +126,15 @@ $$ O(n^2) + O(2^{n} * n^{3}) = O(2^{n} * n^{3})$$
 
 \subsection{Experimentación}
 
-Por lo que vimos en la sección complejidad, obtenemos la solución exacta pero a un costo temporal \textbf{muy} alto. Veamos empíricamente cuánto se tarda en resolver para cada tamaño de $n$. Consideramos para esta muestra grafos completos ya que tienen la máxima cantidad de vecinos por nodos, y son por lo tanto el peor caso. \\
+Por lo que vimos en la sección de Complejidad, obtenemos la solución exacta pero a un costo temporal \textbf{muy} alto. Veamos empíricamente cuánto se tarda en resolver para cada tamaño de $n$. Consideramos para esta muestra grafos completos ya que tienen la máxima cantidad de vecinos por nodos, y son por lo tanto el peor caso. \\
 
-Se puede observar en el siguiente gráfico cómo los tiempos aumentan exponencialmente con respecto al tamaño del grafo, y también puede observarse que para $n = 22$, se tardan aproximadamente 4 minutos. Es claro que es completamente inusable para grafos de mayor tamaño. \\
+Se puede observar en el siguiente gráfico cómo los tiempos aumentan exponencialmente con respecto al tamaño del grafo, y también puede observarse que para $n = 22$, se tardan aproximadamente 4 minutos. Es claro que es completamente inutilizable para grafos de mayor tamaño. \\
 
 {\centering
     \includegraphics[width=1\textwidth]{informe/imgs/exp_completo_tiempo_exacta.pdf} \\
 }
 
-Aprovechemos esta sección para tratar de entender mejor el por qué de nuestras futuras estrategias. Una posible primera idea para encontrar la clique con máxima frontera es intentar encontrar la clique máxima. Esta es una \textit{pésima} idea, porque si consideramos un grafo completo de $n$ nodos, la clique máxima es $K_n$ con una frontera de tamaño 0. \\
+Aprovechemos esta sección para tratar de entender mejor el por qué de nuestras futuras estrategias. Una primera idea para encontrar la clique con máxima frontera es intentar encontrar la clique máxima. Esta es una \textit{pésima} idea, porque si consideramos un grafo completo de $n$ nodos, la clique máxima es $K_n$ con una frontera de tamaño 0. \\
 
 Por ejemplo, vemos en el caso particular de los grafos completos que la clique que maximiza la frontera tiene tamaño $n/2$.
 

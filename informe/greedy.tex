@@ -10,15 +10,15 @@ Intuitivamente es un algoritmo rápido, pues en cada iteración principal tomamo
 
 Mas detalladamente, el algoritmo funciona de la siguiente manera: \\
 
-Primero consideramos que todos los nodos son candidatos, y vamos a ejecutar el algoritmo siempre que exista algún candidato en la lista. Además mantenemos un vector $S$ que representa la solución actual, inicialmente vacío. Consideramos que mi frontera máxima $FM$ inicia con valor $-1$. \\
+Primero consideramos que todos los nodos son candidatos, y vamos a ejecutar el algoritmo siempre que exista algún candidato en la lista. Además mantenemos un vector $S$ que representa la solución actual, inicialmente vacío. Consideramos que nuestra frontera máxima $FM$ inicia con valor $-1$. \\
 
 Para cada iteración del ciclo principal, queremos agregar el mejor candidato posible a la solución. Esto significa iterar por todos los candidatos y agregar a la solución aquel que maximice la frontera. \\
 
-Recorremos la lista de candidatos y tomo alguno, $c$. Consideramos $c$ como parte de la solución. Si la solución $S$ no forma una clique, entonces quitamos $c$ de $S$ , consideramos que ya no es mas un candidato y volvemos al comienzo del algoritmo. Si $S$ forma una clique, entonces calculamos su frontera $f$. \\
+Recorremos la lista de candidatos y tomamos $c$ alguno. Consideramos $c$ como parte de la solución. Si la solución $S$ no forma una clique, entonces quitamos $c$ de $S$ , consideramos que ya no es más un candidato y volvemos al comienzo del algoritmo. Si $S$ forma una clique, entonces calculamos su frontera $f$. \\
 
-Comparamos la frontera $f$ con la frontera máxima $FM$. Si $f < FM$, entonces quitamos a $c$ de $S$, pues no hace que la solucion mejore. Si $f \geq FM$, entonces mantenemos a $c$, ahora $c$ es nuestro mejor candidato, pues la frontera máxima no empeoró. Actualizamos $FM$ con el valor de $f$. En ambos casos quitamos también a $c$ de la lista de candidatos, para no repetirlo dos veces. \\
+Comparamos la frontera $f$ con la frontera máxima $FM$. Si $f < FM$, entonces quitamos a $c$ de $S$, pues no hace que la solución mejore. Si $f \geq FM$, entonces mantenemos a $c$, ahora $c$ es nuestro mejor candidato, pues la frontera máxima no empeoró. Actualizamos $FM$ con el valor de $f$. En ambos casos quitamos también a $c$ de la lista de candidatos, para no repetirlo dos veces. \\
 
-Una vez encontrado el $c$ que maximice la solución, lo agregamos definitivamente y seguimos iterando hasta que ya no se pueda considerar mas candidatos. \\
+Una vez encontrado el $c$ que maximice la solución, lo agregamos definitivamente y seguimos iterando hasta que ya no se pueda considerar más candidatos. \\
 
 Finalizado el algoritmo, $S$ es una clique elegida de manera golosa, con la mayor frontera que se puedo encontrar. \\
 
@@ -94,13 +94,13 @@ Las funciones ``EsClique()'' y ``Frontera()'' son las mismas que en el algoritmo
 
 La complejidad principal del algoritmo se encuentra en ``ObtenerSolucion()'', que es $O(n^5)$. Esto es fácil de ver: como nunca se agregan candidatos y siempre se quita al menos uno, el ciclo exterior se ejecuta a lo sumo $O(n)$ veces. El $For$ recorre la lista de candidatos, que son también a lo sumo $O(n)$. Dentro del $For$ encontramos solo dos funciones grandes, ``EsClique'' de $O(n^3)$ y ``Frontera'' de $O(n^2)$. El resto son comparaciones, asignaciones y borrados, de $O(n)$. \\
 
-Mas intuitivamente, EsClique ($O(n^3)$) se ejecuta $O(n)$ veces en el For, y a su vez se ejecuta $O(n)$ veces en el While. Por lo tanto, es $O(n^5)$. \\
+Más intuitivamente, EsClique ($O(n^3)$) se ejecuta $O(n)$ veces en el For, y a su vez se ejecuta $O(n)$ veces en el While. Por lo tanto, es $O(n^5)$. \\
 
 Si bien $O(n^5)$ puede parecer un polinomio ``grande'', es exponencialmente mejor que el algoritmo exacto que tenía $O(2^{n} * n^{3})$. El trade-off es que no siempre se producen soluciones óptimas. \\
 
 \subsection{Optimalidad}
 
-Como podrá verse mas adelante, las soluciones para grafos aleatorios son bastante buenas, pero existe al menos un tipo específico de grafos donde la diferencia entre el exacto y el greedy puede ser \textbf{arbitrariamente grande}. \\
+Como podrá verse más adelante, las soluciones para grafos aleatorios son bastante buenas, pero existe al menos un tipo específico de grafos donde la diferencia entre el exacto y el greedy puede ser \textbf{arbitrariamente grande}. \\
 
 Veamos como podemos construir este tipo de grafos. \\
 
@@ -111,14 +111,14 @@ Veamos como podemos construir este tipo de grafos. \\
 
 $ $\newline
 
-Agreguemos 6 vecinos al nodo 1 y agreguemos 4 vecinos a los nodos 2 y 3. El algoritmo goloso toma el primer nodo como solución inicial, es el que tiene mas vecinos. Luego intenta agregar nodos a la solucion de forma tal que formen clique y que tengan mayor frontera. Esto no puede suceder: lo mejor que puede obtener el algoritmo goloso es una clique con frontera de tamaño 7. Sin embargo, podemos ver que la solución óptima está formada por la clique con los nodos 2 y 3, con una frontera de tamaño 9.\\
+Agreguemos 6 vecinos al nodo 1 y agreguemos 4 vecinos a los nodos 2 y 3. El algoritmo goloso toma el primer nodo como solución inicial, es el que tiene más vecinos. Luego intenta agregar nodos a la solución de forma tal que formen clique y que tengan mayor frontera. Esto no puede suceder: lo mejor que puede obtener el algoritmo goloso es una clique con frontera de tamaño 7. Sin embargo, podemos ver que la solución óptima está formada por la clique con los nodos 2 y 3, con una frontera de tamaño 9.\\
 
 {\centering
     \includegraphics[width=0.57\textwidth]{informe/imgs/greedy_base_nodes_v1.png} \\
 }
 $ $\newline
 
-Este es un procedimiento que podemos seguir repitiendo. Agregamos un vecino al nodo 1, y un vecino a los nodos 2 y 3. La frontera máxima golosa aumenta en 1, mientras que la frontera máxima aumenta en 2. De esta forma, podemos construir grafos donde la diferencia entre la solución óptima y la solución golosa sea arbitrariamente grande. Haremos una demostración mas formal al final de la sección.\\
+Este es un procedimiento que podemos seguir repitiendo. Agregamos un vecino al nodo 1, y un vecino a los nodos 2 y 3. La frontera máxima golosa aumenta en 1, mientras que la frontera máxima aumenta en 2. De esta forma, podemos construir grafos donde la diferencia entre la solución óptima y la solución golosa sea arbitrariamente grande. Haremos una demostración más formal al final de la sección.\\
 
 {\centering
     \includegraphics[width=0.57\textwidth]{informe/imgs/greedy_base_nodes_v2.png} \\
@@ -135,7 +135,7 @@ Este es un procedimiento que podemos seguir repitiendo. Agregamos un vecino al n
 %     \includegraphics[width=1\textwidth]{informe/imgs/exp_completo_tiempo_greedy_exacta.pdf} \\
 % }
 
-La principal motivación de buscar heurísticas fue de disminuir el tiempo de cómputo. Analizando la cota temporal teórica vimos que $O(n^5)$ es exponencialmente mejor que $O(2^{n} * n^{3})$. Veamos cómo son los tiempos en la práctica, considerando un grafo completo para el análisis de peor caso. \\
+La principal motivación de buscar heurísticas fue disminuir el tiempo de cómputo. Analizando la cota temporal teórica vimos que $O(n^5)$ es exponencialmente mejor que $O(2^{n} * n^{3})$. Veamos cómo son los tiempos en la práctica, considerando un grafo completo para el análisis de peor caso. \\
 
 Dado que el algoritmo greedy es extremadamente rápido, decidimos mostrar un gráfico en \textbf{escala logarítmica} sobre los tiempos. Lo que puede verse es lo esperado.
 
@@ -144,7 +144,7 @@ Dado que el algoritmo greedy es extremadamente rápido, decidimos mostrar un gr�
     \captionof{figure}{$\uparrow$ Escala lagarítmica}
 }
 
-Si bien en el caso de los grafos completos, la frontera solución coincide con la óptima ($\#K_{n/2}$), el tamaño de la clique solución no es igual. Puede verse que el algoritmo greedy se queda con cliques mas grandes que la estrictamente necesaria, y esto se debe a que la condición de selección incluye un $\geq$.
+Si bien en el caso de los grafos completos, la frontera solución coincide con la óptima ($\#K_{n/2}$), el tamaño de la clique solución no es igual. Puede verse que el algoritmo greedy se queda con cliques más grandes que la estrictamente necesaria, y esto se debe a que la condición de selección incluye un $\geq$.
 
 {\centering
     \includegraphics[width=1\textwidth]{informe/imgs/exp_completo_clique_greedy_exacta.pdf} \\
@@ -160,9 +160,9 @@ $ $\newline
 
 Puede verse que a medida que $n$ crece, ambas soluciones se van alejando. No nos quedemos con la intuición, consideremos una demostración más formal: \\
 
-Dado que estos ``grafos malos'' tienen su construcción bien definida, calculemos analíticamente cuál es el valor de la solucion óptima para un tamaño de grafo $n$ dado. Esto nos será de utilidad para analizar optimalidad en secciones posteriores. \\
+Dado que estos ``grafos malos'' tienen su construcción bien definida, calculemos analíticamente cuál es el valor de la solución óptima para un tamaño de grafo $n$ dado. Esto nos será de utilidad para analizar optimalidad en secciones posteriores. \\
 
-Como la solución óptima se encuentra en la clique formada por los nodos 2 y 3, consideremos el proceso de construcción. En cada paso se agregan 3 nodos, cada nuevo nodo como vecino de 1, 2 y 3 respectivamente. Podemos ver que 2 de cada 3 nodos contribuyen a aumentar nuestra solución inicial, por lo tanto la solución óptima tiene que ser \textit{aproximadamente} $\frac{2}{3}n$, con alguna constante por los nodos iniciales. \\
+Como la solución óptima se encuentra en la clique formada por los nodos 2 y 3, consideremos el proceso de construcción. En cada paso se agregan 3 nodos, cada nuevo nodo como vecino de 1, 2 y 3 respectivamente. Podemos ver que 2 de cada 3 nodos contribuyen a aumentar nuestra solución inicial, por lo tanto, la solución óptima tiene que ser \textit{aproximadamente} $\frac{2}{3}n$, con alguna constante por los nodos iniciales. \\
 
 Podemos comprobar empíricamente, observando los valores de frontera obtenidos por nuestro algoritmo exacto, que la solución óptima para ``grafos malos'' es exactamente $f(n) = \frac{2}{3}n - 3$. Este es un valor bien definido para $n$ divisibles por 3, dado que siempre los contruimos agregando 3 nodos por vez. \\
 
