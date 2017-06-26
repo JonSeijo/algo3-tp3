@@ -3,9 +3,9 @@
 
 \subsection{Explicación}
 
-Búsqueda local es una estrategia utilizada para mejorar una solución obtenida con una heurística. La idea general es dar una definición de vecindad para toda solución (por ejemplo, si mis soluciones son nodos, los vecinos pueden ser sus adyacentes), y buscar el candidato óptimo dentro de ese conjunto. Este proceso puede repetirse para tender hacia un máximo local. \\
+Búsqueda local es una estrategia utilizada para mejorar una solución obtenida mediante una heurística. La idea es dar una definición de vecindad para toda solución (por ejemplo, si mis soluciones son nodos, los vecinos pueden ser sus adyacentes), y buscar el candidato óptimo dentro de ese conjunto. Este proceso puede repetirse para tender hacia un máximo local. \\
 
-Para este problema particular consideramos que todo clique es solución, y que en su vencindad se encuentran aquellos cliques que pueden obtenerse aplicando una operación de swap (reemplazar un nodo en la clique por uno que no está), una operación de agregado (de un nodo) o una operación de borrado (de un nodo). En cada iteración del algoritmo, revisamos toda la vecindad y nos quedamos con la clique de mayor frontera. La solución final de la búsqueda local es la mejor de las tres posibilidades de nuestra vecindad. \\
+Para este problema particular consideramos que todo clique es una solución posible, y que en su vecindad se encuentran aquellos cliques que pueden obtenerse aplicando una operación de swap (reemplazar un nodo en la clique por uno que no está), una operación de agregado (de un nodo) o una operación de borrado (de un nodo). En cada iteración del algoritmo, revisamos toda la vecindad y nos quedamos con la clique de mayor frontera. Una vez que nos detenemos en un máximo local o iteramos suficientes veces, obtenemos la solución final de la búsqueda local. \\
 
 \subsection{Pseudocódigo}
 
@@ -192,7 +192,8 @@ Las complejidades de cada linea fueron marcadas en el pseudocódigo, por lo que 
     \item MaximoPorAdd: $O(n^4)$. Son $O(n)$ iteraciones de algo $O(n^3)$.
     \item MaximoPorSub: $O(n^4)$. Son $O(n)$ iteraciones de algo $O(n^3)$.
     \item MaximoPorSwap: $O(n^5)$. El primer For recorre un vector $v$ y el For anidado recorre su complemento. Si consideramos que $|v| = \frac{n}{2}$, entonces el tamaño del complemento también es $\frac{n}{2}$, por lo que en total se recorren $O(n^2)$ elementos. Son $O(n^2)$ iteraciones de algo $O(n^3)$.
-    \item BusquedaLocal: $O(n^5)$. Esto es por la complejidad de MaximoPorSwap que es la mayor, todo el resto es $O(n^4)$ o menor.
+    \todo[inline]{¿Cómo `$|v| = \frac{n}{2}$, entonces el tamaño del complemento también es $\frac{n}{2}$'?}
+    \item BusquedaLocal: $O(n^5)$. Esto es por la complejidad de MaximoPorSwap, que es la mayor, ya que todo el resto es $O(n^4)$ o menor.
     \item Resolver: $O(\#iteraciones * n^5)$. Son $\#iteraciones$ veces de BusquedaLocal.
 \end{itemize}
 
@@ -200,14 +201,14 @@ Por lo tanto, mejorar una solución inicial con este algoritmo de búsqueda loca
 
 \subsection{Optimalidad}
 
-Algo que notamos al probar este método es que el algoritmo goloso presentado en la sección anterior ya llega a un máximo local, por lo que es redundante aplicarle una búsqueda local para mejorarla. ¿Por qué ocurre esto? Porque si hubiera un nodo al que swappear con alguna de afuera para conseguir una mejor frontera, como este algoritmo siempre se queda con el mejor nodo fuera de la clique, entonces el nodo de afuera ya tendría que estar dentro de la clique. Tampoco podemos agregar nodos, pues si pudiesemos tomar más, el algoritmo goloso ya lo hubiera hecho.  \\
+Algo que notamos al probar este método es que el algoritmo goloso presentado en la sección anterior ya llega a un máximo local, por lo que es redundante aplicarle una búsqueda local para mejorarla. ¿Por qué ocurre esto? Porque si hubiese un nodo al que swappear con alguno de afuera para conseguir una mejor frontera, como este algoritmo siempre se queda con el mejor nodo fuera de la clique, entonces el nodo de afuera ya tendría que haber sido elegido. Tampoco podemos agregar nodos, pues si pudiesemos tomar más, el algoritmo goloso ya lo hubiera hecho.  \\
 
 % Lo siento, no hay tiempo
 % \todo{Mmm... No se me ocurre que pasa con Sub}
 
-Sin embargo, aún así podemos encontrarle un uso. En la sección de Optimalidad del algoritmo goloso notamos que la diferencia entre la solución proporcionada por el algoritmo y la solución real puede ser arbitrariamente grande, con lo cuál pueden haber casos muy malos para nuestro algoritmo. Una forma de paliar este problema es que el algoritmo tome como entrada un nodo inicial, y que a partir de ahí construya una solución golosa. Llamaremos a esta variante $golosoB$, y al original $golosoA$. Por cuestiones de tiempo y del alcance de este informe no detallaremos la implementación de $golosoB$, pero es el algoritmo que motivará este apartado. De todas maneras, no es más que lo que acabamos de decir, es sencillamente fijar un nodo incial antes de aplicar el algoritmo. \\
+Sin embargo, aún así podemos encontrarle un uso. En la sección de Optimalidad del algoritmo goloso notamos que la diferencia entre la solución proporcionada por el algoritmo y la solución real puede ser arbitrariamente grande, con lo cuál pueden haber casos muy malos. Una forma de paliar este problema es que el algoritmo tome como entrada un nodo inicial, y que a partir de ahí construya una solución golosa. Llamaremos a esta variante $golosoB$, y al original $golosoA$. Por cuestiones de tiempo y del alcance de este informe no detallaremos la implementación de $golosoB$, pero es el algoritmo que motivará este apartado. De todas maneras, no es más que lo que acabamos de decir: fijar un nodo incial antes de aplicar el algoritmo. \\
 
-¿Por qué sirve nuestro algoritmo de búsqueda local para $golosoB$? Esto ocurre porque el primer nodo no fue elegido golosamente, es un nodo arbitrario que fijamos en nuestra solución. Como consecuencia, una vez que la solución golosa queda construida, eliminar o swappear el primer nodo podría llegar producir un aumento en la frontera (agregar no, pues el algoritmo goloso siempre llega a un máximo local respecto a esta operación). Si esto llegase a ocurrir, aparecerían nuevos nodos candidatos a entrar en nuestra solución que no podiamos tomar antes porque no estaban conectados con el primer nodo. De esta forma, podemos continuar moviéndonos por las soluciones para llegar a algún máximo local incluso mejor que el nos devolvió $golosoA$. \\
+¿Por qué sirve nuestro algoritmo de búsqueda local para $golosoB$? Esto ocurre porque el primer nodo no fue elegido golosamente, es un nodo arbitrario que fijamos en nuestra solución. Como consecuencia, una vez que la solución golosa queda construida, eliminar o swappear el primer nodo podría llegar producir un aumento en la frontera. Si esto llegase a ocurrir, aparecerían nuevos nodos candidatos a entrar en nuestra solución que no podiamos tomar antes porque no estaban conectados con el primer nodo. De esta forma, podemos continuar moviéndonos por las soluciones para llegar a algún máximo local incluso mejor que el nos devolvió $golosoA$. \\
 
 Tomemos el mismo ejemplo que complicaba a $golosoA$ utilizando $golosoB$ utilizado en \textit{búsquedaLocal}. \\
 
@@ -218,9 +219,11 @@ $ $\newline
 
 Si a $golosoB$ le pasamos como entrada un nodo perteneciente al arbol $1$, o el nodo $4$; es imposible mejorar la solución de $golosoA$. Es el riesgo que tenemos al dejar libre el nodo inicial. Es importante notar que la solución \textbf{no} es peor, sino que simplemente no se mejora. Desarrollaremos un poco más en unos párrafos. Sin embargo, si elegimos un nodo cualquiera del arbol $2$ o $3$, la situación es distinta. \\
 
-El caso fácil es si elegimos los nodos $2$ o $3$, en donde $golosoB$ se queda con la solución $[2,3]$, ya que ni las hojas ni el cuatro generan una clique con mayor frontera que ese par de nodos, mejorando la anterior solución. \\
+\todo[inline]{El texto pareece sugerir que $golosoB+busquedaLocal$ nunca es peor $golosoA$. Yo escribiria un paréntesis por las dudas para aclarar que no, what do you think?}
 
-Más complicado es lo que ocurre al tomar una hoja de los arboles $2$ y $3$ como inicial. Asumamos que tomamos una hoja del $2$ (tomar una hoja del $3$ es análogo). La hoja sólo está conectada con el $2$, por lo que el $2$ se incluye en la solución. Una vez realizado esto, como nadie más está conectado con la hoja, \textit{golosoB} devuelve $[hoja,2]$. Es en este caso en donde \textit{búsquedaLocal} ayuda, pues a partir de $[hoja,2]$ busca los cliques que se pueden obtener haciendo swaps, con lo cual considera como candidato al clique producto de swappear la $hoja$ con el $2$, que es la clique $[2,3]$. Al ser la solución óptima, el algoritmo la toma en la primera iteración, y corta en la segunda. Termina devolviendo lo que queriamos: $[2,3]$. \\
+El caso fácil es si elegimos los nodos $2$ o $3$, en donde $golosoB$ se queda con la solución $[2,3]$, ya que ni las hojas ni el nodo 4 mejoraran la frontera de ese par de nodos. \\
+
+Más complicado es lo que ocurre al tomar una hoja de los arboles $2$ y $3$ como inicial. Asumamos que tomamos una hoja del $2$ (tomar una hoja del $3$ es análogo). La hoja sólo está conectada con el $2$, por lo que el $2$ se incluye en la solución. Una vez realizado esto, como nadie más está conectado con la hoja, \textit{golosoB} devuelve $[hoja,2]$. Es en este caso en donde \textit{búsquedaLocal} ayuda, pues a partir de $[hoja,2]$ busca los cliques que se pueden obtener haciendo swaps, con lo cual considera como candidato a la clique producto de swappear la $hoja$ con el $3$, que es la clique $[2,3]$. Al ser la solución óptima, el algoritmo la toma en la primera iteración, y corta en la segunda. Termina devolviendo lo que queriamos: $[2,3]$. \\
 
 {\centering
     \includegraphics[width=0.57\textwidth]{informe/imgs/local_base_nodes_v2.png} \\
@@ -232,11 +235,11 @@ $ $\newline
 }
 $ $\newline
 
-Retomando lo mencionado hace unos párrafos, ¿que sucede si se elije un nodo del árbol $1$? Claramente $golosoB$ se vuelve tan malo como $golosoA$, pero \textbf{existe una solución muy sencilla}: podríamos elegir al azar el nodo inicial y correr el algoritmo muchas veces, para quedarnos con la mejor. Con sufieciente cantidad de elecciones, es esperable que se elimine el problema de empezar con nodos que no pueden seguir mejorándose. Exploraremos esta idea en la última sección del informe: $GRASP$.
+Retomando lo mencionado hace unos párrafos, ¿que sucede si se elije un nodo del árbol $1$? Claramente $golosoB$ se vuelve tan malo como $golosoA$, pero \textbf{existe una solución muy sencilla}: podríamos elegir al azar el nodo inicial y correr el algoritmo muchas veces, para quedarnos con la mejor. Con suficiente cantidad de elecciones, es esperable que se elimine el problema de empezar con nodos que no pueden seguir mejorándose. Exploraremos esta idea en la siguiente sección del informe: $GRASP$.
 
 \subsection{Experimentación}
 
-Como contamos antes, el algoritmo goloso que utilizamos en búsqueda local depende de un nodo inicial. Creemos que la muestra mas representativa para \textit{grafos malos} se obtiene partiendo de un nodo al azar. Lo que hicimos para conseguir los datos es para cada tamaño de $n$, correr 50 veces el experimento y quedarnos con la media de los datos, lo que explica las fuertes variaciones de la curva. Con esto queda claro que esta técnica en promedio proporciona mejores resultados, pero es muy dependiente del nodo inicial. Intentaremos solucionar este problema en el siguiente apartado. \\
+Como contamos antes, el algoritmo goloso que utilizamos en búsqueda local depende de un nodo inicial. Creemos que la muestra mas representativa para \textit{grafos malos} se obtiene partiendo de un nodo al azar. Lo que hicimos para conseguir los datos es, para cada tamaño de $n$, correr 50 veces el experimento y quedarnos con la media de los datos, lo que explica las fuertes variaciones de la curva. Con esto queda claro que esta técnica en promedio proporciona mejores resultados, pero es muy dependiente del nodo inicial. Intentaremos solucionar este problema en el siguiente apartado. \\
 
 Es claro que al aplicar búsqueda local se agregan muchas operaciones extra que antes no existían, por lo que es esperable que el tiempo de ejecución aumente. Posibles preguntas son ¿Cómo influye en esto la cantidad de iteraciones? ¿Aumenta el tiempo al punto de hacerlo inutilizable? \textbf{Los siguientes gráficos fueron realizados tomando el grafo malo que presentamos anteriormente}.
 
