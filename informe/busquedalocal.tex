@@ -5,11 +5,11 @@
 
 Búsqueda local es una estrategia utilizada para mejorar una solución obtenida mediante una heurística. La idea es dar una definición de vecindad para toda solución (por ejemplo, si mis soluciones son nodos, los vecinos pueden ser sus adyacentes), y buscar el candidato óptimo dentro de ese conjunto. Este proceso puede repetirse para tender hacia un máximo local. \\
 
-Para este problema particular consideramos que todo clique es una solución posible, y que en su vecindad se encuentran aquellos cliques que pueden obtenerse aplicando una operación de swap (reemplazar un nodo en la clique por uno que no está), una operación de agregado (de un nodo) o una operación de borrado (de un nodo). En cada iteración del algoritmo, revisamos toda la vecindad y nos quedamos con la clique de mayor frontera. Una vez que nos detenemos en un máximo local o iteramos suficientes veces, obtenemos la solución final de la búsqueda local. \\
+Para este problema particular consideramos que todo clique es una solución posible, y que en su vecindad se encuentran aquellos cliques que pueden obtenerse aplicando una operación de swap (reemplazar un nodo en la clique por uno que no está), una operación de agregado (de un nodo) o una operación de borrado (de un nodo). En cada iteración del algoritmo, revisamos toda la vecindad y nos quedamos con la clique de mayor frontera. Una vez que nos detenemos en un máximo local o iteramos suficientes veces, obtenemos la solución final de la búsqueda local.
 
 \subsection{Pseudocódigo}
 
-Las funciones EsClique() y Frontera() no son incluidas aquí por ser iguales a las incluidas previamente. Las complejidades son $O(n^3)$ y $O(n^2)$ respectivamente. \\
+Las funciones EsClique() y Frontera() no son incluidas aquí por ser iguales a las incluidas previamente. Las complejidades son $O(n^3)$ y $O(n^2)$ respectivamente.
 
 \begin{algorithm}[H]
 \begin{algorithmic}
