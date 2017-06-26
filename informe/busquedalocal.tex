@@ -217,9 +217,7 @@ Tomemos el mismo ejemplo que complicaba a $golosoA$ utilizando $golosoB$ utiliza
 }
 $ $\newline
 
-Si a $golosoB$ le pasamos como entrada un nodo perteneciente al arbol $1$, o el nodo $4$; es imposible mejorar la solución de $golosoA$. Es el riesgo que tenemos al dejar libre el nodo inicial. Es importante notar que la solución \textbf{no} es peor, sino que simplemente no se mejora. Desarrollaremos un poco más en unos párrafos. Sin embargo, si elegimos un nodo cualquiera del arbol $2$ o $3$, la situación es distinta. \\
-
-\todo[inline]{El texto pareece sugerir que $golosoB+busquedaLocal$ nunca es peor $golosoA$. Yo escribiria un paréntesis por las dudas para aclarar que no, what do you think?}
+Si a $golosoB$ le pasamos como entrada un nodo perteneciente al arbol $1$, o el nodo $4$; es imposible mejorar la solución de $golosoA$. Es el riesgo que tenemos al dejar libre el nodo inicial. Es importante notar que la solución \textbf{no} es peor, sino que simplemente no se mejora (aunque en otros grafos, con un mal nodo inicial, podría llegar a ocurrir que $golosoB$ y $busquedaLocal$ devuelvan un peor resultado que $golosoA$). Desarrollaremos un poco más en unos párrafos. Sin embargo, si elegimos un nodo cualquiera del arbol $2$ o $3$, la situación es distinta. \\
 
 El caso fácil es si elegimos los nodos $2$ o $3$, en donde $golosoB$ se queda con la solución $[2,3]$, ya que ni las hojas ni el nodo 4 mejoraran la frontera de ese par de nodos. \\
 
