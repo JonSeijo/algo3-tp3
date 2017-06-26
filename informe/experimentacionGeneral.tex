@@ -5,7 +5,7 @@ Dado que nuestros análisis estaban enfocados en los peores casos, es momento de
 
 Consideramos que un grafo de $n$ nodos es promedio cuando generamos sus aristas al azar. Esto significa que las conexiones entre nodos será aleatoria, pero que la cantidad de aristas estará predeterminada con algun porcentaje, para poder separar mejor los diferentes casos de análisis. En particular, mostraremos los casos donde hay 50\% y 75\% de aristas. Demás porcentajes resultaron muy poco interesantes por tener muy pocas aristas o demasiadas. Como última aclaración, para todas las instancias de búsqueda local, la cantidad de repeticiones usadas es $2000$, a menos que se mencione explícitamente. \\
 
-Nuestra intención es comparar exactamente qué tan mejores o peores son los diferentes algoritmos utilizados. Para esto, para cada tamaño de $n$ generamos un grafo al azar (con cierto porcentaje de aristas) y comparamos las soluciones obtenidas por todas las técnicas. Lo que sigue no son promedios, sino las soluciones finales para algun algoritmo aleatorio dado \todo{¿no es `para algún \textbf{caso} aleatorio dado'?}. \\
+Nuestra intención es comparar exactamente qué tan mejores o peores son los diferentes algoritmos utilizados. Para esto, para cada tamaño de $n$ generamos un grafo al azar (con cierto porcentaje de aristas) y comparamos las soluciones obtenidas por todas las técnicas. Lo que sigue no son promedios, sino las soluciones finales para algun caso aleatorio dado. \\
 
 {\centering
     \includegraphics[width=0.9\textwidth]{informe/imgs/exp_random50_frontera_todos_v2.pdf}
@@ -59,7 +59,7 @@ El caso de tiempos de 75\% aristas no lo mostramos por ser idéntico en forma al
 % }
 
 
-\subsection{Conclusión}
+\section{Conclusión}
 
 El objetivo de este trabajo era la investigación de diferentes técnicas para resolver el problema de Clique de Máxima Frontera. Sabemos que no se conoce hasta el momento ningún algoritmo exacto que lo resuelva en tiempo polinomial, por lo que mostramos una única forma de resolverlo de forma exacta, con complejidad temporal exponencial. \\
 
